@@ -1,4 +1,6 @@
 intnetprojekt
 =============
 
-projektet för kursen InternetProgrammering DD2390
+Projektet för kursen DD2390: Internetprogrammering.
+
+
