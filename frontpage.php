@@ -9,14 +9,14 @@
 <body>
 
 <?php
-$cats = array(
-	"Category 1",
-	"Category 2",
-	"Category 3");
+
+include 'controller/getters.php';
+
+$cats = getCategories();
 
 $i = 1;
 foreach($cats as $cat) {
-	echo "<a href='forum.php?category=$i'> $cat <br>";
+	echo "<a href='forum.php?category=$i'>$cat->name<br>";
 	$i += 1;
 }
 
