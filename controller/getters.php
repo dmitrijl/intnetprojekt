@@ -117,6 +117,8 @@ function getPosts($threadID,$min,$max) {
 }
 
 function getUserInfo($name) {
+	debug_to_console("Calling getUserInfo on username ".$name.".");
+
 	$u = new User();
 	if($name == "terminator") {
 		$u->username='terminator';
@@ -136,10 +138,13 @@ function getUserInfo($name) {
 }
 
 function getUserGroup() {
+	debug_to_console("Calling getUserGroup.");
 	return "moderator";
 }
 
 function getUsername() {
+	debug_to_console("Calling getUsername.");
 	return "roger";
 }
 ?>
+
