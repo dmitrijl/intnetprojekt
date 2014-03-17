@@ -1,6 +1,6 @@
 Functions in getters.php summary:
 1. getCategories()
-2. getThreads(category,min,max)
+2. getThreads(category,min,max,includestickies)
 3. getStickiedThreads(category)
 4. getPosts(threadID,min,max)
 5. getUserInfo(username)
