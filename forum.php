@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-gb" xml:lang="en-gb">
 <head>
-
+<link rel="stylesheet" type="text/css" href="index.css">
 </head>
 
 <body>
@@ -11,8 +11,8 @@
 
 require 'init.php';
 require 'controller/getters.php';
+include 'banner.php';
 
-echo '<div id="banner">';
 
 if(isset($_GET["category"])) {
 	$categ = $_GET["category"];
@@ -21,7 +21,6 @@ if(isset($_GET["category"])) {
 }
 echo "<p> WELCOME TO THE VIEW OF THREADS IN CATEGORY NR $categ</p>";
 
-echo '</div>';
 
 
 $threads = array(
