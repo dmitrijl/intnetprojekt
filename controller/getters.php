@@ -7,13 +7,15 @@
 CLASSES
 ************************************/
 class Category {
-	public $id = 0;
-	public $name = 'cats';
-	public $numThreads = 0;
+	public $id;
+	public $name;
+	public $numThreads;
 
-	//function __construct($id,$name,$numthreads) {
-
-	//}
+	function __construct($id,$name,$numthreads) {
+		$this->id = $id;
+		$this->name = $name;
+		$this->numthreads = $numthreads;
+	}
 }
 
 class Thread {
@@ -61,7 +63,7 @@ function debug_to_console( $data ) {
 
 
 
-function getCategories() {
+function getCategories($mysqli) {
 	/*
 	$cat1 = new Category();
 	$cat1->id = 1; $cat1->name = 'Animals'; $cat1->numthreads=2;
@@ -73,19 +75,46 @@ function getCategories() {
 	$ret = array($cat1,$cat2,$cat3);
 	return $ret;
 	*/
-
+	
+	
+	/*
 	$query = "select * from categories";
-	$result = mysql_query($query);
-	if (!$result) {
-		die ('Could not fetch any categories.' . mysql_error());
-	}
+	$stmt = $mysqli->prepare($query);
+	$stmt->execute();
+	$stmt->store_result();
 	
 	$cats = array();
-	while ($data = mysql_fetch_object($result)) {
-		$cats[] = $data;
+	
+	if($stmt->num_rows == 0) {
+		echo ("Location: home?errormsg=notfound");
 	}
 	
+	//$c = count($cats);
+	$c = $stmt->num_rows;
+	echo ("Got here $c");
+	
 	return $cats;
+	*/
+	
+	$cats = array();
+	
+	$stmt = $mysqli->stmt_init();
+	$stmt->prepare('select * from categories');
+	
+	$stmt->execute();
+	$stmt->bind_result($id, $name, $numthreads);
+	//$result = array();
+	//$result = $stmt->get_result();
+	
+	$stmt->store_result();
+	while ($stmt->fetch()) {
+		$cats[] = new Category($id, $name, $numthreads);
+	}
+
+	//var_dump($cats);
+	
+	return $cats;
+	
 }
 
 
@@ -94,7 +123,7 @@ function getThreads($category,$min,$max,$includestickies) {
 	debug_to_console("Category: ".$category);
 	debug_to_console("Min: ".$min.". Max: ".$max.". IncludeStickies: ".$includestickies.".");
 
-
+	/*
 	$t1 = new Thread();
 	$t1->threadID = 1; $t1->title = 'TIL the sky is blue.'; $t1->op="roger";
 	$t1->postCount = 2; $t1->timestamp = "2014-03-17-23-22"; $t1->locked=false; $t1->sticky=false; 
@@ -105,6 +134,10 @@ function getThreads($category,$min,$max,$includestickies) {
 
 	$ret = array($t1,$t2);
 	return $ret;
+	*/
+	
+	
+	
 }
 
 

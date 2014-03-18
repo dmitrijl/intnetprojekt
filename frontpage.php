@@ -34,7 +34,7 @@ category {
 	font-size: 16px;
 	font-family: verdana;
 }
-</style>
+<<<<<<< HEAD
 
 <div id=top>
 	<img id="banner" src="./banner.png" href="./frontpage.php" />
@@ -71,12 +71,10 @@ require 'controller/getters.php';
 <?php
 $cats = getCategories();
 
-$i = 1;
 foreach($cats as $cat) {
 	echo "<div><p><category>\n";
 	echo "<a href='forum.php?category=".$cat->id."'>".$cat->name."</a><br>\n";
 	echo "</category></p></div>\n\n";
-	$i += 1;
 }
 
 ?>
