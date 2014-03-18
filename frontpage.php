@@ -34,7 +34,6 @@ category {
 	font-size: 16px;
 	font-family: verdana;
 }
-<<<<<<< HEAD
 
 <div id=top>
 	<img id="banner" src="./banner.png" href="./frontpage.php" />
