@@ -1,0 +1,117 @@
+files in part view... current iteration.
+
+1.index.php/frontpage.php
+2.forum.php/viewthreads.php
+3.thread.php
+4.editprofile.php
+5.register.php
+6.createpost.php
+7.status.php
+8.other functions
+
+funcations summary:
+- getCategories()
+- login(username,password)
+- getThreads(category,min,max)
+- getStickiedThreads(category)
+- getPosts(threadID,min,max)
+- getUserInfo(username)
+
+==========================================
+
+1. frontpage.php
+- getCategories()
+-login(username,password)
+-logout()
+
+-getCategories() 
+:input: nothing
+:output: array of class category - properties: required is name and category name/id. Other stuff may be put in as well (last thread etc).
+NOTE: category name/id must be same that will be used in the function getThreads()!
+
+-login(username,password)
+:input: username and password(unhashed)
+:output: true or false if login successfull
+:sideeffects: should initialize session variables to signify that session is logged in as the given user. http://www.php.net/manual/en/ref.session.php
+
+-logout()
+:input: none
+:output: none
+:sideeffects: if session is logged in, set session variables to log out/delete session.
+
+===========================================
+
+2. forum.php
+- getThreads(category,min,max)
+- getStickiedThreads(category)
+- setThreadSticky(threadID,sticky)
+- setThreadLock(threadID,lock)
+- getUserGroup()
+- getUserName()
+
+-getThreads(category,min,max,includestickies)     
+input: category name (or id perhaps, if given, whatever is given in getCategories())
+min and max: say its 100 threads in the category. It is a waste of resourses to return them all, since not many are
+are going to be shown anyway. So min and max are indices of the array. eg: min = 0, max = 9, return first 10 threads in the category. 
+includestickies is a boolean of whether to include stickied threads in the response.
+
+output: array of class thread, properties in class: same as in database.
+
+-getStickiedThreads(category) : returns all threads where sticky=true in the given category.
+-setThreadSticky(threadID,sticky) : change the sticky boolean property of the thread to the given one. Returns nothing.
+-setThreadLock(threadID,lock) : change the lock boolean property of the thread to the given one. Returns nothing.
+
+-getUserGroup() :
+input: none
+output: user group: "guest" (not logged in), "user" (standard user) or "moderator" (got special powers).
+This method should check the Session data to see if it is logged in and on what user, and return the user status.
+
+-getUserName() :
+input: none
+output: username of the current session. Similar to getUserGroup(). If not logged in, return NULL.
+
+==========================================
+
+3.thread.php
+- getPosts(threadID,min,max)
+- getUserInfo(username)
+
+-getPosts(threadID,min,max)
+input: threadID,min,max, basically same as getThreads() (note: threadID must be same as in getThreads() response)
+output: array of class post, hold all info of posts.
+
+-getUserInfo(username)
+input: username
+output: array of class user: properties: username, group, avatar, signature, postcount.
+
+=============================================
+
+4.editProfile.php
+- editProfilePassword(oldPassword,newPassword)
+- editProfileAvatar(file)
+- editProfileSignature(text)
+
+these functions change profile of the user of the current session. If not logged in, does nothing.
+-editProfilePassword(oldPassword,newPassword): changes password to newPassword if oldPassword mathes. Returns true/false if succeeds/fails.
+
+-editProfileAvatar(file): returns nothing.
+changes avatar to the specified image file. This may be changed, depending on if a file can be inputted through this way.
+
+editProfileSignature(text): returns nothing.
+changes signature to the specified string.
+
+^These should be handled by form handlers
+
+
+==============================================0
+5.register.pgp
+
+-register(username,password)
+registers a new user with the given username/password.
+returns: true if successfull, false otherwise (eg username in use).
+
+==============================================
+6.createpost.php
+
+- createThread(category,title,message)
+creates
