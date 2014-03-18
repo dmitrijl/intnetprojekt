@@ -1,10 +1,11 @@
 <?php
 //getters.php
 //holds classes and functions for getting data
+
+
 /***********************************
 CLASSES
 ************************************/
-
 class Category {
 	public $id;
 	public $name;
@@ -226,7 +227,7 @@ function getUserGroup() {
 
 function getUsername() {
 	debug_to_console("Calling getUsername.");
-	return "roger";
+	return null;
 }
 
 
