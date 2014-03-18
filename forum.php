@@ -29,20 +29,22 @@ $threads = array(
 	"Thread 2",
 	"Thread 3");
 
-$threads = getThreads($mysqli,NULL,NULL,NULL,NULL);
+$threads = getThreads($mysqli, $categ,NULL,NULL,true);
 //$threads = getThreads($mysqli);
 
 $i = 1;
 foreach($threads as $th) {
 	//echo "<a href='thread.php?thread=$i'>$th<br>";
-	echo "<a href='thread.php?thread=$i'>$th->title<br>";
+	echo "<a href='thread.php?thread=$i'>$th->title</a>";
+	echo " by $th->op";
+	echo "<br>";
 	$i++;
 }
 
 
 echo '<br>';
 
-echo "<a href='createpost.php?createthread=true&category=$categ'> Create Thread </a>";
+echo "<a href='createpost.php?createthread=true&category=$categ'>Create Thread</a>";
 ?>
 
 </body>

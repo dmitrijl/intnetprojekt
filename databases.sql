@@ -1,18 +1,25 @@
-use projForum; -- Switch to your own.
-
 -- [3/2/2014 8:49:10 PM] Dmitrij: table threads(threadID,cathegory,title,op,numPosts,timestamp,locked,sticky)
 -- [3/2/2014 8:49:37 PM] Dmitrij: table posts(threadID,postSucc,poster,message,time)
 -- [3/2/2014 8:50:21 PM] Dmitrij: table users(username,password,group,avatar,signature,postcount)
 
 
--- Erase existing tables
-drop table users;
-drop table threads;
-drop table posts;
-drop table categories;
+-- Clear existing database
+drop database projForum;
+create database projForum;
+use projForum;
+
+
 
 
 -- Create new ones
+
+create table categories (
+	id int UNIQUE NOT NULL AUTO_INCREMENT,
+	name varchar(64),
+	numthreads int,
+	PRIMARY KEY (id)
+);
+
 create table users (
 	username varchar(64) NOT NULL,
 	password varchar(64) NOT NULL,
@@ -27,14 +34,17 @@ create table users (
 
 create table threads (
 	threadID int NOT NULL AUTO_INCREMENT,
-	category varchar(64),
+	-- category varchar(64),
+	category int NOT NULL,
 	title varchar(128) NOT NULL,
 	op varchar(64) NOT NULL,
 	numPosts int NOT NULL,
 	timestamp datetime,
 	locked boolean,
 	sticky boolean,
-	PRIMARY KEY (threadID)
+	PRIMARY KEY (threadID),
+	FOREIGN KEY (category) REFERENCES categories(id),
+	FOREIGN KEY (op) REFERENCES users(username)
 );
 
 create table posts (
@@ -43,20 +53,9 @@ create table posts (
 	poster varchar(64),
 	message text,
 	timestamp datetime,
-	PRIMARY KEY (threadID,postSucc)
+	PRIMARY KEY (threadID,postSucc),
+	FOREIGN KEY (threadID) REFERENCES threads(threadID)
 );
-
-create table categories (
-	id int NOT NULL AUTO_INCREMENT,
-	name varchar(64),
-	numthreads int,
-	PRIMARY KEY (id)
-);
-
-
-insert into users
-values ('admin', 'admin', 'administrator', 'admin.png', 'I am the administrator.', 0);
-
 
 
 insert into categories
@@ -69,9 +68,12 @@ insert into categories
 values (NULL, 'Laser cannons specifically designed for highly humid conditions', 0);
 
 
+insert into users
+values ('admin', 'admin', 'administrator', 'admin.png', 'I am the administrator.', 0);
+
 
 insert into threads
-values (1, 'Blueberries', 'Important information!', 'admin', 1, NOW(), true, true);
+values (1, 1, 'Important information!', 'admin', 1, NOW(), true, true);
 
 insert into posts
 values (1, 1, 'admin', 'There is only one rule... are you ready? Here it is: There are no rules! GO! Start posting!', NOW());

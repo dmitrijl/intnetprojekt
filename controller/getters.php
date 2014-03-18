@@ -2,6 +2,8 @@
 //getters.php
 //holds classes and functions for getting data
 
+//require '../init.php';
+//require 'init.php';
 
 /***********************************
 CLASSES
@@ -20,7 +22,7 @@ class Category {
 
 class Thread {
 	public $threadID;
-	//public $category = 'cats';
+	public $category;
 	public $title;
 	public $op;
 	public $postCount;
@@ -28,8 +30,9 @@ class Thread {
 	public $locked;
 	public $sticky;
 	
-	function __construct($threadID, $title, $op, $postCount, $timestamp, $locked, $sticky) {
+	function __construct($threadID, $category, $title, $op, $postCount, $timestamp, $locked, $sticky) {
 		$this->threadID = $threadID;
+		$this->category = $category;
 		$this->title = $title;
 		$this->op = $op;
 		$this->postCount = $postCount;
@@ -41,21 +44,39 @@ class Thread {
 }
 
 class Post {
-	public $threadID = 0;
-	public $postSucc = 1;
-	public $postID = 0;
-	public $poster = "intelligent person";
-	public $message = 'No';
-	public $timestamp = 'now';
+	public $threadID;
+	public $postSucc;
+	//public $postID;
+	public $poster;
+	public $message;
+	public $timestamp;
+	
+	function __construct($threadID, $postSucc, $poster, $message, $timestamp) {
+		$this->threadID = $threadID;
+		$this->postSucc = $postSucc;
+		//$this->postID = $postID;
+		$this->poster = $poster;
+		$this->message = $message;
+		$this->timestamp = $timestamp;
+	}
 }
 
 class User {
-	public $username = 'idrott';
-	public $password = 'pass';
-	public $group = 'user';
-	public $avatar = 'avatars/cat.png';
-	public $signature = 'The cake is a lie';
-	public $postCount = 4;
+	public $username;
+	public $password;
+	public $admin;
+	public $avatar;
+	public $signature;
+	public $postCount;
+	
+	function __construct($username,$password,$admin,$avatar,$signature,$postCount) {
+		$this->username = $username;
+		$this->password = $password;
+		$this->admin = $admin;
+		$this->avatar = $avatar;
+		$this->signature = $signature;
+		$this->postCount = $postCount;
+	}
 }
 
 /********************************************'
@@ -74,58 +95,21 @@ function debug_to_console( $data ) {
 
 
 
-function getCategories($mysqli) {
-	/*
-	$cat1 = new Category();
-	$cat1->id = 1; $cat1->name = 'Animals'; $cat1->numthreads=2;
-	$cat2 = new Category();
-	$cat2->id = 2; $cat2->name = 'Vikings'; $cat2->numthreads=1;
-	$cat3 = new Category();
-	$cat3->id = 3; $cat3->name = 'Computers'; $cat3->numthreads=1;
-
-	$ret = array($cat1,$cat2,$cat3);
-	return $ret;
-	*/
-	
-	
-	/*
-	$query = "select * from categories";
-	$stmt = $mysqli->prepare($query);
-	$stmt->execute();
-	$stmt->store_result();
-	
+//function getCategories($mysqli) {
+function getCategories($mysqli) {	
 	$cats = array();
-	
-	if($stmt->num_rows == 0) {
-		echo ("Location: home?errormsg=notfound");
-	}
-	
-	//$c = count($cats);
-	$c = $stmt->num_rows;
-	echo ("Got here $c");
-	
-	return $cats;
-	*/
-	
-	$cats = array();
-	
 	$stmt = $mysqli->stmt_init();
 	$stmt->prepare('select * from categories');
-	
 	$stmt->execute();
 	$stmt->bind_result($id, $name, $numthreads);
-	//$result = array();
-	//$result = $stmt->get_result();
-	
 	$stmt->store_result();
+	
 	while ($stmt->fetch()) {
 		$cats[] = new Category($id, $name, $numthreads);
 	}
-
 	//var_dump($cats);
 	
 	return $cats;
-	
 }
 
 
@@ -135,36 +119,17 @@ function getThreads($mysqli,$category,$min,$max,$includestickies) {
 	//debug_to_console("Category: ".$category);
 	//debug_to_console("Min: ".$min.". Max: ".$max.". IncludeStickies: ".$includestickies.".");
 
-	
-	/*
-	$t1 = new Thread();
-	$t1->threadID = 1; $t1->title = 'TIL the sky is blue.'; $t1->op="roger";
-	$t1->postCount = 2; $t1->timestamp = "2014-03-17-23-22"; $t1->locked=false; $t1->sticky=false; 
-
-	$t2 = new Thread();
-	$t2->threadID = 2; $t2->title = 'Need help'; $t2->op="terminator";
-	$t2->postCount = 3; $t2->timestamp = "2014-03-17-13-14"; $t2->locked=false; $t2->sticky=false; 
-
-	$ret = array($t1,$t2);
-	return $ret;
-	*/
-	
-
 	$threads = array();
-	
 	$stmt = $mysqli->stmt_init();
-	$stmt->prepare('SELECT * FROM threads WHERE category=? AND ()');
-	
+	$stmt->prepare('SELECT * FROM threads WHERE category = ? ORDER BY sticky DESC, timestamp DESC');
+	$stmt->bind_param('i', $category);
 	$stmt->execute();
-	$stmt->bind_result($threadID, $title, $op, $postCount, $timestamp, $locked, $sticky);
-	//$result = array();
-	//$result = $stmt->get_result();
-	
+	$stmt->bind_result($threadID, $category, $title, $op, $postCount, $timestamp, $locked, $sticky);
 	$stmt->store_result();
+	
 	while ($stmt->fetch()) {
-		$threads[] = new Thread($threadID, $title, $op, $postCount, $timestamp, $locked, $sticky);
+		$threads[] = new Thread($threadID, $category, $title, $op, $postCount, $timestamp, $locked, $sticky);
 	}
-
 	//var_dump($threads);
 	
 	return $threads;
@@ -180,7 +145,8 @@ function getStickiedThreads($category) {
 }
 
 
-function getPosts($threadID,$min,$max) {
+function getPosts($mysqli,$threadID,$min,$max) {
+	/*
 	debug_to_console("Calling getPosts, parameters:");
 	debug_to_console("threadID: ".$threadID);
 	debug_to_console("Min: ".$min.". Max: ".$max.".");
@@ -192,6 +158,25 @@ function getPosts($threadID,$min,$max) {
 	$p2 = new Post();
 	$p2->threadID = 1; $p2->postSucc = 2; $p2->postID = 2;
 	$p2->poster = "terminator"; $p2->message = "hahahahaha\n\ngood one"; $p2->timestamp="2014-03-17-23-22";
+	*/
+
+	
+	$posts = array();
+	
+	$stmt = $mysqli->stmt_init();
+	//$stmt->prepare('SELECT * FROM posts WHERE threadID = ? AND postSucc >= ? AND postSucc <= ? ORDER BY postSucc ASC');
+	$stmt->prepare('SELECT * FROM posts WHERE threadID = 1 AND postSucc >= 1 AND postSucc <= 10 ORDER BY postSucc ASC');
+	//$stmt->bind_param('ddd', $threadID, $min, $max);
+	$stmt->execute();
+	$stmt->bind_result($threadID, $postSucc, $poster, $message, $timestamp);
+	$stmt->store_result();
+	
+	while ($stmt->fetch()) {
+		$posts[] = new Post($threadID, $postSucc, $poster, $message, $timestamp);
+	}
+	//var_dump($posts);
+	
+	return $posts;
 }
 
 
@@ -202,13 +187,13 @@ function getUserInfo($name) {
 	if($name == "terminator") {
 		$u->username='terminator';
 		$u->group='user';
-		$u->avatar='./avatars/anarchy.png';
+		$u->avatar='anarchy.png';
 		$u->signature='There is no problem that cannot be solved with explosives.';
 		$u->postCount=4;
 	} else {
 		$u->username='roger';
 		$u->group='moderator';
-		$u->avatar='./avatars/TALogo.png';
+		$u->avatar='TALogo.png';
 		$u->signature='I am the best.';
 		$u->postCount=3;
 	}

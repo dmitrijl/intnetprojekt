@@ -35,21 +35,20 @@ category {
 	font-family: verdana;
 }
 </style>
+</head>
+
+
+
+<body>
 <div id=top>
 	<img id="banner" src="./img/banner.png" href="./frontpage.php" />
 </div>
-</head>
-
-<?php
-require 'init.php';
-require 'controller/getters.php';
-?>
-
-<body>
 <div id="title">
 	<h1> Welcome to our intnet14 project </h1>
 	<div style="position:relative; width:250px; height:80px; margin-left:auto; margin-right:20px; top: -35px; background-color:white;">
 		<?php
+			require 'init.php';
+			require 'controller/getters.php';
 			$user = getUsername();
 			if($user == null) {
 				//not logged in - provide a login form
@@ -68,7 +67,9 @@ require 'controller/getters.php';
 <h2> Choose a category! </h2>
 
 <?php
+
 $cats = getCategories($mysqli);
+
 
 foreach($cats as $cat) {
 	echo "<div><p><category>\n";
