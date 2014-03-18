@@ -10,6 +10,11 @@
 	height: 120px;
 }
 
+#title {
+	width: 100%;
+	height: 160px;
+}
+
 h1 {
 	font-size: 24px;
 	text-align:center;
@@ -26,7 +31,14 @@ category {
 </head>
 
 <body>
+<div id="title">
 <h1> Welcome to our intnet14 project </h1>
+
+</div>
+
+
+
+
 <br>
 <h2> Choose a category! </h2>
 
