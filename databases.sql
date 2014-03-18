@@ -74,7 +74,7 @@ insert into threads
 values (1, 'Blueberries', 'Important information!', 'admin', 1, NOW(), true, true);
 
 insert into posts
-values (1, -1, 'admin', 'There is only one rule... are you ready? Here it is: There are no rules! GO! Start posting!', NOW());
+values (1, 1, 'admin', 'There is only one rule... are you ready? Here it is: There are no rules! GO! Start posting!', NOW());
 
 
 

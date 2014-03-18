@@ -136,7 +136,7 @@ function getThreads($mysqli,$category,$min,$max,$includestickies) {
 	//debug_to_console("Min: ".$min.". Max: ".$max.". IncludeStickies: ".$includestickies.".");
 
 	
-	
+	/*
 	$t1 = new Thread();
 	$t1->threadID = 1; $t1->title = 'TIL the sky is blue.'; $t1->op="roger";
 	$t1->postCount = 2; $t1->timestamp = "2014-03-17-23-22"; $t1->locked=false; $t1->sticky=false; 
@@ -147,13 +147,13 @@ function getThreads($mysqli,$category,$min,$max,$includestickies) {
 
 	$ret = array($t1,$t2);
 	return $ret;
+	*/
 	
-	
-	/*
+
 	$threads = array();
 	
 	$stmt = $mysqli->stmt_init();
-	$stmt->prepare('select * from threads');
+	$stmt->prepare('SELECT * FROM threads WHERE category=? AND ()');
 	
 	$stmt->execute();
 	$stmt->bind_result($threadID, $title, $op, $postCount, $timestamp, $locked, $sticky);
@@ -165,11 +165,9 @@ function getThreads($mysqli,$category,$min,$max,$includestickies) {
 		$threads[] = new Thread($threadID, $title, $op, $postCount, $timestamp, $locked, $sticky);
 	}
 
-	var_dump($threads);
+	//var_dump($threads);
 	
 	return $threads;
-	*/
-	
 }
 
 

@@ -34,9 +34,9 @@ category {
 	font-size: 16px;
 	font-family: verdana;
 }
-
+</style>
 <div id=top>
-	<img id="banner" src="./banner.png" href="./frontpage.php" />
+	<img id="banner" src="./img/banner.png" href="./frontpage.php" />
 </div>
 </head>
 
@@ -68,7 +68,7 @@ require 'controller/getters.php';
 <h2> Choose a category! </h2>
 
 <?php
-$cats = getCategories();
+$cats = getCategories($mysqli);
 
 foreach($cats as $cat) {
 	echo "<div><p><category>\n";
