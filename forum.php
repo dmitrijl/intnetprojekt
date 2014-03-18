@@ -1,8 +1,18 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-gb" xml:lang="en-gb">
 <head>
-<div id="banner">
+
+</head>
+
+<body>
+
+
 <?php
+
+require 'init.php';
+require 'controller/getters.php';
+
+echo '<div id="banner">';
 
 if(isset($_GET["category"])) {
 	$categ = $_GET["category"];
@@ -10,27 +20,28 @@ if(isset($_GET["category"])) {
 	$categ = "BEST CATEGORY EVER!!";
 }
 echo "<p> WELCOME TO THE VIEW OF THREADS IN CATEGORY NR $categ</p>";
-?>
-</div>
-</head>
 
-<body>
+echo '</div>';
 
-<?php
+
 $threads = array(
 	"Thread 1",
 	"Thread 2",
 	"Thread 3");
 
+$threads = getThreads($mysqli,NULL,NULL,NULL,NULL);
+//$threads = getThreads($mysqli);
+
 $i = 1;
 foreach($threads as $th) {
-	echo "<a href='thread.php?thread=$i'> $th <br>";
+	//echo "<a href='thread.php?thread=$i'>$th<br>";
+	echo "<a href='thread.php?thread=$i'>$th->title<br>";
 	$i++;
 }
 
-?>
-<br>
-<?php
+
+echo '<br>';
+
 echo "<a href='createpost.php?createthread=true&category=$categ'> Create Thread </a>";
 ?>
 

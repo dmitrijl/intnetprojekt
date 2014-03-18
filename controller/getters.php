@@ -18,14 +18,25 @@ class Category {
 }
 
 class Thread {
-	public $threadID = 0;
+	public $threadID;
 	//public $category = 'cats';
-	public $title = 'title';
-	public $op = 'bunch of sticks';
-	public $postCount = 0;
-	public $timestamp = 'now';
-	public $locked = false;
-	public $sticky = false;
+	public $title;
+	public $op;
+	public $postCount;
+	public $timestamp;
+	public $locked;
+	public $sticky;
+	
+	function __construct($threadID, $title, $op, $postCount, $timestamp, $locked, $sticky) {
+		$this->threadID = $threadID;
+		$this->title = $title;
+		$this->op = $op;
+		$this->postCount = $postCount;
+		$this->timestamp = $timestamp;
+		$this->locked = $locked;
+		$this->sticky = $sticky;
+	}
+	
 }
 
 class Post {
@@ -117,12 +128,14 @@ function getCategories($mysqli) {
 }
 
 
-function getThreads($category,$min,$max,$includestickies) {
-	debug_to_console("Calling getThreads, parameters:");
-	debug_to_console("Category: ".$category);
-	debug_to_console("Min: ".$min.". Max: ".$max.". IncludeStickies: ".$includestickies.".");
+function getThreads($mysqli,$category,$min,$max,$includestickies) {
+//function getThreads($mysqli) {
+	//debug_to_console("Calling getThreads, parameters:");
+	//debug_to_console("Category: ".$category);
+	//debug_to_console("Min: ".$min.". Max: ".$max.". IncludeStickies: ".$includestickies.".");
 
-	/*
+	
+	
 	$t1 = new Thread();
 	$t1->threadID = 1; $t1->title = 'TIL the sky is blue.'; $t1->op="roger";
 	$t1->postCount = 2; $t1->timestamp = "2014-03-17-23-22"; $t1->locked=false; $t1->sticky=false; 
@@ -133,9 +146,28 @@ function getThreads($category,$min,$max,$includestickies) {
 
 	$ret = array($t1,$t2);
 	return $ret;
+	
+	
+	/*
+	$threads = array();
+	
+	$stmt = $mysqli->stmt_init();
+	$stmt->prepare('select * from threads');
+	
+	$stmt->execute();
+	$stmt->bind_result($threadID, $title, $op, $postCount, $timestamp, $locked, $sticky);
+	//$result = array();
+	//$result = $stmt->get_result();
+	
+	$stmt->store_result();
+	while ($stmt->fetch()) {
+		$threads[] = new Thread($threadID, $title, $op, $postCount, $timestamp, $locked, $sticky);
+	}
+
+	var_dump($threads);
+	
+	return $threads;
 	*/
-	
-	
 	
 }
 
