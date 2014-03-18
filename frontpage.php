@@ -26,7 +26,7 @@ category {
 }
 </style>
 <div>
-<img id="banner" src="./banner.png" href="./frontpage.php" />
+<img id="banner" src="./img/banner.png" href="./frontpage.php" />
 </div>
 </head>
 
@@ -49,14 +49,13 @@ require 'controller/getters.php';
 require 'init.php';
 
 
-$cats = getCategories();
+$cats = getCategories($mysqli);
 
-$i = 1;
+
 foreach($cats as $cat) {
 	echo "<div><p><category>\n";
 	echo "<a href='forum.php?category=".$cat->id."'>".$cat->name."</a><br>\n";
 	echo "</category></p></div>\n\n";
-	$i += 1;
 }
 
 ?>
