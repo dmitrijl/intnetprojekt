@@ -5,7 +5,8 @@
 //require '../init.php';
 //require 'init.php';
 
-require 'model/dbconnection.php';
+//require 'model/dbconnection.php';
+require "dbconnection.php";
 
 /***********************************
 CLASSES
@@ -143,9 +144,11 @@ function getThreads($category,$min,$max,$includestickies) {
 function getStickiedThreads($category) {
 	debug_to_console("Calling getStickiedThreads on thread: ".$category.".");
 
-	$t2 = new Thread();
-	$t2->threadID = 3; $t2->title = 'Rules'; $t2->op="roger";
-	$t2->postCount = 1; $t2->timestamp = "2014-03-17-14-14"; $t2->locked=true; $t2->sticky=true; 
+	$t2 = new Thread(3,"Blueberries",'Rules',"roger",1,"2014-03-17-14-14",true,true);
+	//$t2->threadID = 3; $t2->title = 'Rules'; $t2->op="roger";
+	//$t2->postCount = 1; $t2->timestamp = "2014-03-17-14-14"; $t2->locked=true; $t2->sticky=true;
+	
+	return array($t2);
 }
 
 
@@ -216,7 +219,12 @@ function getUserGroup() {
 
 function getUsername() {
 	debug_to_console("Calling getUsername.");
-	return $_SESSION['username'];
+	if(isset($_SESSION['username'])) {
+		return $_SESSION['username'];
+	} else {
+		return null;
+	}
+	
 }
 
 

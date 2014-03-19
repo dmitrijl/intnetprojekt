@@ -74,12 +74,31 @@ values ('admin', 'admin', SUBSTRING(MD5(RAND()) FROM 1 FOR 3), 'administrator', 
 
 
 insert into threads
-values (1, 1, 'Important information!', 'admin', 1, NOW(), true, true);
+values (1, 1, 'Important information! (locked sticky)', 'admin', 1, NOW(), true, true);
+
+insert into threads
+values (2, 1, 'TIL sky is blue (non-locked-nonsticky)', 'admin', 2, NOW(), false, false);
+
+insert into threads
+values (3, 1, 'locked non-sticky', 'admin', 1, NOW(), true, false);
+
+insert into threads
+values (4, 1, 'Non-locked sticky', 'admin', 1, NOW(), false, true);
 
 insert into posts
 values (1, 1, 'admin', 'There is only one rule... are you ready? Here it is: There are no rules! GO! Start posting!', NOW());
 
+insert into posts
+values (2, 1, 'admin', 'I live in London...', NOW());
 
+insert into posts
+values (2, 2, 'admin', 'Thahahahaha good one', NOW());
+
+insert into posts
+values (3, 1, 'admin', 'BATMAN', NOW());
+
+insert into posts
+values (4, 1, 'admin', 'testtsettest', NOW());
 
 
 
