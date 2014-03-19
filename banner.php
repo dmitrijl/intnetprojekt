@@ -1,6 +1,6 @@
 <div class="top">
 	<img class="banner" src="./img/banner.png" href="./frontpage.php" />
-	<div style="position:relative; width:250px; height:80px; margin-left:auto; margin-right:20px; top: 15px; background-color:white;">
+	<div style="position:relative; width:250px; height:90px; margin-left:auto; margin-right:20px; top: 15px; background-color:white;">
 		<?php
 			$user = getUsername();
 			if($user == null) {
@@ -9,6 +9,7 @@
 				echo "Username: <input type='text' name='username'><br>";
 				echo "Password: <input type='password' name='pwd'><br>";
 				echo "<input type='submit' value='Login'></form>";
+				echo "<a href='./register.php'> Not a member? Click here to register! </a>";
 			} else {
 				//logged in - provide a greeting.
 				echo "You are signed in as <b>".$user."</b>.<br>\n";
