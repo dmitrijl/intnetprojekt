@@ -23,6 +23,7 @@ create table categories (
 create table users (
 	username varchar(64) NOT NULL,
 	password varchar(64) NOT NULL,
+	salt varchar(3) NOT NULL,
 	admin varchar(64) NOT NULL,
 	-- group varchar(64) NOT NULL,
 	-- admin int DEFAULT 0,
@@ -69,7 +70,7 @@ values (NULL, 'Laser cannons specifically designed for highly humid conditions',
 
 
 insert into users
-values ('admin', 'admin', 'administrator', 'admin.png', 'I am the administrator.', 0);
+values ('admin', 'admin', SUBSTRING(MD5(RAND()) FROM 1 FOR 3), 'administrator', 'admin.png', 'I am the administrator.', 0);
 
 
 insert into threads

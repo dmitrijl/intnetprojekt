@@ -66,14 +66,16 @@ class Post {
 class User {
 	public $username;
 	public $password;
+	public $salt;
 	public $admin;
 	public $avatar;
 	public $signature;
 	public $postCount;
 	
-	function __construct($username,$password,$admin,$avatar,$signature,$postCount) {
+	function __construct($username,$password,$salt,$admin,$avatar,$signature,$postCount) {
 		$this->username = $username;
 		$this->password = $password;
+		$this->salt = $salt;
 		$this->admin = $admin;
 		$this->avatar = $avatar;
 		$this->signature = $signature;
@@ -184,23 +186,22 @@ function getPosts($threadID,$min,$max) {
 
 function getUserInfo($name) {
 	debug_to_console("Calling getUserInfo on username ".$name.".");
-
-	$u = new User();
-	if($name == "terminator") {
-		$u->username='terminator';
-		$u->group='user';
-		$u->avatar='anarchy.png';
-		$u->signature='There is no problem that cannot be solved with explosives.';
-		$u->postCount=4;
-	} else {
-		$u->username='roger';
-		$u->group='moderator';
-		$u->avatar='TALogo.png';
-		$u->signature='I am the best.';
-		$u->postCount=3;
+	
+	$users = array();
+	$mysqli = dbconnect();
+	$stmt = $mysqli->stmt_init();
+	$stmt->prepare('SELECT * FROM users WHERE username = ?');
+	$stmt->bind_param('s', $name);
+	$stmt->execute();
+	$stmt->bind_result($username,$password,$salt,$admin,$avatar,$signature,$postCount);
+	$stmt->store_result();
+	
+	while ($stmt->fetch()) {
+		$users[] = new User($username,$password,$salt,$admin,$avatar,$signature,$postCount);
 	}
-
-	return $u;
+	//var_dump($users);
+	
+	return $users;
 }
 
 
@@ -262,64 +263,83 @@ function is_admin() {
 }
 
 
-function user_register($username, $password, $firstname, $lastname, $yearofbirth, $monthofbirth, $dateofbirth, $address, $city, $zipcode, $homephonenumber, $cellphonenumber, $emailaddress, $basketballclub) {
+
+
+
+//function user_register($username, $password, $emailaddress) {
+function user_register($username, $password) {
+	$salt = generate_salt();
+	$encryptedPassword = md5(md5($password).$salt);
+	$mysqli = dbconnect();
+	$stmt = $mysqli->stmt_init();
+	$stmt->prepare('INSERT INTO users VALUES (?, ?, ?, "user", NULL, NULL, 0)');
+	$stmt->bind_param('sss', $username, $encryptedPassword, $salt);
+	$stmt->execute() or die ('Could not create new user');
+}
+
+
+function change_userinfo($req_username,$password,$avatar,$signature) {
+
+	$users = array();
+	$mysqli = dbconnect();
+	$stmt = $mysqli->stmt_init();
+	$stmt->prepare('SELECT * FROM users WHERE username = ?');
+	$stmt->bind_param('s', $req_username);
+	$stmt->execute();
+	$stmt->bind_result($username,$password,$salt,$admin,$avatar,$signature,$postCount);
+	$stmt->store_result();
 	
-	// Encrypt password with salt
-	$salt = generate_salt();
-	$encrypted = md5(md5($password).$salt);
+	while ($stmt->fetch()) {
+		$users[] = new User($username,$password,$salt,$admin,$avatar,$signature,$postCount);
+	}
+	
+	if ($password == NULL) {
+		$password = $user->password;
+		$salt = $user->salt;
+	} else {
+		$salt = generate_salt();
+		$password = md5(md5($password).$salt);
+	}
+	if ($avatar == NULL) {
+		$avatar = $user->avatar;
+	}
+	if ($signature == NULL) {
+		$signature = $user->signature;
+	}
 
-	// Write to database
-	$query = "insert into user (username, password, salt, title, firstname, lastname, yearofbirth, monthofbirth, dateofbirth, address, city, zipcode, homephonenumber, cellphonenumber, emailaddress, basketballclub) values ('$username', '$encrypted', '$salt', 'member', '$firstname', '$lastname', '$yearofbirth', '$monthofbirth', '$dateofbirth', '$address', '$city', '$zipcode', '$homephonenumber', '$cellphonenumber', '$emailaddress', '$basketballclub')";
-	mysql_query ($query) or die ('Kunde inte skapa anv&auml;ndare.');
+	//$mysqli = dbconnect();
+	$stmt = $mysqli->stmt_init();
+	//$stmt->prepare('INSERT INTO users VALUES (?, ?, ?, "user", NULL, NULL, 0)');
+	$stmt->prepare('UPDATE users SET password = ?, salt = ?, avatar = ?, signature = ? WHERE username = ?');
+	$stmt->bind_param('sssss', $password, $salt, $avatar, $signature, $req_username);
+	$stmt->execute() or die ('Could not update user info properly');
 }
 
 
-function change_userinfo( $password, $firstname, $lastname, $yearofbirth, $monthofbirth, $dateofbirth, $address, $city, $zipcode, $homephonenumber, $cellphonenumber, $emailaddress, $basketballclub) {
-	// Encrypt password with salt
-	$salt = generate_salt();
-	$encrypted = md5(md5($password).$salt);
-
-	// Write to database
-	$query = "update user set password='$encrypted', salt='$salt', firstname='$firstname', lastname='$lastname', yearofbirth='$yearofbirth', monthofbirth='$monthofbirth', dateofbirth='$dateofbirth', address='$address', city='$city', zipcode='$zipcode', homephonenumber='$homephonenumber', cellphonenumber='$cellphonenumber', emailaddress='$emailaddress', basketballclub='$basketballclub' where userid='$_SESSION[userid]'";
-	mysql_query ($query) or die ('Kunde inte ändra personuppgifter.');
-}
-
-
-function user_login($username, $password) {
-	$query = "select salt from user where username='$username' limit 1";
-	$result = mysql_query($query);
-	$user = mysql_fetch_array($result);
-
-	$encrypted_pass = md5(md5($password).$user['salt']);
-
-	$query = "select userid, username, title, firstname, lastname, yearofbirth, monthofbirth, dateofbirth, address, city, zipcode, homephonenumber, cellphonenumber, emailaddress, basketballclub from user where username='$username' and password='$encrypted_pass'";
-	$result = mysql_query($query);
-	$user = mysql_fetch_array($result);
-	$numrows = mysql_num_rows($result);
-
-	$encrypted_id = md5($user['userid']);
-	$encrypted_name = md5($user['username']);
-
-	$_SESSION['userid'] = $user['userid'];
-	$_SESSION['username'] = $username;
-	$_SESSION['encrypted_id'] = $encrypted_id;
-	$_SESSION['encrypted_name'] = $encrypted_name;
-	$_SESSION['title'] = $user['title'];
-	$_SESSION['firstname'] = $user['firstname'];
-	$_SESSION['lastname'] = $user['lastname'];
-	$_SESSION['yearofbirth'] = $user['yearofbirth'];
-	$_SESSION['monthofbirth'] = $user['monthofbirth'];
-	$_SESSION['dateofbirth'] = $user['dateofbirth'];
-	$_SESSION['address'] = $user['address'];
-	$_SESSION['city'] = $user['city'];
-	$_SESSION['zipcode'] = $user['zipcode'];
-	$_SESSION['homephonenumber'] = $user['homephonenumber'];
-	$_SESSION['cellphonenumber'] = $user['cellphonenumber'];
-	$_SESSION['emailaddress'] = $user['emailaddress'];
-	$_SESSION['basketballclub'] = $user['basketballclub'];
-
-	if ($numrows == 1) {
-		return 'Correct';
+function user_login($req_username, $req_password) {
+	$mysqli = dbconnect();
+	$stmt = $mysqli->stmt_init();
+	$stmt->prepare('SELECT * FROM users WHERE username = ? LIMIT 1');
+	$stmt->bind_param('s', $req_username);
+	$stmt->execute();
+	$stmt->bind_result($username,$password,$salt,$admin,$avatar,$signature,$postCount);
+	$stmt->store_result();
+	
+	if ($stmt->fetch()) {
+		$user = new User($username,$password,$salt,$admin,$avatar,$signature,$postCount);
+	}
+	
+	$encrypted_pass = md5(md5($password).$user[0]->salt);
+	
+	if ($password == $encrypted_pass) {
+		//Success!
+		
+		$encrypted_name = md5($user->username);
+		session_start();
+		$_SESSION['username'] = $user->username;
+		$_SESSION['encrypted_name'] = $encrypted_name;
+		$_SESSION['admin'] = $user->admin;
+		return true;
 	} else {
 		return false;
 	}
@@ -328,8 +348,8 @@ function user_login($username, $password) {
 
 function user_logout() {
 	// End the session and unset all vars
-	session_unset ();
-	session_destroy ();
+	session_unset();
+	session_destroy();
 }
 
 
