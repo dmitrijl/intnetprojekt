@@ -18,7 +18,7 @@ if(isset($_GET["category"])) {
 } else {
 	$categ = "BEST CATEGORY EVER!!";
 }
-echo "<h1> Category: $categ</h1>";
+
 if(isset($_GET["page"])) {
 	$page = $_GET["page"];
 	if(is_int($page) && $page > 0) {
@@ -34,15 +34,22 @@ $max = $page * $threadsperpage;
 $min = $max - $threadsperpage + 1;
 
 $threads = getThreads($categ,$min,$max,false);
-$stickies = getStickiedThreads($categ);
+//$stickies = getStickiedThreads($categ);
 //$threads = getThreads($mysqli);
+
+echo "<h1> Category: $categ</h1>";
 
 $i = 1;
 foreach($threads as $th) {
 	//echo "<a href='thread.php?thread=$i'>$th<br>";
-	echo "<a href='thread.php?thread=$i'>$th->title</a>";
+	echo "<div class='thread";
+	if( $i % 2 == 0) {
+		echo " everyother";
+	}
+	echo "'>";
+		echo "<a href='thread.php?thread=$i'>$th->title</a>";
 	echo " by $th->op";
-	echo "<br>";
+	echo "</div>\n";
 	$i++;
 }
 
