@@ -5,7 +5,7 @@ function dbconnect() {
 	// MySQL Settings
 	$db_host = 'localhost';
 	$db_user = 'root';
-	$db_pass = '123';
+	$db_pass = 'hydrazine';
 	$db_database = 'projForum';
 	
 	// Connect
