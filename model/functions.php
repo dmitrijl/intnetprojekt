@@ -220,6 +220,57 @@ function getUsername() {
 }
 
 
+function createPost($username, $threadID, $message) {
+	debug_to_console("Calling createPost(".$username.",".$threadID.",".$message.".");
+	
+	$mysqli = dbconnect();
+	$postSuccQuery = "SELECT numPosts FROM threads WHERE threadID = ?";
+	$stmt = $mysqli->stmt_init();
+	$stmt->prepare($postSuccQuery);
+	$stmt->bind_param('d', $threadID);
+	$stmt->execute() or die ('Could not find postSucc value');
+	$stmt->bind_result($postSucc);
+	$stmt->store_result();
+	
+	$stmt = $mysqli->stmt_init();
+	$stmt->prepare('INSERT INTO posts VALUES (?, ?, ?, ?, NOW())');
+	$stmt->bind_param('ddss', $threadID, $postSucc, $username, $message);
+	$stmt->execute() or die ('Could not create post');
+}
+
+
+function createThread($username, $category, $title, $message) {
+	debug_to_console("Calling createThread(".$username.",".$category.",".$title.".");
+	
+	$mysqli = dbconnect();
+	
+	$threadIDQuery = "select AUTO_INCREMENT from INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA = 'projForum' AND TABLE_NAME = 'threads'";
+	$stmt = $mysqli->stmt_init();
+	$stmt->prepare($threadIDQuery);
+	$stmt->execute() or die ('Could not find next threadID');
+	$stmt->bind_result($threadID);
+	$stmt->store_result();
+	
+	$stmt = $mysqli->stmt_init();
+	$stmt->prepare('INSERT INTO threads VALUES (?, ?, ?, ?, 0, NOW(), false, false)');
+	$stmt->bind_param('dss', $threadID, $category, $title, $username);
+	$stmt->execute() or die ('Could not create thread');
+	
+	//Create first post
+	$postSuccQuery = "SELECT numPosts FROM threads WHERE threadID = ?";
+	$stmt = $mysqli->stmt_init();
+	$stmt->prepare($postSuccQuery);
+	$stmt->bind_param('d', $threadID);
+	$stmt->execute() or die ('Could not find postSucc value');
+	$stmt->bind_result($postSucc);
+	$stmt->store_result();
+	
+	$stmt = $mysqli->stmt_init();
+	$stmt->prepare('INSERT INTO posts VALUES (?, ?, ?, ?, NOW())');
+	$stmt->bind_param('ddss', $threadID, $postSucc, $username, $message);
+	$stmt->execute() or die ('Could not create post');
+}
+
 
 
 
