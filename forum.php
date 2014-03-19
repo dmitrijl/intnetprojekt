@@ -13,22 +13,28 @@
 require 'model/functions.php';
 include 'banner.php';
 
-
 if(isset($_GET["category"])) {
 	$categ = $_GET["category"];
 } else {
 	$categ = "BEST CATEGORY EVER!!";
 }
-echo "<p> WELCOME TO THE VIEW OF THREADS IN CATEGORY NR $categ</p>";
+echo "<h1> Category: $categ</h1>";
+if(isset($_GET["page"])) {
+	$page = $_GET["page"];
+	if(is_int($page) && $page > 0) {
+		//do nothing
+	} else {
+		$page = 1;
+	}
+} else {
+	$page = 1;
+}
+$threadsperpage = 10;
+$max = $page * $threadsperpage;
+$min = $max - $threadsperpage + 1;
 
-
-
-$threads = array(
-	"Thread 1",
-	"Thread 2",
-	"Thread 3");
-
-$threads = getThreads($categ,NULL,NULL,true);
+$threads = getThreads($categ,$min,$max,false);
+$stickies = getStickiedThreads($categ);
 //$threads = getThreads($mysqli);
 
 $i = 1;
