@@ -5,7 +5,7 @@
 //require '../init.php';
 //require 'init.php';
 
-require 'dbconnection.php';
+require 'model/dbconnection.php';
 
 /***********************************
 CLASSES
@@ -209,21 +209,17 @@ function getUserInfo($name) {
 
 function getUserGroup() {
 	debug_to_console("Calling getUserGroup.");
-	return "moderator";
+	if (isset($_SESSION['username']) && (md5($_SESSION['username']) == $_SESSION['encrypted_name'])) {
+		return $_SESSION['admin'];
+	} else {
+		return 'guest';
+	}
 }
-
 
 function getUsername() {
 	debug_to_console("Calling getUsername.");
-	return "admin";
+	return $_SESSION['username'];
 }
-
-
-
-
-
-
-
 
 
 
@@ -243,29 +239,6 @@ function generate_salt() {
 	}
 	return $salt;
 }
-
-
-function is_authed() {
-	// Check if the encrypted username is the same as the
-	// unencrypted one. If it is, it hasn't been changed.
-	if (isset($_SESSION['username']) && (md5($_SESSION['username']) == $_SESSION['encrypted_name'])) {
-		return true;
-	} else {
-		return false;
-	}
-}
-
-
-function is_admin() {
-	if (is_authed() && ($_SESSION['title'] == 'admin')) {
-		return true;
-	} else {
-		return false;
-	}
-}
-
-
-
 
 
 //function user_register($username, $password, $emailaddress) {
