@@ -5,7 +5,8 @@
 //require '../init.php';
 //require 'init.php';
 
-require 'model/dbconnection.php';
+//require 'model/dbconnection.php';
+require "dbconnection.php";
 
 /***********************************
 CLASSES
@@ -218,7 +219,12 @@ function getUserGroup() {
 
 function getUsername() {
 	debug_to_console("Calling getUsername.");
-	return $_SESSION['username'];
+	if(isset($_SESSION['username'])) {
+		return $_SESSION['username'];
+	} else {
+		return null;
+	}
+	
 }
 
 
