@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-gb" xml:lang="en-gb">
 <head>
-<link rel="stylesheet" type="text/css" href="index.css">
+<link rel="stylesheet" type="text/css" href="css/index.css">
 </head>
 
 
 
 <body>
 <?php
-require 'init.php';
-require 'controller/getters.php';
+//require 'init.php';
+//srand();
+require 'model/functions.php';
 include "banner.php";
 ?>
 <div id="title">
@@ -20,7 +21,7 @@ include "banner.php";
 
 <?php
 
-$cats = getCategories($mysqli);
+$cats = getCategories();
 
 
 foreach($cats as $cat) {
