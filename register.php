@@ -6,6 +6,9 @@
 <script>
 function validateForm()
 {
+//checks for empty username, empty password, and that passwords match.
+//DOES NOT check if username is unique.
+
 var form=document.forms["register"];
 var username = form["username"].value;
 var pass1 = form["password1"].value;
@@ -26,6 +29,7 @@ if (pass1 == null || pass1 == "") {
 alert("Password ok, returning to frontpage. TODO: check if username available, but that cannot be dont in JS.");
 }
 </script>
+
 
 
 </head>

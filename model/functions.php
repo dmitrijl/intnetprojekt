@@ -213,7 +213,7 @@ function getUserGroup() {
 
 function getUsername() {
 	debug_to_console("Calling getUsername.");
-	return null;
+	return "admin";
 }
 
 
