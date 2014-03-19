@@ -35,8 +35,8 @@ alert("Password ok, returning to frontpage. TODO: check if username available, b
 
 <?php
 
-require 'init.php';
-require 'controller/getters.php';
+//require 'init.php';
+require 'model/functions.php';
 include 'banner.php';
 
 ?>
