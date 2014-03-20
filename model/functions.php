@@ -360,14 +360,16 @@ function user_login($req_username, $req_password) {
 	if ($stmt->fetch()) {
 		$user = new User($username,$password,$salt,$admin,$avatar,$signature,$postCount);
 	}
+
+	$encrypted_pass = md5(md5($req_password).$user->salt);
 	
-	$encrypted_pass = md5(md5($password).$user[0]->salt);
+	//echo "$encrypted_pass<br/>";
+	//echo "$password<br/>";
 	
 	if ($password == $encrypted_pass) {
 		//Success!
-		
 		$encrypted_name = md5($user->username);
-		session_start();
+		//session_start();
 		$_SESSION['username'] = $user->username;
 		$_SESSION['encrypted_name'] = $encrypted_name;
 		$_SESSION['admin'] = $user->admin;

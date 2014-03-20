@@ -69,8 +69,11 @@ insert into categories
 values (NULL, 'Laser cannons specifically designed for highly humid conditions', 0);
 
 
+SET @salt = SUBSTRING(MD5(RAND()) FROM 1 FOR 3);
+SET @encrypted_password = MD5(CONCAT(MD5('admin'), @salt));
+
 insert into users
-values ('admin', 'admin', SUBSTRING(MD5(RAND()) FROM 1 FOR 3), 'administrator', 'admin.png', 'I am the administrator.', 0);
+values ('admin', @encrypted_password, @salt, 'administrator', 'admin.png', 'I am the administrator.', 0);
 
 
 insert into threads

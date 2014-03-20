@@ -9,7 +9,6 @@
 <body>
 <?php
 //require 'init.php';
-//srand();
 require 'model/functions.php';
 include "banner.php";
 ?>
