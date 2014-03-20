@@ -41,6 +41,8 @@ if(isset($_GET["category"])) {
 	$categ = "BEST CATEGORY EVER!!";
 }
 
+$categ_name = getCategoryName($categ);
+
 if(isset($_GET["page"])) {
 	$page = $_GET["page"];
 	if(is_int($page) && $page > 0) {
@@ -59,7 +61,7 @@ $threads = getThreads($categ,$min,$max,false);
 //$stickies = getStickiedThreads($categ);
 //$threads = getThreads($mysqli);
 
-echo "<h1> Category: $categ</h1>";
+echo "<h1>Category: <a href='./forum.php?category=$categ'>$categ_name</a></h1>";
 
 echo "<table style='width:80%;border:1px solid black;'>\n";
 echo "<tr> <td class='col1 smallborder'>Author</td>";

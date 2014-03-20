@@ -20,6 +20,10 @@
 			} else {
 				//echo "Failed to post!"
 			}
+			
+			//Prevent duplicate posts on refresh.
+			header("Location: " . $_SERVER['REQUEST_URI']);
+		  exit();
 		}
 
 		if($user != null) {
@@ -27,10 +31,12 @@
 			echo "Write your message here.";
 			echo "<form id='createpost' action='' method='post'>";
 			echo "<textarea rows='6' cols='80' name='message' form='createpost'></textarea>";
-			echo "<input type='submit' name='post' value='Post'>";
+			echo "<br /><input type='submit' name='post' value='Post'>";
 		} else {
 			echo "You cannot post in this thread.";
 		}
+		
+		
 	?>
 </div>
 </body>

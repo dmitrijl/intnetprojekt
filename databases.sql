@@ -1,17 +1,15 @@
--- [3/2/2014 8:49:10 PM] Dmitrij: table threads(threadID,cathegory,title,op,numPosts,timestamp,locked,sticky)
--- [3/2/2014 8:49:37 PM] Dmitrij: table posts(threadID,postSucc,poster,message,time)
--- [3/2/2014 8:50:21 PM] Dmitrij: table users(username,password,group,avatar,signature,postcount)
+#[3/2/2014 8:49:10 PM] Dmitrij: table threads(threadID,cathegory,title,op,numPosts,timestamp,locked,sticky)
+#[3/2/2014 8:49:37 PM] Dmitrij: table posts(threadID,postSucc,poster,message,time)
+#[3/2/2014 8:50:21 PM] Dmitrij: table users(username,password,group,avatar,signature,postcount)
 
 
--- Clear existing database
+#Clear existing database
 DROP database projForum;
 CREATE database projForum;
 use projForum;
 
 
-
-
--- Create new ones
+#Create new ones
 
 CREATE TABLE categories (
 	id int UNIQUE NOT NULL AUTO_INCREMENT,
@@ -25,8 +23,8 @@ CREATE TABLE users (
 	password varchar(64) NOT NULL,
 	salt varchar(3) NOT NULL,
 	admin varchar(64) NOT NULL,
-	-- group varchar(64) NOT NULL,
-	-- admin int DEFAULT 0,
+	#group varchar(64) NOT NULL,
+	#admin int DEFAULT 0,
 	avatar varchar(64),
 	signature varchar(256),
 	postcount int NOT NULL,
@@ -35,7 +33,7 @@ CREATE TABLE users (
 
 CREATE TABLE threads (
 	threadID int NOT NULL AUTO_INCREMENT,
-	-- category varchar(64),
+	#category varchar(64),
 	category int NOT NULL,
 	title varchar(128) NOT NULL,
 	op varchar(64) NOT NULL,
@@ -60,13 +58,33 @@ CREATE TABLE posts (
 
 
 
---#Triggers
+#Create Triggers
+
 DELIMITER |
 
 CREATE TRIGGER increase_numThreads AFTER INSERT ON threads
 	FOR EACH ROW BEGIN
 		UPDATE categories SET numThreads = numThreads+1 WHERE id = NEW.category;
 	END
+|
+
+CREATE TRIGGER decrease_numThreads AFTER DELETE ON threads
+	FOR EACH ROW BEGIN
+		UPDATE categories SET numThreads = numThreads-1 WHERE id = OLD.category;
+	END;
+|
+
+
+CREATE TRIGGER increase_numPosts AFTER INSERT ON posts
+	FOR EACH ROW BEGIN
+		UPDATE threads SET numPosts = numPosts+1 WHERE threadID = NEW.threadID;
+	END;
+|
+
+CREATE TRIGGER decrease_numPosts AFTER DELETE ON posts
+	FOR EACH ROW BEGIN
+		UPDATE threads SET numPosts = numPosts-1 WHERE threadID = OLD.threadID;
+	END;
 |
 
 DELIMITER ;
@@ -90,17 +108,19 @@ INSERT INTO users
 VALUES ('admin', @encrypted_password, @salt, 'administrator', 'admin.png', 'I am the administrator.', 0);
 
 
-INSERT INTO threads
-VALUES (1, 1, 'Important information! (locked sticky)', 'admin', 1, NOW(), true, true);
+#Insert initial threads. Initialize postCount to 0 due to triggers.
 
 INSERT INTO threads
-VALUES (2, 1, 'TIL sky is blue (non-locked-nonsticky)', 'admin', 2, NOW(), false, false);
+VALUES (1, 1, 'Important information! (locked sticky)', 'admin', 0, NOW(), true, true);
 
 INSERT INTO threads
-VALUES (3, 1, 'locked non-sticky', 'admin', 1, NOW(), true, false);
+VALUES (2, 1, 'TIL sky is blue (non-locked-nonsticky)', 'admin', 0, NOW(), false, false);
 
 INSERT INTO threads
-VALUES (4, 1, 'Non-locked sticky', 'admin', 1, NOW(), false, true);
+VALUES (3, 3, 'locked non-sticky', 'admin', 0, NOW(), true, false);
+
+INSERT INTO threads
+VALUES (4, 2, 'Non-locked sticky', 'admin', 0, NOW(), false, true);
 
 INSERT INTO posts
 VALUES (1, 1, 'admin', 'There is only one rule... are you ready? Here it is: There are no rules! GO! Start posting!', NOW());

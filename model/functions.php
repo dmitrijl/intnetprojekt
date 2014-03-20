@@ -171,9 +171,9 @@ function getPosts($threadID,$min,$max) {
 	$posts = array();
 	$mysqli = dbconnect();
 	$stmt = $mysqli->stmt_init();
-	//$stmt->prepare('SELECT * FROM posts WHERE threadID = ? AND postSucc >= ? AND postSucc <= ? ORDER BY postSucc ASC');
-	$stmt->prepare('SELECT * FROM posts WHERE threadID = 1 AND postSucc >= 1 AND postSucc <= 10 ORDER BY postSucc ASC');
-	//$stmt->bind_param('ddd', $threadID, $min, $max);
+	//$stmt->prepare('SELECT * FROM posts WHERE threadID = 1 AND postSucc >= 1 AND postSucc <= 10 ORDER BY postSucc ASC');
+	$stmt->prepare('SELECT * FROM posts WHERE threadID = ? AND postSucc >= ? AND postSucc <= ? ORDER BY postSucc ASC');
+	$stmt->bind_param('ddd', $threadID, $min, $max);
 	$stmt->execute();
 	$stmt->bind_result($threadID, $postSucc, $poster, $message, $timestamp);
 	$stmt->store_result();
@@ -225,6 +225,14 @@ function getUsername() {
 		return null;
 	}
 	
+}
+
+
+function getCategoryName($catID) {
+	$categories = array('Blueberries',
+	'Comfortable furniture',
+	'Laser cannons specifically designed for highly humid conditions');
+	return $categories[$catID-1];
 }
 
 

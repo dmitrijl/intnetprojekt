@@ -14,6 +14,8 @@
 //require 'init.php';
 require 'model/functions.php';
 include 'banner.php';
+//echo "<a href='createpost.php?createthread=false&thread=$thr'>Create post</a>";
+include 'createpost.php';
 
 if(isset($_GET["thread"])) {
 	$thr = $_GET["thread"];
@@ -24,28 +26,17 @@ echo "<p>WELCOME TO THE VIEW OF POSTS IN THREAD NR $thr</p>";
 ?>
 </div>
 <?php
-$posts = array(
-	"Post 1",
-	"Post 2",
-	"Post 3");
 
 $posts = getPosts($thr, 1, 10);
 
+
 foreach($posts as $post) {
-	echo "<br>";
 	//echo "<p>$post</p>";
 	echo "<p><b>$post->poster:</b> ";
 	echo "$post->message</p>";
-	echo "<br>";
 }
 
 ?>
-<br>
-<?php
-//echo "<a href='createpost.php?createthread=false&thread=$thr'>Create post</a>";
-include 'createpost.php';
-?>
-
 
 </body>
 </html>
