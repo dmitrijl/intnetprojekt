@@ -18,7 +18,7 @@
 #title {
 	width: 100%;
 	height: 100px;
-	background-color: yellow; <!-- ONLY TEMPORARY REMOVE LATER -->
+	background-color: yellow;
 }
 
 h1 {
@@ -57,14 +57,25 @@ h2 {
 .thread {
 	padding:0px;
 	border-width:2px;
+	border-bottom-width:1px;
 	border-color:#888888;
 	border-style:solid;
 	background-color:white;
 	margin:auto;
-	width:80%;
+	width:85%;
 	height:40px;
 }
 
 .everyother {
-	background-color:#D0D0D0;
+	background-color:#E6E6E6;
+}
+
+.threadtext {
+	display:inline-block;
+	vertical-align:middle;
+	position:relative;
+	top:-7px;
+	padding-left:5px;
+	height:35px;
+	overflow:hidden
 }

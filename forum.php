@@ -2,6 +2,28 @@
 <html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-gb" xml:lang="en-gb">
 <head>
 <link rel="stylesheet" type="text/css" href="css/index.css">
+<style>
+.col1 {
+	width:15%;
+}
+
+.col2 {
+	width:45%;
+}
+
+.col3 {
+	width:15%;
+}
+
+.col4 {
+	width:15%;
+}
+
+.smallborder {
+	border:1px solid black;
+}
+
+</style>
 </head>
 
 <body>
@@ -39,21 +61,22 @@ $threads = getThreads($categ,$min,$max,false);
 
 echo "<h1> Category: $categ</h1>";
 
-$i = 1;
+echo "<table style='width:80%;border:1px solid black;'>\n";
+echo "<tr> <td class='col1 smallborder'>Author</td>";
+echo "<td class='col2 smallborder'>Title</td>";
+echo "<td class='col3 smallborder'>Controls</td>";
+echo "<td class='col4 smallborder'>Last post at</td></tr>\n";
+
+//$i = 1;
 foreach($threads as $th) {
-	//echo "<a href='thread.php?thread=$i'>$th<br>";
-	echo "<div class='thread";
-	if( $i % 2 == 0) {
-		echo " everyother";
-	}
-	echo "'>";
-		echo "<a href='thread.php?thread=$i'>$th->title</a>";
-	echo " by $th->op";
-	echo "</div>\n";
-	$i++;
+	echo "<tr> <td class='col1 smallborder'><b>$th->op</b></td>";
+	echo "<td class='col2 smallborder'><a href='thread.php?thread=".$th->threadID."'>".$th->title."</a></td>";
+	//echo "<td class='col2 smallborder'><a$th->title</td>";
+	echo "<td class='col3 smallborder'>TODO</td>";
+	echo "<td class='col4 smallborder'>$th->timestamp</td></tr>";
 }
 
-
+echo "</table>";
 echo '<br>';
 
 echo "<a href='createpost.php?createthread=true&category=$categ'>Create Thread</a>";
