@@ -4,8 +4,8 @@
 
 
 -- Clear existing database
-drop database projForum;
-create database projForum;
+DROP database projForum;
+CREATE database projForum;
 use projForum;
 
 
@@ -13,14 +13,14 @@ use projForum;
 
 -- Create new ones
 
-create table categories (
+CREATE TABLE categories (
 	id int UNIQUE NOT NULL AUTO_INCREMENT,
 	name varchar(64),
 	numthreads int,
 	PRIMARY KEY (id)
 );
 
-create table users (
+CREATE TABLE users (
 	username varchar(64) NOT NULL,
 	password varchar(64) NOT NULL,
 	salt varchar(3) NOT NULL,
@@ -33,7 +33,7 @@ create table users (
 	PRIMARY KEY (username)
 );
 
-create table threads (
+CREATE TABLE threads (
 	threadID int NOT NULL AUTO_INCREMENT,
 	-- category varchar(64),
 	category int NOT NULL,
@@ -48,7 +48,7 @@ create table threads (
 	FOREIGN KEY (op) REFERENCES users(username)
 );
 
-create table posts (
+CREATE TABLE posts (
 	threadID int NOT NULL,
 	postSucc int NOT NULL,
 	poster varchar(64),
@@ -59,49 +59,63 @@ create table posts (
 );
 
 
-insert into categories
-values (NULL, 'Blueberries', 0);
 
-insert into categories
-values (NULL, 'Comfortable furniture', 0);
+--#Triggers
+DELIMITER |
 
-insert into categories
-values (NULL, 'Laser cannons specifically designed for highly humid conditions', 0);
+CREATE TRIGGER increase_numThreads AFTER INSERT ON threads
+	FOR EACH ROW BEGIN
+		UPDATE categories SET numThreads = numThreads+1 WHERE id = NEW.category;
+	END
+|
+
+DELIMITER ;
+
+
+
+INSERT INTO categories
+VALUES (NULL, 'Blueberries', 0);
+
+INSERT INTO categories
+VALUES (NULL, 'Comfortable furniture', 0);
+
+INSERT INTO categories
+VALUES (NULL, 'Laser cannons specifically designed for highly humid conditions', 0);
 
 
 SET @salt = SUBSTRING(MD5(RAND()) FROM 1 FOR 3);
 SET @encrypted_password = MD5(CONCAT(MD5('admin'), @salt));
 
-insert into users
-values ('admin', @encrypted_password, @salt, 'administrator', 'admin.png', 'I am the administrator.', 0);
+INSERT INTO users
+VALUES ('admin', @encrypted_password, @salt, 'administrator', 'admin.png', 'I am the administrator.', 0);
 
 
-insert into threads
-values (1, 1, 'Important information! (locked sticky)', 'admin', 1, NOW(), true, true);
+INSERT INTO threads
+VALUES (1, 1, 'Important information! (locked sticky)', 'admin', 1, NOW(), true, true);
 
-insert into threads
-values (2, 1, 'TIL sky is blue (non-locked-nonsticky)', 'admin', 2, NOW(), false, false);
+INSERT INTO threads
+VALUES (2, 1, 'TIL sky is blue (non-locked-nonsticky)', 'admin', 2, NOW(), false, false);
 
-insert into threads
-values (3, 1, 'locked non-sticky', 'admin', 1, NOW(), true, false);
+INSERT INTO threads
+VALUES (3, 1, 'locked non-sticky', 'admin', 1, NOW(), true, false);
 
-insert into threads
-values (4, 1, 'Non-locked sticky', 'admin', 1, NOW(), false, true);
+INSERT INTO threads
+VALUES (4, 1, 'Non-locked sticky', 'admin', 1, NOW(), false, true);
 
-insert into posts
-values (1, 1, 'admin', 'There is only one rule... are you ready? Here it is: There are no rules! GO! Start posting!', NOW());
+INSERT INTO posts
+VALUES (1, 1, 'admin', 'There is only one rule... are you ready? Here it is: There are no rules! GO! Start posting!', NOW());
 
-insert into posts
-values (2, 1, 'admin', 'I live in London...', NOW());
+INSERT INTO posts
+VALUES (2, 1, 'admin', 'I live in London...', NOW());
 
-insert into posts
-values (2, 2, 'admin', 'Thahahahaha good one', NOW());
+INSERT INTO posts
+VALUES (2, 2, 'admin', 'Thahahahaha good one', NOW());
 
-insert into posts
-values (3, 1, 'admin', 'BATMAN', NOW());
+INSERT INTO posts
+VALUES (3, 1, 'admin', 'BATMAN', NOW());
 
-insert into posts
-values (4, 1, 'admin', 'testtsettest', NOW());
+INSERT INTO posts
+VALUES (4, 1, 'admin', 'testtsettest', NOW());
 
 
 

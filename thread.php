@@ -42,8 +42,10 @@ foreach($posts as $post) {
 ?>
 <br>
 <?php
-echo "<a href='createpost.php?createthread=false&thread=$thr'>Create post</a>";
+//echo "<a href='createpost.php?createthread=false&thread=$thr'>Create post</a>";
+include 'createpost.php';
 ?>
+
 
 </body>
 </html>

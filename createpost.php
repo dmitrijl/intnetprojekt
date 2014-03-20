@@ -1,25 +1,37 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-gb" xml:lang="en-gb">
 <head>
-<div id="banner">
-
-TEST POST PLEASE IGNORE
-
-</div>
 </head>
 
 <body>
 
-<?php
-if($_GET["createthread"] == "true") {
-	$cat = $_GET["category"];
-	echo "create thread in category $cat";
-} else {
-	$thread = $_GET["thread"];
-	echo "create post in thread $thread";
-}
-?>
+<div style="background-color:#cc00cc;border:1px solid">
+	<?php
+		session_start();
+		
+		$user = getUsername();
+		
+		if (isset($_POST['post'])) {
+			//User just posted
+			
+			$createpost_result = createPost($user, $_GET['thread'], $_POST['message']);
+			if ($createpost_result == true) {
+				//echo "Successful post!"
+			} else {
+				//echo "Failed to post!"
+			}
+		}
 
-
+		if($user != null) {
+			//logged in - provide a post form
+			echo "Write your message here.";
+			echo "<form id='createpost' action='' method='post'>";
+			echo "<textarea rows='6' cols='80' name='message' form='createpost'></textarea>";
+			echo "<input type='submit' name='post' value='Post'>";
+		} else {
+			echo "You cannot post in this thread.";
+		}
+	?>
+</div>
 </body>
 </html>
