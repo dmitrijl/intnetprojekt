@@ -4,7 +4,7 @@
 <link rel="stylesheet" type="text/css" href="css/index.css">
 <?php
 require 'model/functions.php';
-include 'banner.php';
+include 'view/banner.php';
 ?>
 
 <script>

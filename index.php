@@ -8,22 +8,22 @@
 <?php
 //require 'init.php';
 session_start();
-require './model/functions.php';
+require 'model/functions.php';
 include "view/banner.php";
 //include "view/ucp.php";
 
 if (!isset($_GET['action']) || $_GET['action'] == 'viewCategories') {
 	//No action specified. List categories;
 	//echo "viewCategories";
-	include './view/viewCategories.php';
+	include 'view/viewCategories.php';
 } else if ($_GET['action'] == 'viewForum') {
 	//echo "viewForum";
-	include './view/viewForum.php';
+	include 'view/viewForum.php';
 	$_GET["createthread"] = true;
 	include 'createpost.php';
 } else if ($_GET['action'] == 'viewThread') {
 	//echo "viewThread";
-	include './view/viewThread.php';
+	include 'view/viewThread.php';
 	include 'createpost.php';
 } else {
 	//echo "Unspecified action.";

@@ -1,6 +1,9 @@
+<!--<link rel="stylesheet" type="text/css" href="css/index.css">-->
+
 <div style="background-color:orange;border:1px solid">
 	<?php
-		session_start();
+		
+		if(!isset($_SESSION)) session_start();
 		
 		if (isset($_POST['logout'])) {
 			//Log out user

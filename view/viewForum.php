@@ -33,7 +33,7 @@
 
 //require 'init.php';
 //require 'model/functions.php';
-require './rights.php';
+require $_SERVER['DOCUMENT_ROOT'].'/rights.php';
 
 
 if(isset($_GET["category"])) {
@@ -78,14 +78,16 @@ foreach($threads as $th) {
 	//author
 	echo "<tr> <td class='col1 smallborder'><b>$th->op</b></td>\n";
 	//title
-	echo "<td class='col2 smallborder'><a href='index.php?action=viewThread&thread=".$th->threadID."'>".$th->title."</a>";
+	echo "<td class='col2 smallborder'>";
 	if($th->sticky) {
 		echo "  <img src='img/sticky.png' style='width:14px;height:14px;' title='stickied thread'></img>";
 	}
 	if($th->locked) {
 		echo "  <img src='img/locked.png' style='width:14px;height:14px;' title='locked thread'></img>";
 	}
-	echo "</td>\n";
+	echo "<a href='index.php?action=viewThread&thread=".$th->threadID."'>".$th->title."</a></td>\n";
+
+	
 	//echo "<td class='col2 smallborder'><a$th->title</td>";
 	//controls
 	echo "<td class='col3 smallborder'>";
