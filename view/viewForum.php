@@ -4,7 +4,7 @@
 <link rel="stylesheet" type="text/css" href="css/index.css">
 <style>
 .col1 {
-	width:15%;
+	width:14%;
 }
 
 .col2 {
@@ -16,7 +16,11 @@
 }
 
 .col4 {
-	width:15%;
+	width:3%;
+}
+
+.col5 {
+	width:13%;
 }
 
 .smallborder {
@@ -67,11 +71,12 @@ $threads = getThreads($categ,$min,$max,false);
 
 echo "<h1>Category: <a href='./index.php?action=viewForum&category=$categ'>$categ_name</a></h1>";
 
-echo "<table style='width:80%;border:1px solid black;'>\n";
+echo "<table style='width:90%;border:1px solid black;'>\n";
 echo "<tr> <td class='col1 smallborder'>Author</td>";
 echo "<td class='col2 smallborder'>Title</td>";
 echo "<td class='col3 smallborder'>Controls</td>";
-echo "<td class='col4 smallborder'>Last post at</td></tr>\n";
+echo "<td class='col4 smallborder'>Posts</td>\n";
+echo "<td class='col5 smallborder'>Last post at</td></tr>\n";
 
 //$i = 1;
 foreach($threads as $th) {
@@ -116,8 +121,10 @@ foreach($threads as $th) {
 		echo "</button>";
 	} 
 	echo "</td>\n";
+	//numPosts
+	echo "<td class='col4 smallborder'>$th->postCount</td>";
 	//timestamp
-	echo "<td class='col4 smallborder'>$th->timestamp</td></tr>";
+	echo "<td class='col5 smallborder'>$th->timestamp</td></tr>";
 }
 
 echo "</table>";
