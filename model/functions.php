@@ -256,9 +256,7 @@ function createPost($username, $threadID, $message) {
 	$stmt->prepare('INSERT INTO posts VALUES (?, ?, ?, ?, NOW())');
 	$stmt->bind_param('ddss', $threadID, $postSucc, $username, $message);
 	
-	
-	
-	echo "$threadID, $postSucc, $username, $message<br/>";
+	//echo "$threadID, $postSucc, $username, $message<br/>";
 	
 	$stmt->execute() or die ('Could not create post, lol1.');
 }
@@ -275,10 +273,11 @@ function createThread($username, $category, $title, $message) {
 	$stmt->execute() or die ('Could not find next threadID');
 	$stmt->bind_result($threadID);
 	$stmt->store_result();
+	$stmt->fetch();
 	
 	$stmt = $mysqli->stmt_init();
 	$stmt->prepare('INSERT INTO threads VALUES (?, ?, ?, ?, 0, NOW(), false, false)');
-	$stmt->bind_param('dss', $threadID, $category, $title, $username);
+	$stmt->bind_param('ddss', $threadID, $category, $title, $username);
 	$stmt->execute() or die ('Could not create thread');
 	
 	//Create first post
@@ -292,6 +291,7 @@ function createThread($username, $category, $title, $message) {
 	
 	$stmt = $mysqli->stmt_init();
 	$stmt->prepare('INSERT INTO posts VALUES (?, ?, ?, ?, NOW())');
+	var_dump($threadID, $postSucc, $username, $message);
 	$stmt->bind_param('ddss', $threadID, $postSucc, $username, $message);
 	$stmt->execute() or die ('Could not create post, lol2.');
 }

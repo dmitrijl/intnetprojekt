@@ -35,11 +35,16 @@
 require 'model/functions.php';
 include 'banner.php';
 
+
+
 if(isset($_GET["category"])) {
 	$categ = $_GET["category"];
 } else {
 	$categ = "BEST CATEGORY EVER!!";
 }
+
+$_GET["createthread"] = true;
+include 'createpost.php';
 
 $categ_name = getCategoryName($categ);
 
@@ -81,7 +86,9 @@ foreach($threads as $th) {
 echo "</table>";
 echo '<br>';
 
-echo "<a href='createpost.php?createthread=true&category=$categ'>Create Thread</a>";
+//echo "<a href='createpost.php?createthread=true&category=$categ'>Create Thread</a>";
+
+
 ?>
 
 </body>

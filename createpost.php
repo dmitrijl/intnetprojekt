@@ -7,18 +7,28 @@
 
 <div style="background-color:#cc00cc;border:1px solid">
 	<?php
-		session_start();
+		//session_start();
+		//include 'model/functions.php';
 		
 		$user = getUsername();
 		
 		if (isset($_POST['post'])) {
 			//User just posted
 			
-			$createpost_result = createPost($user, $_GET['thread'], $_POST['message']);
-			if ($createpost_result == true) {
-				//echo "Successful post!"
+			if (isset($_POST['title'])) {
+				$createthread_result = createThread($user, $_GET['category'], $_POST['title'], $_POST['message']);
+				if ($createthread_result == true) {
+					//echo "Successful thread!"
+				} else {
+					//echo "Failed to thread!"
+				}
 			} else {
-				//echo "Failed to post!"
+				$createpost_result = createPost($user, $_GET['thread'], $_POST['message']);
+				if ($createpost_result == true) {
+					//echo "Successful post!"
+				} else {
+					//echo "Failed to post!"
+				}
 			}
 			
 			//Prevent duplicate posts on refresh.
@@ -28,8 +38,17 @@
 
 		if($user != null) {
 			//logged in - provide a post form
-			echo "Write your message here.";
 			echo "<form id='createpost' action='' method='post'>";
+			
+			//Provide title field if new thread
+			if (isset($_GET['createthread'])) {
+				if ($_GET['createthread'] == true) {
+					echo "Write title here.<br/>";
+					echo "<textarea rows='1' cols='80' name='title' form='createpost'></textarea><br/>";
+				}
+			}
+			
+			echo "Write your message here.<br/>";
 			echo "<textarea rows='6' cols='80' name='message' form='createpost'></textarea>";
 			echo "<br /><input type='submit' name='post' value='Post'>";
 		} else {

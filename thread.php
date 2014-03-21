@@ -30,11 +30,21 @@ echo "<p>WELCOME TO THE VIEW OF POSTS IN THREAD NR $thr</p>";
 $posts = getPosts($thr, 1, 10);
 
 
+echo "<h1>Category: <a href='./forum.php?category=$categ'>$categ_name</a></h1>";
+
+
+
 foreach($posts as $post) {
-	//echo "<p>$post</p>";
-	echo "<p><b>$post->poster:</b> ";
-	echo "$post->message</p>";
+	echo "<div style='border:2px solid;background-color:cyan'><b>".$post->poster.":</b>";
+	echo "".$post->timestamp."";
+	echo "<div style='top:0px;left:0px;background-color:white'>"."[avatar here]"."</div>";
+	echo "".$post->message."</div>";
+	//echo "<td class='col2 smallborder'><a$th->title</td>";
 }
+
+echo "</table>";
+echo '<br>';
+
 
 ?>
 
