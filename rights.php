@@ -21,24 +21,32 @@ Groups:
 
 */
 
-$access = array(
-	"guest" => array(false,false,false,false,false,false,false,false), //guest
-	"user" => array(true,true,false,false,false,false,false,false), //user
-	"bannedUser" => array(false,false,false,false,false,false,false,false), //bannedUser
-	"moderator" => array(true,true,true,true,true,false,true,false), //moderator
-	"admin" => array(true,true,true,true,true,true,true,true) //admin
-);
+
 
 function canDeleteThread($group) {
-	return true;
+	return hasRights($group,2);
 }
 
 function canStickyThread($group) {
-	return true;
+	return hasRights($group,3);
 }
 
 function canLockThread($group) {
-	return true;
+	return hasRights($group,4);
+}
+
+function hasRights($group,$action) {
+	if($group == null) $group = "guest";
+
+	$access = array(
+		"guest" => array(false,false,false,false,false,false,false,false), //guest
+		"user" => array(true,true,false,false,false,false,false,false), //user
+		"bannedUser" => array(false,false,false,false,false,false,false,false), //bannedUser
+		"moderator" => array(true,true,true,true,true,false,true,false), //moderator
+		"administrator" => array(true,true,true,true,true,true,true,true) //admin
+	);
+
+	return $access[$group][$action];
 }
 
 ?>
