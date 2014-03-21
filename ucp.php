@@ -1,6 +1,6 @@
 <!--<link rel="stylesheet" type="text/css" href="css/index.css">-->
 
-<div style="background-color:orange;border:1px solid;">
+<div style="background-color:orange;border:1px solid;width:270px;">
 	<?php
 		
 		if(!isset($_SESSION)) session_start();
