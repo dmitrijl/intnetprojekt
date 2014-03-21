@@ -18,9 +18,9 @@
 			if (isset($_POST['title'])) {
 				$createthread_result = createThread($user, $_GET['category'], $_POST['title'], $_POST['message']);
 				if ($createthread_result == true) {
-					//echo "Successful thread!"
+					//echo "Successful thread creation!"
 				} else {
-					//echo "Failed to thread!"
+					//echo "Failed to create thread!"
 				}
 			} else {
 				$createpost_result = createPost($user, $_GET['thread'], $_POST['message']);
@@ -52,7 +52,11 @@
 			echo "<textarea rows='6' cols='80' name='message' form='createpost'></textarea>";
 			echo "<br /><input type='submit' name='post' value='Post'>";
 		} else {
-			echo "You cannot post in this thread.";
+			if (isset($_GET['createthread']) && $_GET['createthread'] == true) {
+				echo "You cannot create new threads in this forum.";
+			} else {
+				echo "You cannot post in this thread.";
+			}
 		}
 		
 		

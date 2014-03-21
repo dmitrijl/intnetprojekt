@@ -283,7 +283,7 @@ function createThread($username, $category, $title, $message) {
 	//Create first post
 	$stmt = $mysqli->stmt_init();
 	$stmt->prepare('INSERT INTO posts VALUES (?, 1, ?, ?, NOW())');
-	var_dump($threadID, $postSucc, $username, $message);
+	var_dump($threadID, $username, $message);
 	$stmt->bind_param('dss', $threadID, $username, $message);
 	$stmt->execute() or die ('Could not create post, lol2.');
 }
