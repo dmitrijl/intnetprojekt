@@ -281,18 +281,10 @@ function createThread($username, $category, $title, $message) {
 	$stmt->execute() or die ('Could not create thread');
 	
 	//Create first post
-	$postSuccQuery = "SELECT numPosts FROM threads WHERE threadID = ?";
 	$stmt = $mysqli->stmt_init();
-	$stmt->prepare($postSuccQuery);
-	$stmt->bind_param('d', $threadID);
-	$stmt->execute() or die ('Could not find postSucc value');
-	$stmt->bind_result($postSucc);
-	$stmt->store_result();
-	
-	$stmt = $mysqli->stmt_init();
-	$stmt->prepare('INSERT INTO posts VALUES (?, ?, ?, ?, NOW())');
+	$stmt->prepare('INSERT INTO posts VALUES (?, 1, ?, ?, NOW())');
 	var_dump($threadID, $postSucc, $username, $message);
-	$stmt->bind_param('ddss', $threadID, $postSucc, $username, $message);
+	$stmt->bind_param('dss', $threadID, $username, $message);
 	$stmt->execute() or die ('Could not create post, lol2.');
 }
 
