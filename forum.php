@@ -33,6 +33,7 @@
 
 //require 'init.php';
 require 'model/functions.php';
+require 'rights.php';
 include 'banner.php';
 
 
@@ -77,7 +78,7 @@ echo "<td class='col4 smallborder'>Last post at</td></tr>\n";
 //$i = 1;
 foreach($threads as $th) {
 	//author
-	echo "<tr> <td class='col1 smallborder'><b>$th->op</b></td>";
+	echo "<tr> <td class='col1 smallborder'><b>$th->op</b></td>\n";
 	//title
 	echo "<td class='col2 smallborder'><a href='thread.php?thread=".$th->threadID."'>".$th->title."</a>";
 	if($th->sticky) {
@@ -86,10 +87,35 @@ foreach($threads as $th) {
 	if($th->locked) {
 		echo "  <img src='img/locked.png' style='width:14px;height:14px;' title='locked thread'></img>";
 	}
-	echo "</td>";
+	echo "</td>\n";
 	//echo "<td class='col2 smallborder'><a$th->title</td>";
 	//controls
-	echo "<td class='col3 smallborder'>TODO</td>";
+	echo "<td class='col3 smallborder'>";
+	
+	//delete thread
+	if(canDeleteThread(getUserGroup())) {
+		echo "<button type='button' onclick='if(confirm(\"Are you sure you want to delete this thread?\")) ";
+		echo "alert(\"Deleting thread, not implemented.\")' style='width:33%;height:25px;font-size:12px;'>Delete</button>";
+	} 
+	if(canStickyThread(getUserGroup())) {
+		echo "<button type='button' onclick='alert(\"not implemented yet\")' style='width:33%;height:25px;font-size:12px;'>";
+		if($th->sticky) {
+			echo "Un-sticky";
+		} else {
+			echo "Sticky";
+		}
+		echo "</button>";
+	} 
+	if(canLockThread(getUserGroup())) {
+		echo "<button type='button' onclick='alert(\"not implemented yet\")' style='width:33%;height:25px;font-size:12px;'>";
+		if($th->locked) {
+			echo "Unlock";
+		} else {
+			echo "Lock";
+		}
+		echo "</button>";
+	} 
+	echo "</td>\n";
 	//timestamp
 	echo "<td class='col4 smallborder'>$th->timestamp</td></tr>";
 }
