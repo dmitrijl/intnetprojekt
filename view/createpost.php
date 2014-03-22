@@ -8,8 +8,8 @@
 		//session_start();
 		//include 'model/functions.php';
 		
-		//$user = getUsername();
-		$user = $_SESSION['username'];
+		$user = getUsername();
+		//$user = $_SESSION['username'];
 
 		if($user != null) {
 			//logged in - provide a post form

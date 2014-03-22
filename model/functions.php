@@ -132,16 +132,17 @@ function getCategory($catID) {
 	return null;
 }
 
-function getThreads($category,$min,$max,$includestickies) {
+function getThreads($category,$startPost,$amount,$includestickies) {
 	//debug_to_console("Calling getThreads, parameters:");
 	//debug_to_console("Category: ".$category);
 	//debug_to_console("Min: ".$min.". Max: ".$max.". IncludeStickies: ".$includestickies.".");
-
+	$startPost -= 1;
+	
 	$threads = array();
 	$mysqli = dbconnect();
 	$stmt = $mysqli->stmt_init();
-	$stmt->prepare('SELECT * FROM threads WHERE category = ? ORDER BY sticky DESC, timestamp DESC LIMIT 10 OFFSET ?');
-	$stmt->bind_param('ii', $category, $min);
+	$stmt->prepare('SELECT * FROM threads WHERE category = ? ORDER BY sticky DESC, timestamp DESC LIMIT ? OFFSET ?');
+	$stmt->bind_param('iii', $category, $amount, $startPost);
 	$stmt->execute();
 	$stmt->bind_result($threadID, $category, $title, $op, $postCount, $timestamp, $locked, $sticky);
 	$stmt->store_result();
@@ -312,10 +313,52 @@ function createThread($username, $category, $title, $message) {
 
 
 
+function stickyThread($threadID) {
+	toggleThreadSticky($threadID, 1);
+}
+
+function unstickyThread($threadID) {
+	toggleThreadSticky($threadID, 0);
+}
+
+function lockThread($threadID) {
+	toggleThreadLock($threadID, 1);
+}
+
+function unlockThread($threadID) {
+	toggleThreadLock($threadID, 0);
+}
+
+
+function toggleThreadSticky($threadID, $sticky) {
+	if (getUserGroup() == 'administrator') {
+		$mysqli = dbconnect();
+		$stmt = $mysqli->stmt_init();
+		$stmt->prepare('UPDATE threads SET sticky = ? WHERE threadID = ?');
+		$stmt->bind_param('ii', $sticky, $threadID);
+		$stmt->execute() or die ('Could not change stickiness of thread');
+	}
+}
+
+
+function toggleThreadLock($threadID, $locked) {
+	if (getUserGroup() == 'administrator') {
+		$mysqli = dbconnect();
+		$stmt = $mysqli->stmt_init();
+		$stmt->prepare('UPDATE threads SET locked = ? WHERE threadID = ?');
+		$stmt->bind_param('ii', $locked, $threadID);
+		$stmt->execute() or die ('Could not change stickiness of thread');
+	}
+}
 
 
 
-// Old reused functions from basketcamp
+
+
+
+
+
+
 
 // Salt Generator
 function generate_salt() {
@@ -369,9 +412,7 @@ function change_userinfo($req_username,$req_password,$req_avatar,$req_signature)
 		$req_signature = $user->signature;
 	}
 
-	//$mysqli = dbconnect();
 	$stmt = $mysqli->stmt_init();
-	//$stmt->prepare('INSERT INTO users VALUES (?, ?, ?, "user", NULL, NULL, 0)');
 	$stmt->prepare('UPDATE users SET password = ?, salt = ?, avatar = ?, signature = ? WHERE username = ?');
 	$stmt->bind_param('sssss', $req_password,$req_salt,$req_avatar,$req_signature,$req_username);
 	$stmt->execute() or die ('Could not update user info properly');

@@ -71,7 +71,7 @@ $threadsperpage = 10;
 $max = $page * $threadsperpage;
 $min = $max - $threadsperpage + 1;
 
-$threads = getThreads($categ,$min,$max,false);
+$threads = getThreads($categ,$min,$threadsperpage,true);
 //$threads = getThreads($categ,$min,$max,false);
 //$stickies = getStickiedThreads($categ);
 //$threads = getThreads($mysqli);
@@ -106,28 +106,34 @@ foreach($threads as $th) {
 	echo "<td class='col3 smallborder'>";
 	
 	//delete thread
+	echo "<form action='' method='post'>";
 	if(canDeleteThread(getUserGroup())) {
-		echo "<button type='button' onclick='if(confirm(\"Are you sure you want to delete this thread?\")) ";
+		echo "<button value=".$th->threadID." name='delete' type='submit' onclick='if(confirm(\"Are you sure you want to delete this thread?\")) ";
 		echo "alert(\"Deleting thread, not implemented.\")' style='width:33%;height:25px;font-size:12px;'>Delete</button>";
 	} 
 	if(canStickyThread(getUserGroup())) {
-		echo "<button type='button' onclick='alert(\"not implemented yet\")' style='width:33%;height:25px;font-size:12px;'>";
+		$sticky = NULL;
 		if($th->sticky) {
-			echo "Unsticky";
+			$sticky = "Unsticky";
 		} else {
-			echo "Sticky";
+			$sticky = "Sticky";
 		}
+		echo "<button value=".$th->threadID." name='".strtolower($sticky)."' type='submit' onclick='' style='width:33%;height:25px;font-size:12px;'>";
+		echo $sticky;
 		echo "</button>";
-	} 
+	}
 	if(canLockThread(getUserGroup())) {
-		echo "<button type='button' onclick='alert(\"not implemented yet\")' style='width:33%;height:25px;font-size:12px;'>";
+		$lock = NULL;
 		if($th->locked) {
-			echo "Unlock";
+			$lock = "Unlock";
 		} else {
-			echo "Lock";
+			$lock = "Lock";
 		}
+		echo "<button value=".$th->threadID." name='".strtolower($lock)."' type='submit' onclick='' style='width:33%;height:25px;font-size:12px;'>";
+		echo $lock;
 		echo "</button>";
 	} 
+	echo "</form>";
 	echo "</td>\n";
 	//numPosts
 	echo "<td class='col4 smallborder'>$th->postCount</td>";
