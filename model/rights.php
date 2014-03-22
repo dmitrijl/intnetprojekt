@@ -35,6 +35,10 @@ function canLockThread($group) {
 	return hasRights($group,4);
 }
 
+function canPromote($group) {
+	return hasRights($group,7);
+}
+
 function hasRights($group,$action) {
 	if($group == null) $group = "guest";
 
