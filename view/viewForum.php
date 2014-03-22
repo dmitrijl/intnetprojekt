@@ -137,7 +137,7 @@ foreach($threads as $th) {
 echo "</table>";
 echo '<br>';
 
-$maxpage=((int)((getCategory($categ)->numThreads)/10))+1;
+$maxpage=((int)((getCategory($categ)->numThreads)/$threadsperpage))+1;
 //$threads = getThreads($categ,$min,$max,false);
 //getCategory($categ);
 //$maxpage=10;

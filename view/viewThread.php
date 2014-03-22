@@ -3,6 +3,7 @@
 <head>
 <link rel="stylesheet" type="text/css" href="css/index.css">
 <link rel="stylesheet" type="text/css" href="css/viewThreads.css">
+<link rel="stylesheet" type="text/css" href="css/numlinkstyle.css">
 </head>
 
 
@@ -17,18 +18,30 @@
 //include 'banner.php';
 //echo "<a href='createpost.php?createthread=false&thread=$thr'>Create post</a>";
 //include 'createpost.php';
+require_once($_SERVER['DOCUMENT_ROOT'].'/view/numlinkfunctions.php'); 
 
 if (isset($_GET["thread"])) {
 	$thr = $_GET["thread"];
 } else {
-	$thr = "BEST THREAD EVER!!";
+	$thr = "1";
+}
+
+if(isset($_GET["page"])) {
+	$page = $_GET["page"];
+	if(is_int(intval($page)) && $page > 0) {
+		//do nothing
+	} else {
+		$page = 1;
+	}
+} else {
+	$page = 1;
 }
 //echo "<p>WELCOME TO THE VIEW OF POSTS IN THREAD NR $thr</p>";
 ?>
 </div>
 <?php
 
-$posts = getPosts($thr, 1, 10);
+
 
 $thread = getThread($thr);
 $category = getCategory($thread->category);
@@ -54,7 +67,14 @@ echo "</div>";
 }
 */
 
+$postsperpage = 10;
+$max = $page * $postsperpage;
+$min = $max - $postsperpage + 1;
+$posts = getPosts($thr, $min, $max);
 
+//page menu
+$maxpage=((int)(($thread->postCount)/$postsperpage))+1;
+numlinks($page, $maxpage, 9, 'index.php', "view=viewThread&thread=".$thr);
 
 foreach ($posts as $post) {
 	//User info bar
@@ -113,7 +133,7 @@ foreach ($posts as $post) {
 
 //echo "</table>";
 echo '<br>';
-
+numlinks($page, $maxpage, 9, 'index.php', "view=viewThread&thread=".$thr);
 
 ?>
 
