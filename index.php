@@ -6,7 +6,6 @@
 
 
 <?php
-
 srand();
 session_start();
 require 'model/functions.php';
