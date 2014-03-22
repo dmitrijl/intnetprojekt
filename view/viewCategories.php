@@ -14,7 +14,11 @@
 
 <?php
 
-$cats = getCategories();
+if (!isset($cats)) {
+	$cats = getCategories();
+} else {
+	//echo "cats wasset";
+}
 
 foreach($cats as $cat) {
 	echo "<div><p><category>\n";

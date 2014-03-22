@@ -161,23 +161,30 @@ if (isset($_POST['post'])) {
 
 
 if (!isset($_GET['view']) || $_GET['view'] == 'viewCategories') {
-	//No action specified. List categories;
-	//echo "viewCategories";
+
+	//$cats = getCategories();
 	include 'view/viewCategories.php';
+	
 } else if ($_GET['view'] == 'viewForum') {
-	//echo "viewForum";
+
+
 	$_GET["createthread"] = true;
 	include 'view/viewForum.php';
 	include 'view/createpost.php';
+	
 } else if ($_GET['view'] == 'viewThread') {
-	//echo "viewThread";
+
+	$posts = getPosts();
 	include 'view/viewThread.php';
 	include 'view/createpost.php';
+	
 } else if ($_GET['view'] == 'editprofile') {
-	//echo "editProfile";
+
 	include 'view/editprofile.php';
+	
 } else {
 	//echo "Unspecified action.";
+	
 }
 
 echo "</div>";

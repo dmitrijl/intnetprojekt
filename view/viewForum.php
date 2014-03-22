@@ -51,9 +51,6 @@ if(isset($_GET["category"])) {
 	$categ = "BEST CATEGORY EVER!!";
 }
 
-//$_GET["createthread"] = true;
-//include 'createpost.php';
-
 $categ_name = getCategoryName($categ);
 
 if(isset($_GET["page"])) {
@@ -71,7 +68,12 @@ $threadsperpage = 10;
 $max = $page * $threadsperpage;
 $min = $max - $threadsperpage + 1;
 
-$threads = getThreads($categ,$min,$threadsperpage,true);
+if (!isset($threads)) {
+	$threads = getThreads($categ,$min,$threadsperpage,true);
+} else {
+	//echo "threads wasset";
+}
+
 //$threads = getThreads($categ,$min,$max,false);
 //$stickies = getStickiedThreads($categ);
 //$threads = getThreads($mysqli);
