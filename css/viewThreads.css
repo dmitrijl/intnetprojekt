@@ -1,0 +1,75 @@
+.post {
+	position:relative;
+	width:100%;
+}
+
+.topbar {
+	width:100%;
+	background-color:cyan;
+	margin-top:3px;
+	padding: 2px;
+	border: 1px solid;
+}
+
+.postbodytable {
+	padding:0px;
+	width:100%;
+	border:1px solid;
+}
+
+.postbodytr {
+	border:1px solid;
+}
+
+.posterinfo {
+	border-right: 2px solid grey;
+	width:110px;
+	overflow:hidden;
+	background-color:#EEEECC;
+	vertical-align:top;
+}
+
+.avatar {
+	width:100px;
+	height:100px;
+}
+
+.postername {
+	margin-left:1px;
+	font-size:15px;
+	height:15px;
+	font-weight:bold;
+	padding-bottom:0px;
+}
+
+.posteradmin {
+	font-size:14px;
+	height:15px;
+	padding-bottom:0px;
+	padding-top:0px;
+}
+
+.posterpostcount {
+	font-size:14px;
+	height:15px;
+	padding-bottom:0px;
+	padding-top:0px;
+}
+
+.rest {
+	opacity:0.0;
+	height:100%;
+}
+
+.postmessage {
+	vertical-align:text-top;
+	overflow:auto;
+	family-font:arial;
+	font-size:17px;
+}
+
+.signature {
+	border:1px solid;
+	border-top: 2px solid;
+	width:100%;
+}
