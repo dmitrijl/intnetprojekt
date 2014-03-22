@@ -72,6 +72,7 @@ $max = $page * $threadsperpage;
 $min = $max - $threadsperpage + 1;
 
 $threads = getThreads($categ,$min,$max,false);
+//$threads = getThreads($categ,$min,$max,false);
 //$stickies = getStickiedThreads($categ);
 //$threads = getThreads($mysqli);
 
@@ -135,7 +136,10 @@ foreach($threads as $th) {
 echo "</table>";
 echo '<br>';
 
-$maxpage=10; //TODO
+$maxpage=((int)((getCategory($categ)->numThreads)/10))+1;
+//$threads = getThreads($categ,$min,$max,false);
+//getCategory($categ);
+//$maxpage=10;
 numlinks($page, $maxpage, 9, 'index.php', "view=viewForum&category=$categ");
 ?>
 

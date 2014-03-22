@@ -118,11 +118,12 @@ function getCategories() {
 }
 
 function getCategory($catID) {
+	$mysqli = dbconnect();
 	$stmt = $mysqli->stmt_init();
-	$stmt->prepare('SELECT * FROM categories WHERE category = ?');
+	$stmt->prepare('SELECT * FROM categories WHERE id = ?');
 	$stmt->bind_param('i', $catID);
 	$stmt->execute();
-	$stmt->bind_result($threadID, $category, $title, $op, $postCount, $timestamp, $locked, $sticky);
+	$stmt->bind_result($id, $name, $numthreads);
 	$stmt->store_result();
 	while ($stmt->fetch()) {
 		return new Category($id, $name, $numthreads);
@@ -142,7 +143,7 @@ function getThreads($category,$min,$max,$includestickies) {
 	$stmt->prepare('SELECT * FROM threads WHERE category = ? ORDER BY sticky DESC, timestamp DESC');
 	$stmt->bind_param('i', $category);
 	$stmt->execute();
-	$stmt->bind_result($id, $name, $numthreads);
+	$stmt->bind_result($threadID, $category, $title, $op, $postCount, $timestamp, $locked, $sticky);
 	$stmt->store_result();
 	
 	while ($stmt->fetch()) {
@@ -163,6 +164,7 @@ function getStickiedThreads($category) {
 }
 
 function getThread($threadID) {
+	$mysqli = dbconnect();
 	$stmt = $mysqli->stmt_init();
 	$stmt->prepare('SELECT * FROM threads WHERE threadID = ?');
 	$stmt->bind_param('i', $threadID);
