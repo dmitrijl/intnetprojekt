@@ -32,10 +32,10 @@
 </style>
 
 <?php
-//require_once($_SERVER['DOCUMENT_ROOT'].'/view/numlinkfunctions.php'); 
-//require_once($_SERVER['DOCUMENT_ROOT'].'/model/rights.php');
-require_once('model/rights.php');
-require_once('view/numlinkfunctions.php'); 
+require_once($_SERVER['DOCUMENT_ROOT'].'/view/numlinkfunctions.php'); 
+require_once($_SERVER['DOCUMENT_ROOT'].'/model/rights.php');
+//require_once('model/rights.php');
+//require_once('view/numlinkfunctions.php'); 
 ?>
 
 </head>
@@ -76,7 +76,7 @@ $threads = getThreads($categ,$min,$max,false);
 //$stickies = getStickiedThreads($categ);
 //$threads = getThreads($mysqli);
 echo "<div> <a href='index.php'>Home</a> </div>\n";
-
+//echo phpversion();
 echo "<h1>Category: <a href='./index.php?view=viewForum&category=$categ'>$categ_name</a></h1>";
 
 echo "<table style='width:90%;border:1px solid black;'>\n";
@@ -138,6 +138,15 @@ echo "</table>";
 echo '<br>';
 
 $maxpage=((int)((getCategory($categ)->numThreads)/$threadsperpage))+1;
+/*$tmp = getCategory($categ);
+
+//echo "NUMTHREADS:".$tmp->name."\n";
+if($tmp->numThreads==null) {
+echo "NULL\n";
+} else {
+echo "NOTNULL\n";
+}
+echo "MAXPAGE:".$maxpage."\n";*/
 //$threads = getThreads($categ,$min,$max,false);
 //getCategory($categ);
 //$maxpage=10;
