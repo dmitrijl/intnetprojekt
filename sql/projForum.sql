@@ -78,6 +78,7 @@ CREATE TRIGGER decrease_numThreads AFTER DELETE ON threads
 CREATE TRIGGER increase_numPosts AFTER INSERT ON posts
 	FOR EACH ROW BEGIN
 		UPDATE threads SET numPosts = numPosts+1 WHERE threadID = NEW.threadID;
+		UPDATE users SET postCount = postCount+1 WHERE users.username = NEW.poster;
 	END;
 |
 
@@ -86,6 +87,7 @@ CREATE TRIGGER decrease_numPosts AFTER DELETE ON posts
 		UPDATE threads SET numPosts = numPosts-1 WHERE threadID = OLD.threadID;
 	END;
 |
+
 
 DELIMITER ;
 

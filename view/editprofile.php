@@ -25,7 +25,7 @@ if (pass1 == null || pass1 == "") {
 	alert("Cannot have an empty password!");
 	return false;
 }
-alert("Password ok. Not implemented yet.");
+//alert("Password ok. Not implemented yet.");
 }
 </script>
 
@@ -36,43 +36,67 @@ alert("Password ok. Not implemented yet.");
 <h1> Edit your Profile </h1>
 <h2> You can change your password, upload an avatar, and change signature. </h2>
 <br><br>
-<div class="edit" style="width=100%;height:200px;">
-	<p class="title">Upload an avatar!</p>
-	<div style="position:relative">
-		<form action="" method="post" enctype="multipart/form-data" onsubmit="alert('Uploading file. Not implemented yet.')">
-			<label for="file">Filename:</label>
-			<input type="file" name="file" id="file"><br>
-			<input type="submit" name="submit" value="Upload and change!">
-		</form>
-<?php
-		$userarray = getUserInfo(getUsername());
-		if(count($userarray) > 0) {
-			$user = getUserInfo(getUsername())[0];
-		} else {
-			$user = null;
-		}
-		//echo "USER: ".$user;
+<div class="edit" style="width=100%">
+<p class="title">Change avatar!</p>
+<div style="position:relative">
+<!--<form action="" method="post" enctype="multipart/form-data" onsubmit="alert('Uploading file. Not implemented yet.')">-->
+<form action="" method="post" enctype="multipart/form-data" onsubmit="">
+<!--<label for="file">Filename:</label>
+<input type="file" name="file" id="file"><br>
+<button type="submit" name="editProfile" value="changeAvatar">Upload and change!</button>-->
 
-		if($user != null) {
-			$avatar = $user->avatar;
-			if($avatar == null || $avatar == "") {
-				echo "<p>You have no avatar currently uploaded</p>";
-			} else {
-				echo "<div style='position:relative;top:-50px;left:300px;'>";
-				echo "<p style='vertical-align:text-middle'>Current avatar:</p>";
-				echo "<img src='img/avatars/".$avatar."' style='width:100px;height:100px;'></img></div>";
-			}
-		} else {
-			echo "You are not logged in what are you doing on this page?";
-		}
+
+<?php
+
+$userarray = getUserInfo(getUsername());
+if(count($userarray) > 0) {
+	$user = getUserInfo(getUsername())[0];
+} else {
+	$user = null;
+}
+//echo "USER: ".$user;
+
+if($user != null) {
+	$avatar = $user->avatar;
+	if($avatar == null || $avatar == "") {
+		echo "<p>You have no avatar currently uploaded</p>";
+	} else {
+		echo "<div style='position:relative;'>";
+		echo "<p style='vertical-align:text-middle'>Current avatar:</p>";
+		echo "<img src='img/avatars/".$avatar."' style='width:100px;height:100px;'></img></div>";
+	}
+} else {
+	echo "You are not logged in what are you doing on this page?";
+}
+
+
+$directory = "img/avatars/";
+
+//get all text files with a .txt extension.
+$pics = glob($directory . "*.png");
+
+echo "<br />";
+echo "<p style='vertical-align:text-middle'>Choose a new avatar:</p>";
+
+//print each file name
+foreach($pics as $pic) {
+	echo '<input type="checkbox" name="avatar" value="'.substr($pic, strlen($directory)).'">';
+	echo '<img src="'.$pic.'" width="32px" height="32px" >';
+}
+echo "<br />";
+
 ?>
-	</div>
+<button type="submit" name="editProfile" value="changeAvatar">Change!</button>
+</form>
+
+</div>
 </div>
 
 <br><br><br>
-<div class="edit" style="width=100%;height:200px;">
-	<p class="title">Change your signature</p>
-	<textarea rows="6" cols="80" name="comment" form="usrform">
+<div class="edit" style="width=100%;">
+<form action="" method="post" enctype="multipart/form-data" onsubmit="alert('Changing signature.')">
+<p class="title">Change your signature</p>
+<textarea rows="6" cols="80" name="signature">
 <?php
 if($user != null) {
 	$signature = $user->signature;
@@ -84,17 +108,17 @@ if($user != null) {
 }
 ?>
 </textarea>
-	<form id="sigform" action="" method="post" enctype="multipart/form-data" onsubmit="alert('Changing signature.')">
-		<input type="submit" name="submit" value="Change!">
-	</form>
-</div
+<br />
+<button type="submit" name="editProfile" value="changeSignature">Change!</button>
+</form>
+</div>
 <br><br><br>
-<div class="edit" style="width=100%;height:200px;">
+<div class="edit" style="width=100%;">
 	<p class="title">Change your password</p>
 	<form name="changepass" action="" method="post" enctype="multipart/form-data" onsubmit="validateForm()">
-		New password: <input type="password" name="newpass1"><br>
-		New password repeated: <input type="password" name="newpass2"><br>
-		<input type="submit" name="submit" value="Change!">
+		New password: <input type="password" name="password"><br>
+		New password repeated: <input type="password" name="password2"><br>
+		<button type="submit" name="editProfile" value="changePassword">Change!</button>
 	</form>
 </div>
 <br><br><br>

@@ -340,7 +340,7 @@ function user_register($username, $password) {
 }
 
 
-function change_userinfo($req_username,$password,$avatar,$signature) {
+function change_userinfo($req_username,$req_password,$req_avatar,$req_signature) {
 
 	$users = array();
 	$mysqli = dbconnect();
@@ -351,29 +351,29 @@ function change_userinfo($req_username,$password,$avatar,$signature) {
 	$stmt->bind_result($username,$password,$salt,$admin,$avatar,$signature,$postCount);
 	$stmt->store_result();
 	
-	while ($stmt->fetch()) {
-		$users[] = new User($username,$password,$salt,$admin,$avatar,$signature,$postCount);
+	if ($stmt->fetch()) {
+		$user = new User($username,$password,$salt,$admin,$avatar,$signature,$postCount);
 	}
-	
-	if ($password == NULL) {
-		$password = $user->password;
-		$salt = $user->salt;
+
+	if ($req_password == NULL) {
+		$req_password = $user->password;
+		$req_salt = $user->salt;
 	} else {
-		$salt = generate_salt();
-		$password = md5(md5($password).$salt);
+		$req_salt = generate_salt();
+		$req_password = md5(md5($req_password).$req_salt);
 	}
-	if ($avatar == NULL) {
-		$avatar = $user->avatar;
+	if ($req_avatar == NULL) {
+		$req_avatar = $user->avatar;
 	}
-	if ($signature == NULL) {
-		$signature = $user->signature;
+	if ($req_signature == NULL) {
+		$req_signature = $user->signature;
 	}
 
 	//$mysqli = dbconnect();
 	$stmt = $mysqli->stmt_init();
 	//$stmt->prepare('INSERT INTO users VALUES (?, ?, ?, "user", NULL, NULL, 0)');
 	$stmt->prepare('UPDATE users SET password = ?, salt = ?, avatar = ?, signature = ? WHERE username = ?');
-	$stmt->bind_param('sssss', $password, $salt, $avatar, $signature, $req_username);
+	$stmt->bind_param('sssss', $req_password,$req_salt,$req_avatar,$req_signature,$req_username);
 	$stmt->execute() or die ('Could not update user info properly');
 }
 
@@ -400,6 +400,7 @@ function user_login($req_username, $req_password) {
 		//Success!
 		$encrypted_name = md5($user->username);
 		//session_start();
+		$_SESSION['user'] = $user;
 		$_SESSION['username'] = $user->username;
 		$_SESSION['encrypted_name'] = $encrypted_name;
 		$_SESSION['admin'] = $user->admin;

@@ -11,6 +11,7 @@ srand();
 session_start();
 require 'model/functions.php';
 
+
 if (isset($_POST['action'])) {
 
 	if ($_POST['action'] == 'login') {
@@ -50,7 +51,7 @@ if (isset($_POST['action'])) {
 			//echo "post vars not set";
 		}
 
-	} else {
+	}  else {
 		//echo "Unspecified action.";
 	}
 	
@@ -58,6 +59,37 @@ if (isset($_POST['action'])) {
 	header("Location: " . $_SERVER['REQUEST_URI']);
   exit();
 }
+
+if (isset($_POST['editProfile'])) {
+	$username = getUsername();
+	$password = NULL;
+	$avatar = NULL;
+	$signature = NULL;
+
+	if (isset($_POST['avatar'])) {
+		$avatar = $_POST['avatar'];
+	}
+	if (isset($_POST['signature'])) {
+		$signature = $_POST['signature'];
+	}
+	if (isset($_POST['password'])) {
+		$password = $_POST['password'];
+	}
+	
+	//var_dump($_POST);
+	//var_dump($username,$password,$avatar,$signature);
+	//array(2) { ["signature"]=> string(3) "123" ["editProfile"]=> string(15) "changeSignature" }
+	//string(5) "admin" NULL NULL string(3) "123"
+	//echo "<br />";
+	
+	change_userinfo($username,$password,$avatar,$signature);
+	//Redirect home
+	header("Location: " . $_SERVER['REQUEST_URI']);
+  exit();
+}
+
+
+
 
 ?>
 
@@ -70,7 +102,6 @@ if (isset($_POST['action'])) {
 include "view/banner.php";
 
 echo "<div style='position:relative;margin: 8px;' >";
-
 
 if (isset($_POST['post'])) {
 	//User just posted
