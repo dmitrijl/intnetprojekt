@@ -19,7 +19,7 @@ class Category {
 	function __construct($id,$name,$numthreads) {
 		$this->id = $id;
 		$this->name = $name;
-		$this->numthreads = $numthreads;
+		$this->numThreads = $numthreads;
 	}
 }
 
