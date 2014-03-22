@@ -140,8 +140,8 @@ function getThreads($category,$min,$max,$includestickies) {
 	$threads = array();
 	$mysqli = dbconnect();
 	$stmt = $mysqli->stmt_init();
-	$stmt->prepare('SELECT * FROM threads WHERE category = ? ORDER BY sticky DESC, timestamp DESC');
-	$stmt->bind_param('i', $category);
+	$stmt->prepare('SELECT * FROM threads WHERE category = ? ORDER BY sticky DESC, timestamp DESC LIMIT 10 OFFSET ?');
+	$stmt->bind_param('ii', $category, $min);
 	$stmt->execute();
 	$stmt->bind_result($threadID, $category, $title, $op, $postCount, $timestamp, $locked, $sticky);
 	$stmt->store_result();
