@@ -37,7 +37,10 @@
 
 //require 'init.php';
 //require 'model/functions.php';
-require $_SERVER['DOCUMENT_ROOT'].'/model/rights.php';
+//require $_SERVER['DOCUMENT_ROOT'].'/rights.php';
+//require 'model/rights.php';
+//require $_SERVER['DOCUMENT_ROOT'].'/model/rights.php';
+require 'model/rights.php';
 
 
 if(isset($_GET["category"])) {
@@ -70,7 +73,7 @@ $threads = getThreads($categ,$min,$max,false);
 //$stickies = getStickiedThreads($categ);
 //$threads = getThreads($mysqli);
 
-echo "<h1>Category: <a href='./index.php?action=viewForum&category=$categ'>$categ_name</a></h1>";
+echo "<h1>Category: <a href='./index.php?view=viewForum&category=$categ'>$categ_name</a></h1>";
 
 echo "<table style='width:90%;border:1px solid black;'>\n";
 echo "<tr> <td class='col1 smallborder'>Author</td>";
@@ -91,7 +94,7 @@ foreach($threads as $th) {
 	if($th->locked) {
 		echo "  <img src='img/locked.png' style='width:14px;height:14px;' title='locked thread'></img>";
 	}
-	echo "<a href='index.php?action=viewThread&thread=".$th->threadID."'>".$th->title."</a></td>\n";
+	echo "<a href='index.php?view=viewThread&thread=".$th->threadID."'>".$th->title."</a></td>\n";
 
 	
 	//echo "<td class='col2 smallborder'><a$th->title</td>";
@@ -130,9 +133,6 @@ foreach($threads as $th) {
 
 echo "</table>";
 echo '<br>';
-
-//echo "<a href='createpost.php?createthread=true&category=$categ'>Create Thread</a>";
-
 
 ?>
 
