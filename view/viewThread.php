@@ -30,6 +30,11 @@ if (isset($_GET["thread"])) {
 
 $posts = getPosts($thr, 1, 10);
 
+$thread = getThread($thr);
+$category = getCategory($thread->category);
+echo "<div> <a href='index.php'>Home</a> -&gt ";
+echo "<a href='index.php?view=viewForum&category=".$thread->category."'>".$category->name."</a></div>\n";
+echo "<h1>".$thread->title."</h1>";
 
 //echo "<h1>Category: <a href='./forum.php?category=$categ'>$categ_name</a></h1>";
 
