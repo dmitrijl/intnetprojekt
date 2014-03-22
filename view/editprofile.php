@@ -33,6 +33,7 @@ if (pass1 == null || pass1 == "") {
 </head>
 
 <body>
+<div> <a href='index.php'>Home</a> </div>
 <h1> Edit your Profile </h1>
 <h2> You can change your password, upload an avatar, and change signature. </h2>
 <br><br>
