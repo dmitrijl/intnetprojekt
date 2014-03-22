@@ -50,14 +50,38 @@ if (isset($_POST['action'])) {
 			//echo "post vars not set";
 		}
 
-	}  else {
+	} 
+	
+	
+	
+	else {
 		//echo "Unspecified action.";
 	}
 	
+
 	//Redirect home
-	header("Location: " . $_SERVER['REQUEST_URI']);
-  exit();
+	//header("Location: " . $_SERVER['REQUEST_URI']);
+  //exit();
 }
+
+
+if (isset($_POST['lock'])) {
+	$threadID = intval($_POST['lock']);
+	lockThread($threadID);
+} else if (isset($_POST['unlock'])) {
+	$threadID = intval($_POST['unlock']);
+	unlockThread($threadID);
+} else if (isset($_POST['sticky'])) {
+	$threadID = intval($_POST['sticky']);
+	stickyThread($threadID);
+} else if (isset($_POST['unsticky'])) {
+	$threadID = intval($_POST['unsticky']);
+	unstickyThread($threadID);
+} else if (isset($_POST['delete'])) {
+	$threadID = intval($_POST['delete']);
+	//TODO delete thread
+}
+
 
 if (isset($_POST['editProfile'])) {
 	$username = getUsername();
@@ -83,11 +107,19 @@ if (isset($_POST['editProfile'])) {
 	
 	change_userinfo($username,$password,$avatar,$signature);
 	//Redirect home
-	header("Location: " . $_SERVER['REQUEST_URI']);
-  exit();
+	//header("Location: " . $_SERVER['REQUEST_URI']);
+  //exit();
 }
 
 
+
+if (sizeof($_POST) > 0) {
+	//var_dump($_POST);
+	header("Location: " . $_SERVER['REQUEST_URI']);
+  exit();
+} else {
+	//var_dump($_POST);
+}
 
 
 ?>

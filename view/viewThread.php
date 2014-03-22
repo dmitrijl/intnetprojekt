@@ -13,12 +13,9 @@
 <div id="banner">
 <?php
 
-//require 'init.php';
-//require 'model/functions.php';
-//include 'banner.php';
-//echo "<a href='createpost.php?createthread=false&thread=$thr'>Create post</a>";
-//include 'createpost.php';
-require_once($_SERVER['DOCUMENT_ROOT'].'/view/numlinkfunctions.php'); 
+
+//require_once($_SERVER['DOCUMENT_ROOT'].'/view/numlinkfunctions.php');
+require_once('view/numlinkfunctions.php');  
 
 if (isset($_GET["thread"])) {
 	$thr = $_GET["thread"];
