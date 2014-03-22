@@ -61,6 +61,7 @@ foreach ($posts as $post) {
 	echo "border:1px solid #eeeeee;'>";
 	//echo "border: 4px solid;' >";
 	echo "<b>".$user->username."&nbsp; &nbsp; </b>".$post->timestamp;
+	echo "   ".$user->admin."   Posts: ".$user->postCount;
 	echo "</div>";
 	
 	//Avatar + message
@@ -75,7 +76,8 @@ foreach ($posts as $post) {
 	echo "</div>";
 	
 	//Messsage
-	echo "<div style='padding: 5px;'>".$post->message."</div>";
+	echo "<div style='padding: 5px;'><p style='text-spacing:none;'>";
+	echo nl2br($post->message)."</p></div>";
 	
 	echo "<hr/>";
 	echo $user->signature;
