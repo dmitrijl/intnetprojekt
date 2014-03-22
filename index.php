@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-gb" xml:lang="en-gb">
 <head>
+<link rel="icon" href="img/favicon.ico" />
 <link rel="stylesheet" type="text/css" href="css/index.css">
 </head>
 
