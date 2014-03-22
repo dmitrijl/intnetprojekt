@@ -2,6 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-gb" xml:lang="en-gb">
 <head>
 <link rel="stylesheet" type="text/css" href="css/index.css">
+<link rel="stylesheet" type="text/css" href="css/numlinkstyle.css">
+
 <style>
 .col1 {
 	width:14%;
@@ -34,13 +36,13 @@
 
 
 <?php
-
+require_once($_SERVER['DOCUMENT_ROOT'].'/view/numlinkfunctions.php'); 
 //require 'init.php';
 //require 'model/functions.php';
 //require $_SERVER['DOCUMENT_ROOT'].'/rights.php';
 //require 'model/rights.php';
 //require $_SERVER['DOCUMENT_ROOT'].'/model/rights.php';
-require 'model/rights.php';
+require $_SERVER['DOCUMENT_ROOT'].'/model/rights.php';
 
 
 if(isset($_GET["category"])) {
@@ -56,7 +58,7 @@ $categ_name = getCategoryName($categ);
 
 if(isset($_GET["page"])) {
 	$page = $_GET["page"];
-	if(is_int($page) && $page > 0) {
+	if(is_int(intval($page)) && $page > 0) {
 		//do nothing
 	} else {
 		$page = 1;
@@ -64,6 +66,7 @@ if(isset($_GET["page"])) {
 } else {
 	$page = 1;
 }
+//echo "<h1>Page is $page</h1>";
 $threadsperpage = 10;
 $max = $page * $threadsperpage;
 $min = $max - $threadsperpage + 1;
@@ -129,10 +132,11 @@ foreach($threads as $th) {
 	//timestamp
 	echo "<td class='col5 smallborder'>$th->timestamp</td></tr>";
 }
-
 echo "</table>";
 echo '<br>';
 
+$maxpage=10; //TODO
+numlinks($page, $maxpage, 9, 'index.php', "view=viewForum&category=$categ");
 ?>
 
 </body>
