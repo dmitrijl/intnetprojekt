@@ -3,8 +3,8 @@
 <head>
 <link rel="stylesheet" type="text/css" href="css/index.css">
 <?php
-require 'model/functions.php';
-include 'view/banner.php';
+//require '../model/functions.php';
+//require 'model/functions.php';
 ?>
 
 <script>
@@ -55,7 +55,7 @@ alert("Password ok. Not implemented yet.");
 
 		if($user != null) {
 			$avatar = $user->avatar;
-			if($avatar == null || $avatar =="") {
+			if($avatar == null || $avatar == "") {
 				echo "<p>You have no avatar currently uploaded</p>";
 			} else {
 				echo "<div style='position:relative;top:-50px;left:300px;'>";
@@ -100,3 +100,5 @@ if($user != null) {
 <br><br><br>
 
 </body>
+</html>
+

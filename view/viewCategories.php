@@ -18,7 +18,7 @@ $cats = getCategories();
 
 foreach($cats as $cat) {
 	echo "<div><p><category>\n";
-	echo "<a href='index.php?action=viewForum&category=".$cat->id."'>".$cat->name."</a><br>\n";
+	echo "<a href='index.php?view=viewForum&category=".$cat->id."'>".$cat->name."</a><br>\n";
 	echo "</category></p></div>\n\n";
 }
 
