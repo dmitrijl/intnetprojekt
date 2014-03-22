@@ -1,7 +1,8 @@
 <div class="top">
-	
-	<a href="./index.php"><img class="banner" src="./img/banner.png" /></a>
-	<div style="position:relative; width:250px; height:90px; margin-left:auto; margin-right:20px; top: 15px; background-color:white;">
+	<div class="banner">
+	<a href="./index.php"><img src="./img/banner.png" height="100%" width="100%" /></a>
+	</div>
+	<div class="ucpbox">
 		<?php
 			//include $_SERVER['DOCUMENT_ROOT'].'/ucp.php';
 			include 'ucp.php';

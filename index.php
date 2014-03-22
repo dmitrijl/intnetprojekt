@@ -6,12 +6,15 @@
 </head>
 
 <body>
+
 <?php
 //require 'init.php';
 session_start();
 require 'model/functions.php';
 include "view/banner.php";
 //include "view/ucp.php";
+
+echo "<div style='position:relative;margin: 8px;' >";
 
 if (!isset($_GET['action']) || $_GET['action'] == 'viewCategories') {
 	//No action specified. List categories;
@@ -29,6 +32,8 @@ if (!isset($_GET['action']) || $_GET['action'] == 'viewCategories') {
 } else {
 	//echo "Unspecified action.";
 }
+
+echo "</div>";
 
 ?>
 
