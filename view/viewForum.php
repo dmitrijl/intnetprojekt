@@ -75,6 +75,7 @@ $threads = getThreads($categ,$min,$max,false);
 //$threads = getThreads($categ,$min,$max,false);
 //$stickies = getStickiedThreads($categ);
 //$threads = getThreads($mysqli);
+echo "<div> <a href='index.php'>Home</a> </div>\n";
 
 echo "<h1>Category: <a href='./index.php?view=viewForum&category=$categ'>$categ_name</a></h1>";
 
