@@ -145,9 +145,7 @@ function getStickiedThreads($category) {
 	debug_to_console("Calling getStickiedThreads on thread: ".$category.".");
 
 	$t2 = new Thread(3,"Blueberries",'Rules',"roger",1,"2014-03-17-14-14",true,true);
-	//$t2->threadID = 3; $t2->title = 'Rules'; $t2->op="roger";
-	//$t2->postCount = 1; $t2->timestamp = "2014-03-17-14-14"; $t2->locked=true; $t2->sticky=true;
-	
+
 	return array($t2);
 }
 
@@ -157,29 +155,23 @@ function getPosts($threadID,$min,$max) {
 	debug_to_console("Calling getPosts, parameters:");
 	debug_to_console("threadID: ".$threadID);
 	debug_to_console("Min: ".$min.". Max: ".$max.".");
-
-	$p1 = new Post();
-	$p1->threadID = 1; $p1->postSucc = 1; $p1->postID = 1;
-	$p1->poster = "roger"; $p1->message = "I live in London..."; $p1->timestamp="2014-03-17-13-11";
-
-	$p2 = new Post();
-	$p2->threadID = 1; $p2->postSucc = 2; $p2->postID = 2;
-	$p2->poster = "terminator"; $p2->message = "hahahahaha\n\ngood one"; $p2->timestamp="2014-03-17-23-22";
 	*/
 
-	
 	$posts = array();
 	$mysqli = dbconnect();
 	$stmt = $mysqli->stmt_init();
 	//$stmt->prepare('SELECT * FROM posts WHERE threadID = 1 AND postSucc >= 1 AND postSucc <= 10 ORDER BY postSucc ASC');
-	$stmt->prepare('SELECT * FROM posts WHERE threadID = ? AND postSucc >= ? AND postSucc <= ? ORDER BY postSucc ASC');
+	$stmt->prepare('SELECT * FROM posts INNER JOIN users WHERE threadID = ? AND postSucc >= ? AND postSucc <= ? AND posts.poster = users.username ORDER BY postSucc ASC');
 	$stmt->bind_param('ddd', $threadID, $min, $max);
 	$stmt->execute();
-	$stmt->bind_result($threadID, $postSucc, $poster, $message, $timestamp);
+	$stmt->bind_result($threadID, $postSucc, $poster, $message, $timestamp,
+		$username,$password,$salt,$admin,$avatar,$signature,$postCount);
+	
 	$stmt->store_result();
 	
 	while ($stmt->fetch()) {
-		$posts[] = new Post($threadID, $postSucc, $poster, $message, $timestamp);
+		$tmpUser = new User($username,$password,$salt,$admin,$avatar,$signature,$postCount);
+		$posts[] = new Post($threadID, $postSucc, $tmpUser, $message, $timestamp);
 	}
 	//var_dump($posts);
 	
@@ -313,7 +305,7 @@ function user_register($username, $password) {
 	$encryptedPassword = md5(md5($password).$salt);
 	$mysqli = dbconnect();
 	$stmt = $mysqli->stmt_init();
-	$stmt->prepare('INSERT INTO users VALUES (?, ?, ?, "user", NULL, NULL, 0)');
+	$stmt->prepare('INSERT INTO users VALUES (?, ?, ?, "user", "default.png", "...", 0)');
 	$stmt->bind_param('sss', $username, $encryptedPassword, $salt);
 	$stmt->execute() or die ('Could not create new user');
 }

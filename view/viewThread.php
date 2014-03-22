@@ -52,6 +52,7 @@ echo "</div>";
 
 foreach ($posts as $post) {
 	//User info bar
+	$user = $post->poster;
 	echo "<div style='margin-top:-1px;padding: 2px;background-color:cyan;";
 	//echo "border-left:1px solid #cccccc;";
 	//echo "border-bottom:1px solid #cccccc;";
@@ -59,7 +60,7 @@ foreach ($posts as $post) {
 	//echo "border-right:1px solid #cccccc;";
 	echo "border:1px solid #eeeeee;'>";
 	//echo "border: 4px solid;' >";
-	echo "<b>".$post->poster."&nbsp; &nbsp; </b>".$post->timestamp;;
+	echo "<b>".$user->username."&nbsp; &nbsp; </b>".$post->timestamp;
 	echo "</div>";
 	
 	//Avatar + message
@@ -67,14 +68,18 @@ foreach ($posts as $post) {
 	
 	//Avatar
 	echo "<div style='padding: 5px;float:left;'>";
-	$imgpath = "img/avatars/"."admin.png";
+	//$imgpath = "img/avatars/"."admin.png";
+	$imgpath = "img/avatars/".$user->avatar;
 	//echo $imgpath . "<br/>";
 	echo "<img src=".$imgpath." />";
 	echo "</div>";
 	
 	//Messsage
-	echo "<div style='padding: 5px;float:left;'>".$post->message."</div>";
+	echo "<div style='padding: 5px;'>".$post->message."</div>";
 	
+	echo "<hr/>";
+	echo $user->signature;
+	echo "<br/>";
 	echo "</div>";
 	//echo "<br/>";
 }
