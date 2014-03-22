@@ -62,27 +62,27 @@ CREATE TABLE posts (
 
 DELIMITER |
 
-CREATE TRIGGER increase_numThreads AFTER INSERT ON threads
+CREATE TRIGGER newThread AFTER INSERT ON threads
 	FOR EACH ROW BEGIN
 		UPDATE categories SET numThreads = numThreads+1 WHERE id = NEW.category;
 	END
 |
 
-CREATE TRIGGER decrease_numThreads AFTER DELETE ON threads
+CREATE TRIGGER threadDeleted AFTER DELETE ON threads
 	FOR EACH ROW BEGIN
 		UPDATE categories SET numThreads = numThreads-1 WHERE id = OLD.category;
 	END;
 |
 
 
-CREATE TRIGGER increase_numPosts AFTER INSERT ON posts
+CREATE TRIGGER newPost AFTER INSERT ON posts
 	FOR EACH ROW BEGIN
-		UPDATE threads SET numPosts = numPosts+1 WHERE threadID = NEW.threadID;
+		UPDATE threads SET numPosts = numPosts+1, timestamp = NOW() WHERE threadID = NEW.threadID;
 		UPDATE users SET postCount = postCount+1 WHERE users.username = NEW.poster;
 	END;
 |
 
-CREATE TRIGGER decrease_numPosts AFTER DELETE ON posts
+CREATE TRIGGER postDeleted AFTER DELETE ON posts
 	FOR EACH ROW BEGIN
 		UPDATE threads SET numPosts = numPosts-1 WHERE threadID = OLD.threadID;
 	END;

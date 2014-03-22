@@ -81,7 +81,7 @@ echo "<p style='vertical-align:text-middle'>Choose a new avatar:</p>";
 
 //print each file name
 foreach($pics as $pic) {
-	echo '<input type="checkbox" name="avatar" value="'.substr($pic, strlen($directory)).'">';
+	echo '<input type="radio" name="avatar" value="'.substr($pic, strlen($directory)).'">';
 	echo '<img src="'.$pic.'" width="32px" height="32px" >';
 }
 echo "<br />";
