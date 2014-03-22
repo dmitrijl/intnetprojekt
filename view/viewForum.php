@@ -53,7 +53,7 @@ $categ_name = getCategoryName($categ);
 
 if(isset($_GET["page"])) {
 	$page = $_GET["page"];
-	if(is_int($page) && $page > 0) {
+	if(is_int(intval($page)) && $page > 0) {
 		//do nothing
 	} else {
 		$page = 1;
@@ -61,6 +61,7 @@ if(isset($_GET["page"])) {
 } else {
 	$page = 1;
 }
+//echo "<h1>Page is $page</h1>";
 $threadsperpage = 10;
 $max = $page * $threadsperpage;
 $min = $max - $threadsperpage + 1;
