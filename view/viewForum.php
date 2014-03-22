@@ -37,7 +37,7 @@
 
 //require 'init.php';
 //require 'model/functions.php';
-require $_SERVER['DOCUMENT_ROOT'].'/rights.php';
+require $_SERVER['DOCUMENT_ROOT'].'/model/rights.php';
 
 
 if(isset($_GET["category"])) {

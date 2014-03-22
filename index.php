@@ -24,11 +24,11 @@ if (!isset($_GET['action']) || $_GET['action'] == 'viewCategories') {
 	//echo "viewForum";
 	include 'view/viewForum.php';
 	$_GET["createthread"] = true;
-	include 'createpost.php';
+	include 'view/createpost.php';
 } else if ($_GET['action'] == 'viewThread') {
 	//echo "viewThread";
 	include 'view/viewThread.php';
-	include 'createpost.php';
+	include 'view/createpost.php';
 } else {
 	//echo "Unspecified action.";
 }
