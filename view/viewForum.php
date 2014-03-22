@@ -30,20 +30,20 @@
 }
 
 </style>
+
+<?php
+//require_once($_SERVER['DOCUMENT_ROOT'].'/view/numlinkfunctions.php'); 
+//require_once($_SERVER['DOCUMENT_ROOT'].'/model/rights.php');
+require_once('model/rights.php');
+require_once('view/numlinkfunctions.php'); 
+?>
+
 </head>
 
 <body>
 
 
 <?php
-require_once($_SERVER['DOCUMENT_ROOT'].'/view/numlinkfunctions.php'); 
-//require 'init.php';
-//require 'model/functions.php';
-//require $_SERVER['DOCUMENT_ROOT'].'/rights.php';
-//require 'model/rights.php';
-//require $_SERVER['DOCUMENT_ROOT'].'/model/rights.php';
-require $_SERVER['DOCUMENT_ROOT'].'/model/rights.php';
-
 
 if(isset($_GET["category"])) {
 	$categ = $_GET["category"];
