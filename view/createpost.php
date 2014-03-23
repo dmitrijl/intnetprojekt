@@ -42,7 +42,7 @@ if ($_POST['postMode'] == 'newThread') {
 	} else if ($_SESSION['user']->username == $_SESSION['currentPost']->poster->username || 
 	$_SESSION['user']->admin == 'administrator') {
 		echo "<form action='' method='post'>";
-		echo "Write the new message here.<br/>";
+		echo "Write the new message here to edit this post.<br/>";
 		echo "<textarea rows='6' cols='80' name='message'></textarea>";
 		echo "<br /><button type='submit' name='postMode' value='editPost'>Post</button></form>";
 	} else {

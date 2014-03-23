@@ -185,18 +185,25 @@ function getCategoryName($catID) {
 
 function editPost($username, $threadID, $postSucc, $message) {
 	debug_to_console("Calling createPost(".$username.",".$threadID.",".$postSucc,",".$message.".");
-
+	
+	$thread = getThread($threadID);
 	$admin = getUserGroup();
 	
-	//var_dump($message, $threadID, $postSucc, $username, $admin);
+	if ($thread->locked == 0 || $admin == 'administrator') {
+		$admin = getUserGroup();
+	
+		//var_dump($message, $threadID, $postSucc, $username, $admin);
 
-	$mysqli = dbconnect();
-	$stmt = $mysqli->stmt_init();
-	$query = "UPDATE posts SET message = ? WHERE threadID = ? AND postSucc = ? AND (poster = ? OR 'administrator' = ?)";
-	$stmt->prepare($query);
-	$stmt->bind_param('sddss', $message, $threadID, $postSucc, $username, $admin);
-	$stmt->execute() or die ('Could not edit post, lol3.');
-	return true;
+		$mysqli = dbconnect();
+		$stmt = $mysqli->stmt_init();
+		$query = "UPDATE posts SET message = ? WHERE threadID = ? AND postSucc = ? AND (poster = ? OR 'administrator' = ?)";
+		$stmt->prepare($query);
+		$stmt->bind_param('sddss', $message, $threadID, $postSucc, $username, $admin);
+		$stmt->execute() or die ('Could not edit post, lol3.');
+		return true;
+	} else {
+		return false;
+	}
 }
 
 

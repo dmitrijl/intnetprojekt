@@ -41,7 +41,7 @@ foreach ($posts as $post) {
 	//echo "border: 4px solid;' >";
 	echo "<b>".$user->username."&nbsp; &nbsp; </b>".$post->timestamp."&nbsp; &nbsp";
 	$editlink = "index.php?view=viewPost&thread=".$thread->threadID."&post=".$post->postSucc;
-	echo "<a href='".$editlink."'>edit</a>";
+	echo "<a href='".$editlink."'>View post</a>";
 	//echo "   ".$user->admin."   Posts: ".$user->postCount;
 	echo "</div>\n";
 	
