@@ -2,40 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-gb" xml:lang="en-gb">
 <head>
 <link rel="stylesheet" type="text/css" href="css/index.css">
+<link rel="stylesheet" type="text/css" href="css/viewForum.css">
 <link rel="stylesheet" type="text/css" href="css/numlinkstyle.css">
 
-<style>
-.col1 {
-	width:14%;
-}
-
-.col2 {
-	width:45%;
-}
-
-.col3 {
-	width:15%;
-}
-
-.col4 {
-	width:3%;
-}
-
-.col5 {
-	width:13%;
-}
-
-.smallborder {
-	border:1px solid black;
-}
-
-</style>
-
 <?php
-//require_once($_SERVER['DOCUMENT_ROOT'].'/view/numlinkfunctions.php'); 
-//require_once($_SERVER['DOCUMENT_ROOT'].'/model/rights.php');
-require_once('model/rights.php');
-require_once('view/numlinkfunctions.php'); 
+require_once($_SERVER['DOCUMENT_ROOT'].'/view/numlinkfunctions.php'); 
+require_once($_SERVER['DOCUMENT_ROOT'].'/model/rights.php');
+//require_once('model/rights.php');
+//require_once('view/numlinkfunctions.php'); 
 ?>
 
 </head>
@@ -51,7 +25,7 @@ $threads = $_SESSION['threads'];
 echo "<div> <a href='index.php'>Home</a> </div>\n";
 echo "<h1>Category: <a href='./index.php?view=viewForum&category=$categ'>$categ_name</a></h1>";
 
-echo "<table style='width:90%;border:1px solid black;'>\n";
+echo "<table id='table'>\n";
 echo "<tr> <td class='col1 smallborder'>Author</td>";
 echo "<td class='col2 smallborder'>Title</td>";
 echo "<td class='col3 smallborder'>Controls</td>";

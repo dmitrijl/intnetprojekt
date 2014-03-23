@@ -21,12 +21,12 @@
 <?php
 
 $posts = $_SESSION['posts'];
-$thread = $_SESSION['currenThread'];
+$thread = $_SESSION['currentThread'];
 $category = $_SESSION['currentCategory'];
 
 echo "<div> <a href='index.php'>Home</a> -&gt ";
 echo "<a href='index.php?view=viewForum&category=".$thread->category."'>".$category->name."</a></div>\n";
-echo "<h1>".$thread->title."</h1>";
+echo "<h1><u>Thread title:</u>  ".$thread->title."</h1>";
 
 
 foreach ($posts as $post) {
@@ -61,28 +61,6 @@ foreach ($posts as $post) {
 	echo "<div class='signature'>";
 		echo nl2br($user->signature);
 	echo "</div>";
-
-
-	//Avatar + message
-	//echo "<div style='background-color: #f4f4ff;margin-top:-1px;border:1px solid #eeeeee; overflow: auto;'>";
-		//echo "<div class='postbody'>";
-	//Avatar
-			//echo "<div style='padding: 5px;float:left;'>";
-	//$imgpath = "img/avatars/"."admin.png";
-	//$imgpath = "img/avatars/".$user->avatar;
-	//echo $imgpath . "<br/>";
-	//echo "<img src=".$imgpath." />";
-	//echo "</div>";
-	
-	//Messsage
-	//echo "<div style='padding: 5px;'><p style='text-spacing:none;'>";
-	//echo nl2br($post->message)."</p></div>";
-	
-	//echo "<hr/>";
-	//echo $user->signature;
-	//echo "<br/>";
-	//echo "</div>";
-	//echo "<br/>";
 }
 
 

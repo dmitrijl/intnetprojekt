@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-gb" xml:lang="en-gb">
 <head>
+<link rel="stylesheet" type="text/css" href="css/index.css">
 </head>
 <body>
-<div style="background-color:#cc00cc;border:1px solid">
+<div class="createpost">
 	<?php
 		//session_start();
 		//include 'model/functions.php';
@@ -19,12 +20,12 @@
 			if (isset($_GET['createthread'])) {
 				if ($_GET['createthread'] == true) {
 					echo "Write title here.<br/>";
-					echo "<textarea rows='1' cols='80' name='title' form='createpost'></textarea><br/>";
+					echo "<textarea rows='1' cols='120' name='title' form='createpost'></textarea><br/>";
 				}
 			}
 			
 			echo "Write your message here.<br/>";
-			echo "<textarea rows='6' cols='80' name='message' form='createpost'></textarea>";
+			echo "<textarea rows='6' cols='120' name='message' form='createpost'></textarea>";
 			echo "<br /><input type='submit' name='post' value='Post'>";
 		} else {
 			if (isset($_GET['createthread']) && $_GET['createthread'] == true) {

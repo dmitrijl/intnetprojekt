@@ -1,0 +1,28 @@
+.col1 {
+	width:14%;
+}
+
+.col2 {
+	width:45%;
+}
+
+.col3 {
+	width:15%;
+}
+
+.col4 {
+	width:3%;
+}
+
+.col5 {
+	width:13%;
+}
+
+.smallborder {
+	border:1px solid black;
+}
+
+#table {
+	width:90%;
+	border:1px solid black;
+}

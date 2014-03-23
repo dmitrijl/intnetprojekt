@@ -7,8 +7,10 @@
 <body>
 
 <div id="title">
-	<h1> Welcome to our intnet14 project </h1>
-
+	<!--<h1> Welcome to our intnet14 project </h1>-->
+	<div class='titlebanner'>
+		<img src="img/green-banner.png"></img>
+	</div>
 </div>
 <h2> Choose a category! </h2>
 
