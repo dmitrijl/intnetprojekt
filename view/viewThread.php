@@ -21,7 +21,7 @@
 <?php
 
 $posts = $_SESSION['posts'];
-$thread = $_SESSION['currenThread'];
+$thread = $_SESSION['currentThread'];
 $category = $_SESSION['currentCategory'];
 
 echo "<div> <a href='index.php'>Home</a> -&gt ";
@@ -38,7 +38,9 @@ foreach ($posts as $post) {
 	//echo "<div style='margin-top:-1px;padding: 2px;background-color:cyan;";
 	//echo "border:1px solid #eeeeee;'>";
 	//echo "border: 4px solid;' >";
-	echo "<b>".$user->username."&nbsp; &nbsp; </b>".$post->timestamp;
+	echo "<b>".$user->username."&nbsp; &nbsp; </b>".$post->timestamp."&nbsp; &nbsp";
+	$editlink = "index.php?view=viewPost&thread=".$thread->threadID."&post=".$post->postSucc;
+	echo "<a href='".$editlink."'>edit</a>";
 	//echo "   ".$user->admin."   Posts: ".$user->postCount;
 	echo "</div>\n";
 	

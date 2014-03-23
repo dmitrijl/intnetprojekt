@@ -10,6 +10,8 @@ require 'model/classes.php';
 srand();
 session_start();
 
+
+
 if (isset($_POST['action'])) {
 
 	if ($_POST['action'] == 'login') {
@@ -54,10 +56,6 @@ if (isset($_POST['action'])) {
 	else {
 		//echo "Unspecified action.";
 	}
-
-	//Redirect home
-	//header("Location: " . $_SERVER['REQUEST_URI']);
-  //exit();
 }
 
 
@@ -97,9 +95,46 @@ if (isset($_POST['editProfile'])) {
 	
 	change_userinfo($username,$password,$avatar,$signature);
 	//Redirect home
-	//header("Location: " . $_SERVER['REQUEST_URI']);
-  //exit();
+	header("Location: " . $_SERVER['REQUEST_URI']);
+  exit();
 }
+
+
+if (isset($_POST['postMode']) && isset($_SESSION['user'])) {
+	//User just posted or edited a post
+	//var_dump($_POST);
+	
+	$user = $_SESSION['user']->username;
+	
+	//var_dump($_GET, $_POST['postMode']);
+	
+	
+	if ($_POST['postMode'] == 'newThread') {
+	//if (isset($_POST['title'])) {
+		$createthread_result = createThread($user, $_GET['category'], $_POST['title'], $_POST['message']);
+		if ($createthread_result == true) {
+			//echo "Successful thread creation!"
+		} else {
+			//echo "Failed to create thread!"
+		}
+	} else if ($_POST['postMode'] == 'newPost') {
+		$createpost_result = createPost($user, $_GET['thread'], $_POST['message']);
+		if ($createpost_result == true) {
+			//echo "Successful post!"
+		} else {
+			//echo "Failed to post!"
+		}
+	} else if ($_POST['postMode'] == 'editPost') {
+		$editpost_result = editPost($user, $_GET['thread'], $_SESSION['currentPost']->postSucc, $_POST['message']);
+		if ($editpost_result == true) {
+			//echo "Successful post!"
+		} else {
+			//echo "Failed to post!"
+		}
+	}
+	
+}
+
 
 if (sizeof($_POST) > 0) {
 	//var_dump($_POST);
@@ -108,6 +143,7 @@ if (sizeof($_POST) > 0) {
 } else {
 	//var_dump($_POST);
 }
+
 
 ?>
 
@@ -122,37 +158,12 @@ require_once('view/numlinkfunctions.php');
 
 echo "<div style='position:relative;margin: 8px;' >";
 
-if (isset($_POST['post'])) {
-	//User just posted
-	
-	if (isset($_POST['title'])) {
-		$createthread_result = createThread($user, $_GET['category'], $_POST['title'], $_POST['message']);
-		if ($createthread_result == true) {
-			//echo "Successful thread creation!"
-		} else {
-			//echo "Failed to create thread!"
-		}
-	} else {
-		$createpost_result = createPost($user, $_GET['thread'], $_POST['message']);
-		if ($createpost_result == true) {
-			//echo "Successful post!"
-		} else {
-			//echo "Failed to post!"
-		}
-	}
-	
-	//Prevent duplicate posts on refresh.
-	header("Location: " . $_SERVER['REQUEST_URI']);
-  exit();
-}
-
-
-if (!isset($_GET['view']) || $_GET['view'] == 'viewCategories') {
+if (!isset($_GET['view']) || $_GET['view'] == 'viewCategories') {	//List categories.
 
 	$_SESSION['categories'] = getCategories();
 	include 'view/viewCategories.php';
 	
-} else if ($_GET['view'] == 'viewForum') {
+} else if ($_GET['view'] == 'viewForum') { //View the threads of a forum.
 
 	if(isset($_GET["category"])) {
 		$categ = $_GET["category"];
@@ -188,10 +199,10 @@ if (!isset($_GET['view']) || $_GET['view'] == 'viewCategories') {
 	numlinks($page, $maxpage, 9, 'index.php', "view=viewForum&category=$categ");
 	
 	echo "<br />";
-	$_GET["createthread"] = true;
+	$_POST['postMode'] = 'newThread';
 	include 'view/createpost.php';
 
-} else if ($_GET['view'] == 'viewThread') {
+} else if ($_GET['view'] == 'viewThread') {	//View the posts of a thread.
 
 	if (isset($_GET["thread"])) {
 		$thr = $_GET["thread"];
@@ -224,9 +235,10 @@ if (!isset($_GET['view']) || $_GET['view'] == 'viewCategories') {
 	numlinks($page, $maxpage, 9, 'index.php', "view=viewThread&thread=".$thr);
 
 	echo "<br/>";
+	$_POST['postMode'] = 'newPost';
 	include 'view/createpost.php';
 	
-} else if ($_GET['view'] == 'editprofile') {
+} else if ($_GET['view'] == 'editprofile') {	//Edit a user profile.
 
 	if (isset($_SESSION['user'])) {
 		//$user = $_SESSION['user'];
@@ -235,6 +247,31 @@ if (!isset($_GET['view']) || $_GET['view'] == 'viewCategories') {
 		echo "You are not logged in. What are you doing on this page?";
 	}	
 	
+} else if ($_GET['view'] == 'viewPost') {	//View a single post.
+	
+	if (isset($_GET["thread"])) {
+		$thr = $_GET["thread"];
+	} else {
+		$thr = 1;
+	}
+
+	if(isset($_GET["post"])) {
+		$postSucc = $_GET["post"];
+	} else {
+		$postSucc = 1;
+	}
+	
+	$_SESSION['currentThread'] = getThread($thr);
+	$_SESSION['currentPost'] = getPost($thr, $postSucc);
+	
+	include 'view/viewPost.php';
+	
+	
+	$_POST['postMode'] = 'editPost';
+	include 'view/createpost.php';
+	
+	
+
 } else {
 	//echo "Unspecified action.";
 	

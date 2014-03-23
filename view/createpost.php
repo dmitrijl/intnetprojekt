@@ -4,36 +4,34 @@
 </head>
 <body>
 <div style="background-color:#cc00cc;border:1px solid">
-	<?php
-		//session_start();
-		//include 'model/functions.php';
-		
-		$user = getUsername();
-		//$user = $_SESSION['username'];
+<?php
+	
+if ($_POST['postMode'] == 'newThread') {
 
-		if($user != null) {
-			//logged in - provide a post form
-			echo "<form id='createpost' action='' method='post'>";
-			
-			//Provide title field if new thread
-			if (isset($_GET['createthread'])) {
-				if ($_GET['createthread'] == true) {
-					echo "Write title here.<br/>";
-					echo "<textarea rows='1' cols='80' name='title' form='createpost'></textarea><br/>";
-				}
-			}
-			
-			echo "Write your message here.<br/>";
-			echo "<textarea rows='6' cols='80' name='message' form='createpost'></textarea>";
-			echo "<br /><input type='submit' name='post' value='Post'>";
-		} else {
-			if (isset($_GET['createthread']) && $_GET['createthread'] == true) {
-				echo "You cannot create new threads in this forum.";
-			} else {
-				echo "You cannot post in this thread.";
-			}
-		}
-	?>
+	echo "<form action='' method='post'>";
+	echo "Write title here.<br/>";
+	echo "<textarea rows='1' cols='80' name='title'></textarea><br/>";
+	echo "Write your message here.<br/>";
+	echo "<textarea rows='6' cols='80' name='message'></textarea>";
+	echo "<br /><button type='submit' name='postMode' value='newThread'>Post</button></form>";
+
+} else if ($_POST['postMode'] == 'newPost') {
+	
+	echo "<form action='' method='post'>";
+	echo "Write your message here.<br/>";
+	echo "<textarea rows='6' cols='80' name='message'></textarea>";
+	echo "<br /><button type='submit' name='postMode' value='newPost'>Post</button></form>";
+
+} else if ($_POST['postMode'] == 'editPost') {
+	
+	echo "<form action='' method='post'>";
+	echo "Write the new message here.<br/>";
+	echo "<textarea rows='6' cols='80' name='message'></textarea>";
+	echo "<br /><button type='submit' name='postMode' value='editPost'>Post</button></form>";
+
+}
+
+?>
 </div>
 </body>
 </html>

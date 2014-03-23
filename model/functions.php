@@ -127,6 +127,11 @@ function getPosts($threadID,$min,$max) {
 }
 
 
+function getPost($threadID,$postSucc) {
+	return getPosts($threadID, $postSucc, $postSucc)[0];
+}
+
+
 function getUserInfo($name) {
 	debug_to_console("Calling getUserInfo on username ".$name.".");
 	
@@ -178,11 +183,26 @@ function getCategoryName($catID) {
 }
 
 
+function editPost($username, $threadID, $postSucc, $message) {
+	debug_to_console("Calling createPost(".$username.",".$threadID.",".$postSucc,",".$message.".");
+	
+	$admin = getUserGroup();
+	$mysqli = dbconnect();
+	$stmt = $mysqli->stmt_init();
+	$query = "UPDATE posts SET message = ? WHERE threadID = ? AND postSucc = ? AND (poster = ? OR 'admin' = ?)";
+	$stmt->prepare($query);
+	$stmt->bind_param('sddss', $message, $threadID, $postSucc, $username, $admin);
+	$stmt->execute() or die ('Could not edit post, lol3.');
+	return true;
+}
+
+
+
 function createPost($username, $threadID, $message) {
 	debug_to_console("Calling createPost(".$username.",".$threadID.",".$message.".");
 	
 	$mysqli = dbconnect();
-	$postSuccQuery = "SELECT numPosts, lock FROM threads WHERE threadID = ?";
+	$postSuccQuery = "SELECT numPosts, locked FROM threads WHERE threadID = ?";
 	//$threadID = 2;
 	$stmt = $mysqli->stmt_init();
 	$stmt->prepare($postSuccQuery);
@@ -214,7 +234,6 @@ function createThread($username, $category, $title, $message) {
 	debug_to_console("Calling createThread(".$username.",".$category.",".$title.".");
 	
 	$mysqli = dbconnect();
-	
 	$threadIDQuery = "select AUTO_INCREMENT from INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA = 'projForum' AND TABLE_NAME = 'threads'";
 	$stmt = $mysqli->stmt_init();
 	$stmt->prepare($threadIDQuery);
@@ -231,7 +250,6 @@ function createThread($username, $category, $title, $message) {
 	//Create first post
 	$stmt = $mysqli->stmt_init();
 	$stmt->prepare('INSERT INTO posts VALUES (?, 1, ?, ?, NOW())');
-	var_dump($threadID, $username, $message);
 	$stmt->bind_param('dss', $threadID, $username, $message);
 	$stmt->execute() or die ('Could not create post, lol2.');
 }
