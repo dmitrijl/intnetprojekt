@@ -221,12 +221,14 @@ function getUserInfo($name) {
 	$stmt->bind_result($username,$password,$salt,$admin,$avatar,$signature,$postCount);
 	$stmt->store_result();
 	
-	while ($stmt->fetch()) {
-		$users[] = new User($username,$password,$salt,$admin,$avatar,$signature,$postCount);
+	if ($stmt->fetch()) {
+		//$users = new User($username,$password,$salt,$admin,$avatar,$signature,$postCount);
+		$users = new User($username,'',$salt,$admin,$avatar,$signature,$postCount);	//Hide password
+		return $user;
+		//var_dump($user);
 	}
-	//var_dump($users);
 	
-	return $users;
+	return NULL;
 }
 
 
@@ -435,10 +437,11 @@ function user_login($req_username, $req_password) {
 	$stmt->store_result();
 	
 	if ($stmt->fetch()) {
-		$user = new User($username,$password,$salt,$admin,$avatar,$signature,$postCount);
+		//$user = new User($username,$password,$salt,$admin,$avatar,$signature,$postCount);
+		$user = new User($username,'','',$admin,$avatar,$signature,$postCount); //Hide password, salt
 	}
 
-	$encrypted_pass = md5(md5($req_password).$user->salt);
+	$encrypted_pass = md5(md5($req_password).$salt);
 	
 	//echo "$encrypted_pass<br/>";
 	//echo "$password<br/>";

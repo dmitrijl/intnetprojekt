@@ -14,11 +14,13 @@
 
 <?php
 
-if (!isset($cats)) {
-	$cats = getCategories();
+if (!isset($_SESSION['categories'])) {
+	$_SESSION['categories'] = getCategories();
 } else {
 	//echo "cats wasset";
 }
+
+$cats = $_SESSION['categories'];
 
 foreach($cats as $cat) {
 	echo "<div><p><category>\n";

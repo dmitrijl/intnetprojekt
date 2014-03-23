@@ -22,7 +22,8 @@
 		echo "<form action='' method='post' onsubmit=''>";
 		echo "<button type='submit' name='action' value='logout'>Log out</button></form>";
 		//admin control panel
-		require_once($_SERVER['DOCUMENT_ROOT'].'/model/rights.php');
+		//require_once($_SERVER['DOCUMENT_ROOT'].'/model/rights.php');
+		require_once('model/rights.php');
 		if(canPromote(getUserGroup())) {
 			echo "<div style='border-top:1px solid;'>Control panel for promoting/demoting users:<br>\n";
 			echo "<form action='' method='post' onsubmit='alert(\"Not implemented yet.\")'>\n";

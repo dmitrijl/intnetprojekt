@@ -14,64 +14,20 @@
 <?php
 
 
-//require_once($_SERVER['DOCUMENT_ROOT'].'/view/numlinkfunctions.php');
-require_once('view/numlinkfunctions.php');  
 
-if (isset($_GET["thread"])) {
-	$thr = $_GET["thread"];
-} else {
-	$thr = "1";
-}
-
-if(isset($_GET["page"])) {
-	$page = $_GET["page"];
-	if(is_int(intval($page)) && $page > 0) {
-		//do nothing
-	} else {
-		$page = 1;
-	}
-} else {
-	$page = 1;
-}
 //echo "<p>WELCOME TO THE VIEW OF POSTS IN THREAD NR $thr</p>";
 ?>
 </div>
 <?php
 
+$posts = $_SESSION['posts'];
+$thread = $_SESSION['currenThread'];
+$category = $_SESSION['currentCategory'];
 
-
-$thread = getThread($thr);
-$category = getCategory($thread->category);
 echo "<div> <a href='index.php'>Home</a> -&gt ";
 echo "<a href='index.php?view=viewForum&category=".$thread->category."'>".$category->name."</a></div>\n";
 echo "<h1>".$thread->title."</h1>";
 
-//echo "<h1>Category: <a href='./forum.php?category=$categ'>$categ_name</a></h1>";
-
-
-/*
-foreach ($posts as $post) {
-echo "<div>";
-echo "<dl>";
-echo "<dt>";
-
-$imgpath = "img/avatars/"."admin.png";
-echo '<img src='.$imgpath.' />';
-
-echo "</dl>";
-echo "</dt>";
-echo "</div>";
-}
-*/
-
-$postsperpage = 10;
-$max = $page * $postsperpage;
-$min = $max - $postsperpage + 1;
-$posts = getPosts($thr, $min, $max);
-
-//page menu
-$maxpage=((int)(($thread->postCount)/$postsperpage))+1;
-numlinks($page, $maxpage, 9, 'index.php', "view=viewThread&thread=".$thr);
 
 foreach ($posts as $post) {
 	//User info bar
@@ -105,6 +61,8 @@ foreach ($posts as $post) {
 	echo "<div class='signature'>";
 		echo nl2br($user->signature);
 	echo "</div>";
+
+
 	//Avatar + message
 	//echo "<div style='background-color: #f4f4ff;margin-top:-1px;border:1px solid #eeeeee; overflow: auto;'>";
 		//echo "<div class='postbody'>";
@@ -129,8 +87,6 @@ foreach ($posts as $post) {
 
 
 //echo "</table>";
-echo '<br>';
-numlinks($page, $maxpage, 9, 'index.php', "view=viewThread&thread=".$thr);
 
 ?>
 

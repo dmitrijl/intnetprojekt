@@ -32,10 +32,10 @@
 </style>
 
 <?php
-require_once($_SERVER['DOCUMENT_ROOT'].'/view/numlinkfunctions.php'); 
-require_once($_SERVER['DOCUMENT_ROOT'].'/model/rights.php');
-//require_once('model/rights.php');
-//require_once('view/numlinkfunctions.php'); 
+//require_once($_SERVER['DOCUMENT_ROOT'].'/view/numlinkfunctions.php'); 
+//require_once($_SERVER['DOCUMENT_ROOT'].'/model/rights.php');
+require_once('model/rights.php');
+require_once('view/numlinkfunctions.php'); 
 ?>
 
 </head>
@@ -45,40 +45,10 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/model/rights.php');
 
 <?php
 
-if(isset($_GET["category"])) {
-	$categ = $_GET["category"];
-} else {
-	$categ = "BEST CATEGORY EVER!!";
-}
+$threads = $_SESSION['threads'];
 
-$categ_name = getCategoryName($categ);
 
-if(isset($_GET["page"])) {
-	$page = $_GET["page"];
-	if(is_int(intval($page)) && $page > 0) {
-		//do nothing
-	} else {
-		$page = 1;
-	}
-} else {
-	$page = 1;
-}
-//echo "<h1>Page is $page</h1>";
-$threadsperpage = 10;
-$max = $page * $threadsperpage;
-$min = $max - $threadsperpage + 1;
-
-if (!isset($threads)) {
-	$threads = getThreads($categ,$min,$threadsperpage,true);
-} else {
-	//echo "threads wasset";
-}
-
-//$threads = getThreads($categ,$min,$max,false);
-//$stickies = getStickiedThreads($categ);
-//$threads = getThreads($mysqli);
 echo "<div> <a href='index.php'>Home</a> </div>\n";
-//echo phpversion();
 echo "<h1>Category: <a href='./index.php?view=viewForum&category=$categ'>$categ_name</a></h1>";
 
 echo "<table style='width:90%;border:1px solid black;'>\n";
@@ -145,20 +115,6 @@ foreach($threads as $th) {
 echo "</table>";
 echo '<br>';
 
-$maxpage=((int)((getCategory($categ)->numThreads)/$threadsperpage))+1;
-/*$tmp = getCategory($categ);
-
-//echo "NUMTHREADS:".$tmp->name."\n";
-if($tmp->numThreads==null) {
-echo "NULL\n";
-} else {
-echo "NOTNULL\n";
-}
-echo "MAXPAGE:".$maxpage."\n";*/
-//$threads = getThreads($categ,$min,$max,false);
-//getCategory($categ);
-//$maxpage=10;
-numlinks($page, $maxpage, 9, 'index.php', "view=viewForum&category=$categ");
 ?>
 
 </body>

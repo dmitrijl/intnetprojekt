@@ -49,13 +49,17 @@ if (pass1 == null || pass1 == "") {
 
 <?php
 
-$userarray = getUserInfo(getUsername());
-if(count($userarray) > 0) {
-	$user = getUserInfo(getUsername())[0];
-} else {
-	$user = null;
-}
+
+//$user = getUserInfo(getUsername());
+
+
+
+
+
+
 //echo "USER: ".$user;
+
+$user = $_SESSION['user'];
 
 if($user != null) {
 	$avatar = $user->avatar;
@@ -66,8 +70,6 @@ if($user != null) {
 		echo "<p style='vertical-align:text-middle'>Current avatar:</p>";
 		echo "<img src='img/avatars/".$avatar."' style='width:100px;height:100px;'></img></div>";
 	}
-} else {
-	echo "You are not logged in what are you doing on this page?";
 }
 
 

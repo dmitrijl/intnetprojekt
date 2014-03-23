@@ -11,6 +11,7 @@ session_start();
 require 'model/functions.php';
 
 
+
 if (isset($_POST['action'])) {
 
 	if ($_POST['action'] == 'login') {
@@ -131,6 +132,8 @@ if (sizeof($_POST) > 0) {
 <?php
 
 include "view/banner.php";
+require_once('view/numlinkfunctions.php');
+
 
 echo "<div style='position:relative;margin: 8px;' >";
 
@@ -162,25 +165,120 @@ if (isset($_POST['post'])) {
 
 if (!isset($_GET['view']) || $_GET['view'] == 'viewCategories') {
 
-	//$cats = getCategories();
+	$_SESSION['categories'] = getCategories();
 	include 'view/viewCategories.php';
 	
 } else if ($_GET['view'] == 'viewForum') {
-
-
-	$_GET["createthread"] = true;
-	include 'view/viewForum.php';
-	include 'view/createpost.php';
 	
+	
+	
+	
+	
+	
+	
+	
+	if(isset($_GET["category"])) {
+		$categ = $_GET["category"];
+	} else {
+		$categ = 1;	//Some default value
+	}
+
+	$_SESSION['currentCategory'] = getCategory($categ);
+	$curCateg = $_SESSION['currentCategory'];
+	$categ_name = $curCateg->name;
+	
+
+	if(isset($_GET['page'])) {
+		$page = $_GET['page'];
+		if(is_int(intval($page)) && $page > 0) {
+			//do nothing
+		} else {
+			$page = 1;
+		}
+	} else {
+		$page = 1;
+	}
+	//echo "<h1>Page is $page</h1>";
+	$threadsperpage = 10;
+	$max = $page * $threadsperpage;
+	$min = $max - $threadsperpage + 1;
+	
+	
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
+	$_SESSION['threads'] = getThreads($categ,$min,$threadsperpage,true);
+	$_SESSION['currentCategory'] = getCategory($categ);
+	
+	
+	include 'view/viewForum.php';
+	
+	
+	
+	$maxpage=((int)(($curCateg->numThreads)/$threadsperpage))+1;
+	numlinks($page, $maxpage, 9, 'index.php', "view=viewForum&category=$categ");
+	
+	
+	echo "<br />";
+	$_GET["createthread"] = true;
+	include 'view/createpost.php';
+
+
+
+
 } else if ($_GET['view'] == 'viewThread') {
 
-	$posts = getPosts();
+	if (isset($_GET["thread"])) {
+		$thr = $_GET["thread"];
+	} else {
+		$thr = "1";
+	}
+
+	if(isset($_GET["page"])) {
+		$page = $_GET["page"];
+		if(is_int(intval($page)) && $page > 0) {
+			//do nothing
+		} else {
+			$page = 1;
+		}
+	} else {
+		$page = 1;
+	}	
+
+	$postsperpage = 10;
+	$max = $page * $postsperpage;
+	$min = $max - $postsperpage + 1;
+
+
+	$_SESSION['currentThread'] = getThread($thr);
+	$_SESSION['posts'] = getPosts($thr, $min, $max);
+
+
+	
 	include 'view/viewThread.php';
+	
+	//page menu
+	$maxpage=((int)(($thread->postCount)/$postsperpage))+1;
+	numlinks($page, $maxpage, 9, 'index.php', "view=viewThread&thread=".$thr);
+
+	echo "<br/>";
 	include 'view/createpost.php';
 	
 } else if ($_GET['view'] == 'editprofile') {
 
-	include 'view/editprofile.php';
+	if (isset($_SESSION['user'])) {
+		//$user = $_SESSION['user'];
+		include 'view/editprofile.php';
+	} else {
+		echo "You are not logged in. What are you doing on this page?";
+	}	
 	
 } else {
 	//echo "Unspecified action.";
