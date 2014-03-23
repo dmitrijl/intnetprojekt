@@ -350,6 +350,21 @@ function user_register($username, $password) {
 	$stmt->execute() or die ('Could not create new user');*/
 }
 
+function saveThread($user,$category,$title,$message) {
+	$mysqli = dbconnect();
+	$stmt = $mysqli->stmt_init();
+	$stmt->prepare('UPDATE savedmessages SET (category = ?, title = ?, message1 = ?) WHERE user = ?');
+	$stmt->bind_param('dsss', $category, $title, $message, $user);
+	$stmt->execute() or die ('Could not save thread');
+}
+
+function savePost($user,$thread,$message) {
+	$mysqli = dbconnect();
+	$stmt = $mysqli->stmt_init();
+	$stmt->prepare('UPDATE savedmessages SET (thread = ?, message2 = ?) WHERE user = ?');
+	$stmt->bind_param('dss', $category, $thread, $user);
+	$stmt->execute() or die ('Could not save post');
+}
 
 function change_userinfo($req_username,$req_password,$req_avatar,$req_signature) {
 
