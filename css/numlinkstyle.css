@@ -8,7 +8,7 @@
 }
 
 .numlinks-inactive {
-	color:#DDDDDD;
+	color:#777777;
 }
 
 .numhighlight {
@@ -30,6 +30,7 @@
 	padding-right:2px;
 	text-align:center;
 	vertical-align:middle;
-	border:#EEEEEE solid; 
+	/*border:#EEEEEE solid;*/
+	border:#000000 solid;
 	border-width:1px;
 }	
