@@ -28,8 +28,6 @@ if (pass1 == null || pass1 == "") {
 //alert("Password ok. Not implemented yet.");
 }
 </script>
-
-
 </head>
 
 <body>
@@ -46,18 +44,9 @@ if (pass1 == null || pass1 == "") {
 <input type="file" name="file" id="file"><br>
 <button type="submit" name="editProfile" value="changeAvatar">Upload and change!</button>-->
 
-
 <?php
 
-
 //$user = getUserInfo(getUsername());
-
-
-
-
-
-
-//echo "USER: ".$user;
 
 $user = $_SESSION['user'];
 
@@ -72,10 +61,9 @@ if($user != null) {
 	}
 }
 
-
 $directory = "img/avatars/";
 
-//get all text files with a .txt extension.
+//get all pictures with a .png extension.
 $pics = glob($directory . "*.png");
 
 echo "<br />";
@@ -128,4 +116,3 @@ if($user != null) {
 
 </body>
 </html>
-

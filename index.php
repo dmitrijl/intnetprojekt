@@ -4,13 +4,11 @@
 <link rel="icon" href="img/favicon.ico" />
 <link rel="stylesheet" type="text/css" href="css/index.css">
 
-
 <?php
+require 'model/functions.php';
+require 'model/classes.php';
 srand();
 session_start();
-require 'model/functions.php';
-
-
 
 if (isset($_POST['action'])) {
 
@@ -52,13 +50,10 @@ if (isset($_POST['action'])) {
 		}
 
 	} 
-	
-	
-	
+
 	else {
 		//echo "Unspecified action.";
 	}
-	
 
 	//Redirect home
 	//header("Location: " . $_SERVER['REQUEST_URI']);
@@ -100,19 +95,11 @@ if (isset($_POST['editProfile'])) {
 		$password = $_POST['password'];
 	}
 	
-	//var_dump($_POST);
-	//var_dump($username,$password,$avatar,$signature);
-	//array(2) { ["signature"]=> string(3) "123" ["editProfile"]=> string(15) "changeSignature" }
-	//string(5) "admin" NULL NULL string(3) "123"
-	//echo "<br />";
-	
 	change_userinfo($username,$password,$avatar,$signature);
 	//Redirect home
 	//header("Location: " . $_SERVER['REQUEST_URI']);
   //exit();
 }
-
-
 
 if (sizeof($_POST) > 0) {
 	//var_dump($_POST);
@@ -121,7 +108,6 @@ if (sizeof($_POST) > 0) {
 } else {
 	//var_dump($_POST);
 }
-
 
 ?>
 
@@ -133,7 +119,6 @@ if (sizeof($_POST) > 0) {
 
 include "view/banner.php";
 require_once('view/numlinkfunctions.php');
-
 
 echo "<div style='position:relative;margin: 8px;' >";
 
@@ -162,21 +147,13 @@ if (isset($_POST['post'])) {
 }
 
 
-
 if (!isset($_GET['view']) || $_GET['view'] == 'viewCategories') {
 
 	$_SESSION['categories'] = getCategories();
 	include 'view/viewCategories.php';
 	
 } else if ($_GET['view'] == 'viewForum') {
-	
-	
-	
-	
-	
-	
-	
-	
+
 	if(isset($_GET["category"])) {
 		$categ = $_GET["category"];
 	} else {
@@ -187,7 +164,6 @@ if (!isset($_GET['view']) || $_GET['view'] == 'viewCategories') {
 	$curCateg = $_SESSION['currentCategory'];
 	$categ_name = $curCateg->name;
 	
-
 	if(isset($_GET['page'])) {
 		$page = $_GET['page'];
 		if(is_int(intval($page)) && $page > 0) {
@@ -203,35 +179,17 @@ if (!isset($_GET['view']) || $_GET['view'] == 'viewCategories') {
 	$max = $page * $threadsperpage;
 	$min = $max - $threadsperpage + 1;
 	
-	
-	
-	
-	
-
-	
-	
-	
-	
-	
-	
 	$_SESSION['threads'] = getThreads($categ,$min,$threadsperpage,true);
 	$_SESSION['currentCategory'] = getCategory($categ);
 	
-	
 	include 'view/viewForum.php';
-	
-	
 	
 	$maxpage=((int)(($curCateg->numThreads)/$threadsperpage))+1;
 	numlinks($page, $maxpage, 9, 'index.php', "view=viewForum&category=$categ");
 	
-	
 	echo "<br />";
 	$_GET["createthread"] = true;
 	include 'view/createpost.php';
-
-
-
 
 } else if ($_GET['view'] == 'viewThread') {
 
@@ -256,12 +214,9 @@ if (!isset($_GET['view']) || $_GET['view'] == 'viewCategories') {
 	$max = $page * $postsperpage;
 	$min = $max - $postsperpage + 1;
 
-
 	$_SESSION['currentThread'] = getThread($thr);
 	$_SESSION['posts'] = getPosts($thr, $min, $max);
 
-
-	
 	include 'view/viewThread.php';
 	
 	//page menu
@@ -287,15 +242,7 @@ if (!isset($_GET['view']) || $_GET['view'] == 'viewCategories') {
 
 echo "</div>";
 
-
-
-
-
-
-
 ?>
-
-
 
 </body>
 </html>
