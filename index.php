@@ -141,10 +141,20 @@ if (isset($_POST['saveMode']) && isset($_SESSION['user'])) {
 	//User just saved a post or thread
 	//var_dump($_POST);
 	$user = $_SESSION['user']->username;
-	if ($_POST['saveMode'] == 'newThread') {
-	
-	} else if ($_POST['saveMode'] == 'newPost') {
-	
+	if ($_POST['saveMode'] == 'saveThread') {
+		$savepost_result = saveThread($user, $_GET['category'], $_POST['title'], $_POST['message']);
+		if ($savepost_result == true) {
+			//echo "Successful post!"
+		} else {
+			//echo "Failed to post!"
+		}
+	} else if ($_POST['saveMode'] == 'savePost') {
+		$savepost_result = savePost($user, $_GET['thread'], $_POST['message']);
+		if ($savepost_result == true) {
+			//echo "Successful post!"
+		} else {
+			//echo "Failed to post!"
+		}
 	}
 }
 
