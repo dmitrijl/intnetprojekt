@@ -135,9 +135,18 @@ if (isset($_POST['postMode']) && isset($_SESSION['user'])) {
 			//echo "Failed to post!"
 		}
 	}
-	
 }
 
+if (isset($_POST['saveMode']) && isset($_SESSION['user'])) {
+	//User just saved a post or thread
+	//var_dump($_POST);
+	$user = $_SESSION['user']->username;
+	if ($_POST['saveMode'] == 'newThread') {
+	
+	} else if ($_POST['saveMode'] == 'newPost') {
+	
+	}
+}
 
 if (sizeof($_POST) > 0) {
 	//var_dump($_POST);

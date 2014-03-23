@@ -344,6 +344,10 @@ function user_register($username, $password) {
 	$stmt->prepare('INSERT INTO users VALUES (?, ?, ?, "user", "default.png", "...", 0)');
 	$stmt->bind_param('sss', $username, $encryptedPassword, $salt);
 	$stmt->execute() or die ('Could not create new user');
+	/*$stmt = $mysqli->stmt_init();
+	$stmt->prepare('INSERT INTO savedmessages VALUES (?, NULL,NULL,NULL,NULL)');
+	$stmt->bind_param('s', $username);
+	$stmt->execute() or die ('Could not create new user');*/
 }
 
 

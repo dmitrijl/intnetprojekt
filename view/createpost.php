@@ -4,7 +4,7 @@
 <link rel="stylesheet" type="text/css" href="css/index.css">
 </head>
 <body>
-<div style="background-color:#cc00cc;border:1px solid">
+<div class='createpost'>
 <?php
 
 
@@ -19,7 +19,11 @@ if ($_POST['postMode'] == 'newThread') {
 		echo "<textarea rows='1' cols='80' name='title'></textarea><br/>";
 		echo "Write your message here.<br/>";
 		echo "<textarea rows='6' cols='80' name='message'></textarea>";
-		echo "<br /><button type='submit' name='postMode' value='newThread'>Post</button></form>";
+		echo "<br /><button type='submit' name='postMode' value='newThread'>Post</button>";
+		echo "<button type='submit' name='saveMode' value='saveThread' ";
+		echo "onclick='return window.confirm(\"Warning! If you have a post previously saved you will lose that! Are you sure you want to save?\");' ";
+		echo "title='Saves the currently typed text so that you can continue working on it the next time you visit the category.'>";
+		echo "Save thread</button></form>\n";
 	}
 
 } else if ($_POST['postMode'] == 'newPost') {
@@ -32,7 +36,11 @@ if ($_POST['postMode'] == 'newThread') {
 		echo "<form action='' method='post'>";
 		echo "Write your message here.<br/>";
 		echo "<textarea rows='6' cols='80' name='message'></textarea>";
-		echo "<br /><button type='submit' name='postMode' value='newPost'>Post</button></form>";
+		echo "<br /><button type='submit' name='postMode' value='newPost'>Post</button>";
+		echo "<button type='submit' name='saveMode' value='savePost' ";
+		echo "onclick='return window.confirm(\"Warning! If you have a thread previously saved you will lose that! Are you sure you want to save?\");' ";
+		echo "title='Saves the currently typed text so that you can continue working on it the next time you visit this thread.'>";
+		echo "Save post</button></form>\n";
 	}
 
 } else if ($_POST['postMode'] == 'editPost') {
