@@ -77,6 +77,7 @@ DELIMITER |
 CREATE TRIGGER newThread AFTER INSERT ON threads
 	FOR EACH ROW BEGIN
 		UPDATE categories SET numThreads = numThreads+1 WHERE id = NEW.category;
+		UPDATE savedmessages SET category = NULL, title = NULL, message1 = NULL WHERE username = NEW.op AND category = NEW.category;
 	END
 |
 
@@ -91,6 +92,7 @@ CREATE TRIGGER newPost AFTER INSERT ON posts
 	FOR EACH ROW BEGIN
 		UPDATE threads SET numPosts = numPosts+1, timestamp = NOW() WHERE threadID = NEW.threadID;
 		UPDATE users SET postCount = postCount+1 WHERE users.username = NEW.poster;
+		UPDATE savedmessages SET threadID = NULL, message2 = NULL WHERE username = NEW.poster AND threadID = NEW.threadID;
 	END;
 |
 
@@ -106,17 +108,6 @@ CREATE TRIGGER initSavedmsg AFTER INSERT ON users
 	END;
 |
 
-CREATE TRIGGER resetSavedmsgNewPost AFTER INSERT ON posts
-	FOR EACH ROW BEGIN
-		UPDATE savedmessages SET threadID = NULL, message1 = NULL;
-	END;
-|
-
-CREATE TRIGGER resetSavedmsgNewThread AFTER INSERT ON threads
-	FOR EACH ROW BEGIN
-		UPDATE savedmessages SET category = NULL, title = NULL, message2 = NULL;
-	END;
-|
 
 DELIMITER ;
 
