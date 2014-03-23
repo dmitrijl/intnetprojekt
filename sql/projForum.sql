@@ -106,9 +106,30 @@ CREATE TRIGGER initSavedmsg AFTER INSERT ON users
 	END;
 |
 
+CREATE TRIGGER resetSavedmsgNewPost AFTER INSERT ON posts
+	FOR EACH ROW BEGIN
+		UPDATE savedmessages SET threadID = NULL, message1 = NULL;
+	END;
+|
+
+CREATE TRIGGER resetSavedmsgNewThread AFTER INSERT ON threads
+	FOR EACH ROW BEGIN
+		UPDATE savedmessages SET category = NULL, title = NULL, message2 = NULL;
+	END;
+|
+
 DELIMITER ;
 
-
+CREATE TABLE savedmessages (
+	username varchar(64) NOT NULL,
+	category int,
+	title varchar(128),
+	message1 text,
+	threadID int,
+	message2 text,
+	PRIMARY KEY (username), 
+	FOREIGN KEY (username) REFERENCES users(username)
+);
 
 
 
