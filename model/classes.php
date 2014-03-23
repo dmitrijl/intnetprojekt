@@ -74,4 +74,15 @@ class User {
 		$this->postCount = $postCount;
 	}
 }
+
+class SavedThread {
+	public $title;
+	public $message;
+	
+	function __construct($title,$message) {
+		$this->title = $title;
+		$this->message = $message;
+	}
+}
+
 ?>

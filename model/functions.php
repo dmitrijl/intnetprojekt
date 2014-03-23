@@ -366,6 +366,37 @@ function savePost($user,$thread,$message) {
 	$stmt->execute() or die ('Could not save post');
 }
 
+function getSavedThread($user, $category) {
+	$mysqli = dbconnect();
+	$stmt = $mysqli->stmt_init();
+	$stmt->prepare('SELECT title,message1 FROM savedmessages WHERE user = ? AND category = ?');
+	$stmt->bind_param('sd', $user, $category);
+	$title = "";
+	$stmt->bind_result($title,$message);
+	$stmt->store_result();
+	if($stmt->fetch()) {
+		$saved = new SavedThread($title,$message);
+		return $saved;
+	} else {
+		return null;
+	}
+}
+
+function getSavedMessage($user,$thread) {
+	$mysqli = dbconnect();
+	$stmt = $mysqli->stmt_init();
+	$stmt->prepare('SELECT message2 FROM savedmessages WHERE user = ? AND thread = ?');
+	$stmt->bind_param('sd', $user, $thread);
+	$message = "";
+	$stmt->bind_result($message);
+	$stmt->store_result();
+	if($stmt->fetch()) {
+		return $message;
+	} else {
+		return null;
+	}
+}
+
 function change_userinfo($req_username,$req_password,$req_avatar,$req_signature) {
 
 	$users = array();

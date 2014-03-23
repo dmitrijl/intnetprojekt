@@ -14,11 +14,20 @@ if ($_POST['postMode'] == 'newThread') {
 	if (!isset($_SESSION['user'])) {
 		echo "You cannot create new threads.";
 	} else {
+		$savedThread = getSavedThread(getUsername(),$curCateg->id);
 		echo "<form action='' method='post'>";
 		echo "Write title here.<br/>";
-		echo "<textarea rows='1' cols='80' name='title'></textarea><br/>";
+		echo "<textarea rows='1' cols='80' name='title'>";
+		if($savedTitle != null) {
+			echo $savedThread->title;
+		}
+		echo"</textarea><br/>";
 		echo "Write your message here.<br/>";
-		echo "<textarea rows='6' cols='80' name='message'></textarea>";
+		echo "<textarea rows='6' cols='80' name='message'>";
+		if($savedTitle != null) {
+			echo $savedThread->message;
+		}
+		echo "</textarea>";
 		echo "<br /><button type='submit' name='postMode' value='newThread'>Post</button>";
 		echo "<button type='submit' name='saveMode' value='saveThread' ";
 		echo "onclick='return window.confirm(\"Warning! If you have a post previously saved you will lose that! Are you sure you want to save?\");' ";
@@ -33,9 +42,14 @@ if ($_POST['postMode'] == 'newThread') {
 	} else if ($_SESSION['currentThread']->locked == 1) {
 		echo "You cannot post in locked threads.";
 	} else {
+		$savedMessage = getSavedMessage(getUsername(),$_SESSION['currentThread']->threadID);
 		echo "<form action='' method='post'>";
 		echo "Write your message here.<br/>";
-		echo "<textarea rows='6' cols='80' name='message'></textarea>";
+		echo "<textarea rows='6' cols='80' name='message'>";
+		if($savedMessage != null) {
+			echo $savedMessage;
+		}
+		echo "</textarea>";
 		echo "<br /><button type='submit' name='postMode' value='newPost'>Post</button>";
 		echo "<button type='submit' name='saveMode' value='savePost' ";
 		echo "onclick='return window.confirm(\"Warning! If you have a thread previously saved you will lose that! Are you sure you want to save?\");' ";
