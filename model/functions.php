@@ -353,7 +353,7 @@ function user_register($username, $password) {
 function saveThread($user,$category,$title,$message) {
 	$mysqli = dbconnect();
 	$stmt = $mysqli->stmt_init();
-	$stmt->prepare('UPDATE savedmessages SET (category = ?, title = ?, message1 = ?) WHERE user = ?');
+	$stmt->prepare('UPDATE savedmessages SET category = ?, title = ?, message1 = ? WHERE username = ?');
 	$stmt->bind_param('dsss', $category, $title, $message, $user);
 	$stmt->execute() or die ('Could not save thread');
 }
@@ -361,7 +361,7 @@ function saveThread($user,$category,$title,$message) {
 function savePost($user,$thread,$message) {
 	$mysqli = dbconnect();
 	$stmt = $mysqli->stmt_init();
-	$stmt->prepare('UPDATE savedmessages SET (thread = ?, message2 = ?) WHERE user = ?');
+	$stmt->prepare('UPDATE savedmessages SET threadID = ?, message2 = ? WHERE username = ?');
 	$stmt->bind_param('dss', $category, $thread, $user);
 	$stmt->execute() or die ('Could not save post');
 }
@@ -369,7 +369,7 @@ function savePost($user,$thread,$message) {
 function getSavedThread($user, $category) {
 	$mysqli = dbconnect();
 	$stmt = $mysqli->stmt_init();
-	$stmt->prepare('SELECT title,message1 FROM savedmessages WHERE user = ? AND category = ?');
+	$stmt->prepare('SELECT title,message1 FROM savedmessages WHERE username = ? AND category = ?');
 	$stmt->bind_param('sd', $user, $category);
 	$title = "";
 	$stmt->bind_result($title,$message);
@@ -385,7 +385,7 @@ function getSavedThread($user, $category) {
 function getSavedMessage($user,$thread) {
 	$mysqli = dbconnect();
 	$stmt = $mysqli->stmt_init();
-	$stmt->prepare('SELECT message2 FROM savedmessages WHERE user = ? AND thread = ?');
+	$stmt->prepare('SELECT message2 FROM savedmessages WHERE username = ? AND threadID = ?');
 	$stmt->bind_param('sd', $user, $thread);
 	$message = "";
 	$stmt->bind_result($message);
