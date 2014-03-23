@@ -1,0 +1,30 @@
+.top {
+	margin: 0px;
+	padding:0px;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	width: 100%;
+	height: 120px;
+}
+
+.banner {
+	margin: 0;
+	padding: 0;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	width: 65%;
+	height: 120px;
+	float:left;
+}
+
+.ucpbox {
+	padding: 0px;
+	margin: 0px;
+	width: 35%;
+	height: 120px;
+	background-color:#22E04B;
+	float:left;
+	/*border: 2px solid #4444CC;*/
+}

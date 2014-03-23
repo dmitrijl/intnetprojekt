@@ -1,41 +1,11 @@
+/*
+general tags.
+*/
+
 body {    
 	margin: 0;
 	padding: 0;
-}
-
-.banner {
-	margin: 0;
-	padding: 0;
-	top: 0px;
-	left: 0px;
-	right: 0px;
-	width: 70%;
-	height: 120px;
-	float:left;
-}
-
-.top {
-	margin: 0;
-	top: 0px;
-	left: 0px;
-	right: 0px;
-	width: 100%;
-	height: 120px;
-}
-
-.ucpbox {
-	padding: 0px;
-	margin: 0px;
-	width: 30%;
-	height: 120px;
-	background-color:orange;
-	float:left;
-}
-
-#title {
-	width: 100%;
-	height: 60px;
-	background-color: yellow;
+	background-color:#88FF88;
 }
 
 h1 {
@@ -43,33 +13,49 @@ h1 {
 	text-align:center;
 }
 
+h2 {
+	font-size: 20px;
+}
+
+/***********************
+Specific classes
+*********************/
+/*
+For creating posts, see createpost.php
+*/
+.createpost {
+	background-color:#009900;
+	border:1px solid;
+}
+
+/*
+Listing categories, see viewCategories.php
+*/
 category {
 	font-size: 16px;
 	font-family: verdana;
 }
 
-h2 {
-	font-size: 18px;
-	text-align:center;
+/*
+Main title, see viewCategories.php.
+*/
+#title {
+	padding:0px;
+	margin:0px;
+	width: 100%;
+	height: 262px;
+	/*background-color: green;*/
 }
 
-.edit {
-	border-top-color:grey;
-	border-top-width:2px;
-	border-top-style:solid;
+.titlebanner {
+	margin-left:auto;
+	margin-right:auto;
+	height:261px;
+	width:600px;
 }
 
-.edit .title {
-	position:relative;
-	top:-35px;
-	left:50px;
-	font-size:20px;
-	background-color:white;
-	font-family:arial;
-	z-index:1;
-	width:250px;
-	text-align:center;
-}
+/* TODO */
+
 
 .thread {
 	padding:0px;

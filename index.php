@@ -51,9 +51,12 @@ if (isset($_POST['action'])) {
 			//echo "post vars not set";
 		}
 
-	} 
-
-	else {
+	} else if ($_POST['action'] == 'changeAdmin') {
+		
+		$newAdmin = $_POST['admin'];
+		promote($_POST['username'], $newAdmin);
+		
+	} else {
 		//echo "Unspecified action.";
 	}
 }
@@ -191,7 +194,7 @@ if (!isset($_GET['view']) || $_GET['view'] == 'viewCategories') {	//List categor
 	$min = $max - $threadsperpage + 1;
 	
 	$_SESSION['threads'] = getThreads($categ,$min,$threadsperpage,true);
-	$_SESSION['currentCategory'] = getCategory($categ);
+	//$_SESSION['currentCategory'] = getCategory($categ);
 	
 	include 'view/viewForum.php';
 	
@@ -227,6 +230,7 @@ if (!isset($_GET['view']) || $_GET['view'] == 'viewCategories') {	//List categor
 
 	$_SESSION['currentThread'] = getThread($thr);
 	$_SESSION['posts'] = getPosts($thr, $min, $max);
+	$_SESSION['currentCategory'] = getCategory($_SESSION['currentThread']->category);
 
 	include 'view/viewThread.php';
 	
@@ -263,6 +267,7 @@ if (!isset($_GET['view']) || $_GET['view'] == 'viewCategories') {	//List categor
 	
 	$_SESSION['currentThread'] = getThread($thr);
 	$_SESSION['currentPost'] = getPost($thr, $postSucc);
+	$_SESSION['currentCategory'] = getCategory($_SESSION['currentThread']->category);
 	
 	include 'view/viewPost.php';
 	

@@ -26,9 +26,10 @@ $thread = $_SESSION['currentThread'];
 $category = $_SESSION['currentCategory'];
 
 echo "<div> <a href='index.php'>Home</a> -&gt ";
-echo "<a href='index.php?view=viewForum&category=".$thread->category."'>".$category->name."</a></div>\n";
-echo "<h1>".$thread->title."</h1>";
+echo "<a href='index.php?view=viewForum&category=".$thread->category."'>".$category->name."</a> -&gt ";
+echo "<a href='index.php?view=viewThread&thread=".$thread->threadID."'>".$thread->title."</a></div>\n";
 
+echo "<h1>".$thread->title."</h1>";
 
 $user = $post->poster;
 
