@@ -1,13 +1,5 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-gb" xml:lang="en-gb">
-<head>
-<link rel="stylesheet" type="text/css" href="css/index.css">
-</head>
-<body>
 <div class='createpost'>
 <?php
-
-
 
 if ($_POST['postMode'] == 'newThread') {
 
@@ -89,7 +81,5 @@ if ($_POST['postMode'] == 'newThread') {
 }
 
 ?>
-
 </div>
-</body>
-</html>
+

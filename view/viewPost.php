@@ -1,15 +1,3 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-gb" xml:lang="en-gb">
-<head>
-<link rel="stylesheet" type="text/css" href="css/index.css">
-<link rel="stylesheet" type="text/css" href="css/viewThreads.css">
-<link rel="stylesheet" type="text/css" href="css/numlinkstyle.css">
-</head>
-
-
-
-<body>
-
 <div id="banner">
 <?php
 
@@ -42,7 +30,7 @@ echo "<table class='postbodytable'>";
 	echo "<tr class='postbodytr'>\n";
 		echo "<td class='posterinfo'>";
 			$imgpath = "img/avatars/".$user->avatar;
-			echo "<img src=".$imgpath." class='avatar' /><br>";
+			echo "<img src=".$imgpath." class='avatar' alt=""/><br>";
 			echo "<div class='postername'>".$user->username."</div><br>";
 			echo "<div class='posteradmin'>User group: ".$user->admin."</div><br>";
 			echo "<div class='posterpostcount'>Posts: ".$user->postCount."</div>";
@@ -62,5 +50,3 @@ echo "</div>";
 
 ?>
 
-</body>
-</html>

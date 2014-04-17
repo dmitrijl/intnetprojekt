@@ -1,8 +1,13 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-gb" xml:lang="en-gb">
 <head>
+<title>Intnet14 Forum</title>
 <link rel="icon" href="img/favicon.ico" />
 <link rel="stylesheet" type="text/css" href="css/index.css">
+<link rel="stylesheet" type="text/css" href="css/banner.css">
+<link rel="stylesheet" type="text/css" href="css/viewForum.css">
+<link rel="stylesheet" type="text/css" href="css/numlinkstyle.css">
+
 
 <?php
 require 'model/functions.php';
@@ -173,6 +178,8 @@ if (sizeof($_POST) > 0) {
 
 <body>
 
+<div class="centerpanel">
+
 <?php
 
 include "view/banner.php";
@@ -254,6 +261,7 @@ if (!isset($_GET['view']) || $_GET['view'] == 'viewCategories') {	//List categor
 	include 'view/viewThread.php';
 	
 	//page menu
+	$thread = $_SESSION['currentThread'];
 	$maxpage=((int)(($thread->postCount)/$postsperpage))+1;
 	numlinks($page, $maxpage, 9, 'index.php', "view=viewThread&thread=".$thr);
 
@@ -302,8 +310,11 @@ if (!isset($_GET['view']) || $_GET['view'] == 'viewCategories') {	//List categor
 }
 
 echo "</div>";
+echo "<br/>";
 
 ?>
+
+</div>
 
 </body>
 </html>

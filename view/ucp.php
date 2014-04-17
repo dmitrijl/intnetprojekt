@@ -11,8 +11,8 @@
 		echo "<form action='' method='post'>";
 		echo "Username: <input type='text' name='username'><br>";
 		echo "Password: <input type='password' name='password'><br>";
-		echo "<button type='submit' name='action' value='login'>Log in</input>";
-		echo "<button type='submit' name='action' value='register' onclick='return window.confirm(\"Do you really want to register?\");'>Register</input></form>";
+		echo "<button type='submit' name='action' value='login'>Log in</button>";
+		echo "<button type='submit' name='action' value='register' onclick='return window.confirm(\"Do you really want to register?\");'>Register</button></form>";
 		//echo "<a href='./register.php'> Not a member? Click here to register! </a>";
 	} else {
 		//logged in - provide a greeting, as well as profil edit and log out options.
@@ -25,13 +25,13 @@
 		//require_once($_SERVER['DOCUMENT_ROOT'].'/model/rights.php');
 		require_once('model/rights.php');
 		if(canPromote(getUserGroup())) {
-			echo "<div style='border-top:1px solid;'>Control panel for promoting/demoting users:<br>\n";
-			echo "<form action='' method='post' onsubmit=''>\n";
+			echo "<div style='border-top:1px solid;'>Control panel for changing user rights:<br>\n";
+			echo "<form action='' method='post' onsubmit=''>\n";			
+			echo "<input type='radio' name='admin' title='Ban user' value='banned'>Ban";
+			echo "<input type='radio' name='admin' title='Normal user' value='user'>User";
+			echo "<input type='radio' name='admin' title='Moderator' value='moderator'>Mod";
+			echo "<input type='radio' name='admin' title='Admin' value='administrator'>Admin<br>";
 			echo "Username: <input type='text' name='username' style='width:70px;'>\n";
-			echo "<input type='radio' name='admin' title='Ban user' value='banned'>Ban</input>";
-			echo "<input type='radio' name='admin' title='Normal user' value='user'>User</input>";
-			echo "<input type='radio' name='admin' title='Moderator' value='moderator'>Mod</input>";
-			echo "<input type='radio' name='admin' title='Admin' value='administrator'>Admin";
 			echo "<button type='submit' name='action' title='Set user to the selected group' value='changeAdmin'>";
 			echo "Set</button></form></div>\n";
 		}

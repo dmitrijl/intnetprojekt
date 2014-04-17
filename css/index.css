@@ -82,3 +82,14 @@ Main title, see viewCategories.php.
 	height:35px;
 	overflow:hidden
 }
+
+
+.centerpanel {
+	width: 800px;
+	height: auto;
+	background-color: #00dd00;
+	margin: auto;
+	vertical-align:middle;
+}
+
+

@@ -4,7 +4,7 @@
 }
 
 .topbar {
-	width:100%;
+	width:auto;
 	background-color:cyan;
 	margin-top:3px;
 	padding: 2px;
@@ -63,13 +63,14 @@
 
 .postmessage {
 	vertical-align:text-top;
-	overflow:auto;
+	/*overflow:auto;*/
 	family-font:arial;
 	font-size:17px;
 }
 
 .signature {
 	border:1px solid;
-	border-top: 2px solid;
-	width:100%;
+	border-top: 1px solid;
+	width:auto;
 }
+

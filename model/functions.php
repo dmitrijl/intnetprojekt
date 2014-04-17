@@ -1,6 +1,7 @@
 <?php
 
 require "dbconnection.php";
+require_once ("rights.php");
 
 /********************************************'
 Functions
@@ -300,7 +301,7 @@ function unlockThread($threadID) {
 
 
 function toggleThreadSticky($threadID, $sticky) {
-	if (getUserGroup() == 'administrator') {
+	if (canStickyThread(getUserGroup())) {
 		$mysqli = dbconnect();
 		$stmt = $mysqli->stmt_init();
 		$stmt->prepare('UPDATE threads SET sticky = ? WHERE threadID = ?');
@@ -311,7 +312,7 @@ function toggleThreadSticky($threadID, $sticky) {
 
 
 function toggleThreadLock($threadID, $locked) {
-	if (getUserGroup() == 'administrator') {
+	if (canStickyThread(getUserGroup())) {
 		$mysqli = dbconnect();
 		$stmt = $mysqli->stmt_init();
 		$stmt->prepare('UPDATE threads SET locked = ? WHERE threadID = ?');

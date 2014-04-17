@@ -24,10 +24,10 @@ $posts = $_SESSION['posts'];
 $thread = $_SESSION['currentThread'];
 $category = $_SESSION['currentCategory'];
 
-echo "<div> <a href='index.php'>Home</a> -&gt ";
-echo "<a href='index.php?view=viewForum&category=".$thread->category."'>".$category->name."</a></div>\n";
+echo "<br/><a href='index.php'>Home</a> -&gt ";
+echo "<a href='index.php?view=viewForum&category=".$thread->category."'>".$category->name."</a> -> ";
 
-echo "<h1><u>Thread title:</u>  ".$thread->title."</h1>";
+echo "".$thread->title."";
 
 
 foreach ($posts as $post) {

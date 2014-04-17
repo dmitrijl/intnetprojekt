@@ -4,8 +4,8 @@
 	top: 0px;
 	left: 0px;
 	right: 0px;
-	width: 100%;
-	height: 120px;
+	width: auto;
+	height: 140px;
 }
 
 .banner {
@@ -14,17 +14,17 @@
 	top: 0px;
 	left: 0px;
 	right: 0px;
-	width: 65%;
-	height: 120px;
+	width: 517px;
+	/*height: 120px;*/
 	float:left;
 }
 
 .ucpbox {
-	padding: 0px;
+	padding: 4px;
 	margin: 0px;
-	width: 35%;
-	height: 120px;
+	width: 273px;
+	height: 130px;
 	background-color:#22E04B;
 	float:left;
-	/*border: 2px solid #4444CC;*/
+	border: 1px solid #434343;
 }
