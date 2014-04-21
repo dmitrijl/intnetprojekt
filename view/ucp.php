@@ -25,7 +25,7 @@
 		//require_once($_SERVER['DOCUMENT_ROOT'].'/model/rights.php');
 		require_once('model/rights.php');
 		if(canPromote(getUserGroup())) {
-			echo "<div style='border-top:1px solid;'>Control panel for changing user rights:<br>\n";
+			echo "<div style='border-top:1px solid;'>Promote or demote user:\n";
 			echo "<form action='' method='post' onsubmit=''>\n";			
 			echo "<input type='radio' name='admin' title='Ban user' value='banned'>Ban";
 			echo "<input type='radio' name='admin' title='Normal user' value='user'>User";
