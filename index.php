@@ -275,7 +275,8 @@ if (!isset($_GET['view']) || $_GET['view'] == 'viewCategories') {	//List categor
 		//$user = $_SESSION['user'];
 		include 'view/editprofile.php';
 	} else {
-		echo "You are not logged in. What are you doing on this page?";
+		echo "You are not logged in. What are you doing on this page?<br/>";
+		echo "Click <a href='index.php'>here</a> to return to the home page.";
 	}	
 	
 } else if ($_GET['view'] == 'viewPost') {	//View a single post.

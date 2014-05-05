@@ -96,7 +96,7 @@ if($user != null) {
 		echo "".$signature;
 	}
 } else {
-	echo "You are not logged in what are you doing on this page.";
+	echo "You are not logged in what are you doing on this page?";
 }
 ?>
 </textarea>

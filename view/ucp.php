@@ -12,7 +12,8 @@
 		echo "Username: <input type='text' name='username'><br>";
 		echo "Password: <input type='password' name='password'><br>";
 		echo "<button type='submit' name='action' value='login'>Log in</button>";
-		echo "<button type='submit' name='action' value='register' onclick='return window.confirm(\"Do you really want to register?\");'>Register</button></form>";
+		//echo "<button type='submit' name='action' value='register' onclick='return window.confirm(\"Do you really want to register?\");'>Register</button></form>";
+		echo "<button type='submit' name='action' value='register');'>Register</button></form>";
 		//echo "<a href='./register.php'> Not a member? Click here to register! </a>";
 	} else {
 		//logged in - provide a greeting, as well as profil edit and log out options.
@@ -25,7 +26,7 @@
 		//require_once($_SERVER['DOCUMENT_ROOT'].'/model/rights.php');
 		require_once('model/rights.php');
 		if(canPromote(getUserGroup())) {
-			echo "<div style='border-top:1px solid;'>Promote or demote user:\n";
+			echo "<div style='border-top:1px solid;font-size:16px'>Promote or demote user:\n";
 			echo "<form action='' method='post' onsubmit=''>\n";			
 			echo "<input type='radio' name='admin' title='Ban user' value='banned'>Ban";
 			echo "<input type='radio' name='admin' title='Normal user' value='user'>User";

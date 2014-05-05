@@ -436,6 +436,7 @@ function change_userinfo($req_username,$req_password,$req_avatar,$req_signature)
 	$stmt = $mysqli->stmt_init();
 	$stmt->prepare('UPDATE users SET password = ?, salt = ?, avatar = ?, signature = ? WHERE username = ?');
 	$stmt->bind_param('sssss', $req_password,$req_salt,$req_avatar,$req_signature,$req_username);
+	$_SESSION['user'] = new User($username,$req_password,$req_salt,$admin,$req_avatar,$req_signature,$postCount);
 	$stmt->execute() or die ('Could not update user info properly');
 }
 
